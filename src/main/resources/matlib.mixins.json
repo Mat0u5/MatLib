@@ -1,0 +1,14 @@
+{
+  "package": "net.mat0u5.matlib.mixin",
+  "required": true,
+  "minVersion": "0.8",
+  "refmap": "${id}.mixins.refmap.json",
+  "compatibilityLevel": "${java}",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "mixins": [
+    "ExampleMixin"
+  ],
+  "client": []
+}

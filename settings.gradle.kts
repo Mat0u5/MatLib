@@ -1,0 +1,203 @@
+pluginManagement {
+	repositories {
+		mavenLocal()
+		mavenCentral()
+		gradlePluginPortal()
+		maven("https://maven.fabricmc.net/") { name = "Fabric" }
+		maven("https://maven.neoforged.net/releases/") { name = "NeoForged" }
+		maven("https://maven.minecraftforge.net/") { name = "MinecraftForge" }
+		maven("https://repo.spongepowered.org/repository/maven-public/") { name = "Sponge" }
+		maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie Snapshots" }
+		maven("https://maven.kikugie.dev/releases") { name = "KikuGie Releases" }
+		exclusiveContent {
+			forRepository { maven("https://api.modrinth.com/maven") { name = "Modrinth" } }
+			filter { includeGroup("maven.modrinth") }
+		}
+	}
+	includeBuild("build-logic")
+}
+
+plugins {
+	id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
+	id("dev.kikugie.stonecutter") version "0.9"
+}
+
+val settingsRootDir = rootDir
+
+stonecutter {
+	create(rootProject) {
+		fun match(version: String, vararg loaders: String) {
+			loaders.forEach { loader ->
+				val buildscriptName = when {
+					version.startsWith("1.") && loader == "fabric" -> "build.fabric-legacy.gradle.kts"
+					else -> "build.$loader.gradle.kts"
+				}
+
+				version("$version-$loader", version).buildscript = buildscriptName
+			}
+		}
+
+		fun env(variable: String): String? {
+			val value = System.getenv(variable)
+			if (value != null) return value
+
+			val envFile = java.io.File(settingsRootDir, ".env")
+			if (envFile.exists()) {
+				val props = java.util.Properties()
+				envFile.inputStream().use { props.load(it) }
+				val fromFile = props.getProperty(variable)
+				if (fromFile != null) return fromFile
+			}
+
+			return null
+		}
+
+		if (env("GRADLE_TEST") == "true") {
+			match("26.1", "forge")
+			match("1.21", "forge")
+			match("1.20.5", "forge")
+			match("1.20", "forge")
+
+			match("1.19.4", "forge")
+			match("1.19.2", "forge")
+			match("1.18", "forge")
+			match("1.17", "forge")
+			match("1.16", "forge")
+			match("1.15", "forge")
+			match("1.14", "forge")
+			match("1.13", "forge")
+			match("1.12", "forge")
+			match("1.11", "forge")
+			match("1.10", "forge")
+			match("1.9", "forge")
+			match("1.8", "forge")
+			match("1.7", "forge")
+		}
+		else if (env("GRADLE_ONLY_IMPORTANT_FABRIC") == "true") {
+			// Main Fabric versions, this is the recommended setting for development
+			match("26.2", "fabric")
+			match("26.1", "fabric")
+			match("1.21.11", "fabric")
+			match("1.21", "fabric")
+		}
+		else if (env("GRADLE_ONLY_FABRIC") == "true") {
+			// All Fabric versions
+			match("26.2", "fabric")
+			match("26.1", "fabric")
+
+			match("1.21.11", "fabric")
+			match("1.21.9", "fabric")
+			match("1.21.6", "fabric")
+			match("1.21.5", "fabric")
+			match("1.21.4", "fabric")
+			match("1.21.2", "fabric")
+			match("1.21", "fabric")
+
+			match("1.20.5", "fabric")
+			match("1.20.3", "fabric")
+			match("1.20.2", "fabric")
+			match("1.20", "fabric")
+
+			match("1.19.4", "fabric")
+			match("1.19.2", "fabric")
+			match("1.18", "fabric")
+			match("1.17", "fabric")
+			match("1.16", "fabric")
+			match("1.15", "fabric")
+			match("1.14", "fabric")
+		}
+		else if (env("GRADLE_ONLY_FORGE") == "true") {
+			match("26.2", "forge")
+			match("26.1", "forge")
+
+			match("1.21.11", "forge")
+			match("1.21.9", "forge")
+			match("1.21.6", "forge")
+			match("1.21.5", "forge")
+			match("1.21.4", "forge")
+			match("1.21.2", "forge")
+			match("1.21", "forge")
+
+			match("1.20.5", "forge")
+			match("1.20", "forge")
+
+			match("1.19.4", "forge")
+			match("1.19.2", "forge")
+			match("1.18", "forge")
+			match("1.17", "forge")
+			match("1.16", "forge")
+			match("1.15", "forge")
+			match("1.14", "forge")
+			match("1.13", "forge")
+			match("1.12", "forge")
+			match("1.11", "forge")
+			match("1.10", "forge")
+			match("1.9", "forge")
+			match("1.8", "forge")
+			match("1.7", "forge")
+		}
+		else if (env("GRADLE_ONLY_NEOFORGE") == "true") {
+			match("26.2", "neoforge")
+			match("26.1", "neoforge")
+
+			match("1.21.11", "neoforge")
+			match("1.21.9", "neoforge")
+			match("1.21.6", "neoforge")
+			match("1.21.5", "neoforge")
+			match("1.21.4", "neoforge")
+			match("1.21.2", "neoforge")
+			match("1.21", "neoforge")
+
+			match("1.20.5", "neoforge")
+			match("1.20.3", "neoforge")
+			match("1.20", "forge")
+		}
+		else {
+			// All versions
+			match("26.2", "fabric", "forge", "neoforge")
+			match("26.1", "fabric", "forge", "neoforge")
+
+			match("1.21.11", "fabric", "forge", "neoforge")
+			match("1.21.9", "fabric", "forge", "neoforge")
+			match("1.21.6", "fabric", "forge", "neoforge")
+			match("1.21.5", "fabric", "forge", "neoforge")
+			match("1.21.4", "fabric", "forge", "neoforge")
+			match("1.21.2", "fabric", "forge", "neoforge")
+			match("1.21", "fabric", "forge", "neoforge")
+
+			match("1.20.5", "fabric", "forge", "neoforge")
+			match("1.20.3", "fabric", "neoforge")
+			match("1.20.2", "fabric")
+			match("1.20", "fabric", "forge")
+
+			match("1.19.4", "fabric", "forge")
+			match("1.19.2", "fabric", "forge")
+
+			match("1.18", "fabric", "forge")
+			match("1.17", "fabric", "forge")
+			match("1.16", "fabric", "forge")
+			match("1.15", "fabric", "forge")
+			match("1.14", "fabric", "forge")
+			match("1.13", "forge")
+			match("1.12", "forge")
+			match("1.11", "forge")
+			match("1.10", "forge")
+			match("1.9", "forge")
+			match("1.8", "forge")
+			match("1.7", "forge")
+		}
+
+		if (env("GRADLE_TEST") == "true") {
+			vcsVersion = "1.21-forge"
+		}
+		else if (env("GRADLE_ONLY_FORGE") == "true") {
+			vcsVersion = "26.2-forge"
+		}
+		else if (env("GRADLE_ONLY_NEOFORGE") == "true") {
+			vcsVersion = "26.2-neoforge"
+		}
+		else {
+			vcsVersion = "26.2-fabric"
+		}
+	}
+}
