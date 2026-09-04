@@ -1,46 +1,7 @@
 package net.mat0u5.matlib.platform.forge;
 
 //? forge {
-
-/*//? if <= 1.12 {
-/^import net.mat0u5.matlib.platform.Platform;
-import net.minecraft.launchwrapper.Launch;
-//? if <= 1.7 {
-/^¹import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-¹^///?} else {
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.Loader;
-//?}
-
-public class ForgePlatform implements Platform {
-	@Override
-	public boolean isModLoaded(String modId) {
-		return Loader.isModLoaded(modId);
-	}
-
-	@Override
-	public ModLoader loader() {
-		return ModLoader.FORGE;
-	}
-
-	@Override
-	public String mcVersion() {
-		return "";
-	}
-
-	@Override
-	public boolean isDevelopmentEnvironment() {
-		return Boolean.TRUE.equals(Launch.blackboard.get("fml.deobfuscatedEnvironment"));
-	}
-
-	@Override
-	public boolean isClient() {
-		return FMLCommonHandler.instance().getSide().isClient();
-	}
-}
-^///?} else {
-import net.mat0u5.matlib.platform.Platform;
+/*import net.mat0u5.matlib.platform.Platform;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLEnvironment;
@@ -95,6 +56,4 @@ public class ForgePlatform implements Platform {
 		return FMLEnvironment.dist.isClient();
 	}
 }
-//?}
-
 *///?}

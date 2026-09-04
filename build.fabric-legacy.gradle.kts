@@ -9,10 +9,6 @@ platform {
 		required("minecraft") {
 			versionRange = prop("deps.minecraft")
 		}
-		required("fabric-api") {
-			slug("fabric-api")
-			versionRange = ">=${prop("deps.fabric-api")}"
-		}
 		required("fabricloader") {
 			versionRange = ">=${libs.fabric.loader.get().version}"
 		}
@@ -41,13 +37,6 @@ loom {
 	}
 }
 
-fabricApi {
-	configureDataGeneration {
-		outputDirectory = file("${rootDir}/versions/datagen/${stonecutter.current.version.split("-")[0]}/src/main/generated")
-		client = true
-	}
-}
-
 repositories {
 	mavenCentral()
 	strictMaven("https://api.modrinth.com/maven", "maven.modrinth") { name = "Modrinth" }
@@ -60,7 +49,6 @@ dependencies {
 			officialMojangMappings()
 		})
 	modImplementation(libs.fabric.loader)
-	modImplementation("net.fabricmc.fabric-api:fabric-api:${prop("deps.fabric-api")}")
 }
 
 project.afterEvaluate {

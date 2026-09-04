@@ -1,12 +1,8 @@
-package net.mat0u5.matlib.platform.forge;
+package net.mat0u5.matlib.client.platform.forge;
 
 //? forge {
-/*//? if <= 1.12 {
-/^public final class ForgeClientEventSubscriber {
-	private ForgeClientEventSubscriber() {} // <=1.12 client setup handled in ForgeEntrypoint
-}
-^///?} else {
-import net.mat0u5.matlib.Main;
+/*import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.client.MatLibClient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -16,13 +12,12 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
  //?}
 
-@Mod.EventBusSubscriber(modid = Main.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(modid = MatLib.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ForgeClientEventSubscriber {
 
 	@SubscribeEvent
 	public static void onClientSetup(final FMLClientSetupEvent event) {
-		Main.onInitializeClient();
+		MatLibClient.onInitializeClient();
 	}
 }
-//?}
 *///?}
