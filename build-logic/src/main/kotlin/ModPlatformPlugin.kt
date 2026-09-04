@@ -13,6 +13,11 @@ import org.gradle.api.artifacts.dsl.RepositoryHandler
 import org.gradle.api.artifacts.repositories.MavenArtifactRepository
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.provider.Property
+import org.gradle.api.publish.PublishingExtension
+import org.gradle.api.publish.maven.MavenPublication
+import org.gradle.api.publish.maven.tasks.AbstractPublishToMaven
+import org.gradle.api.publish.maven.tasks.GenerateMavenPom
+import org.gradle.api.publish.tasks.GenerateModuleMetadata
 import org.gradle.api.tasks.Copy
 import org.gradle.internal.extensions.stdlib.toDefaultLowerCase
 import org.gradle.jvm.tasks.Jar
@@ -70,7 +75,8 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		listOf(
 			"org.jetbrains.kotlin.jvm",
 			"com.google.devtools.ksp",
-			"dev.kikugie.fletching-table"
+			"dev.kikugie.fletching-table",
+			"maven-publish"
 		).forEach { apply(plugin = it) }
 
 		afterEvaluate {
@@ -168,6 +174,7 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		registerBuildAndCollectTask(extension, modVersion)
 		registerBuildAndCollectNoDowngraderTask(extension, originalModVersion)
 		configurePublishing(extension, loader, stonecutter, modVersion, publishDisplayVersion)
+		configureMavenPublishing(extension, loader, mcVersion, modVersion)
 	}
 
 	private fun Project.configureDowngrade(extension: ModPlatformExtension, compileJavaVersion: JavaVersion) {
@@ -560,6 +567,52 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		deps.optional.forEach { dep -> whenNotNull(dep.curseforge) { optional(it) } }
 		deps.incompatible.forEach { dep -> whenNotNull(dep.curseforge) { incompatible(it) } }
 		deps.embeds.forEach { dep -> whenNotNull(dep.curseforge) { embeds(it) } }
+	}
+
+	private fun Project.configureMavenPublishing(
+		ext: ModPlatformExtension,
+		loader: String,
+		mcVersion: String,
+		modVersion: String,
+	) {
+		val mavenGroup = prop("mod.group")
+		val mavenArtifact = "${prop("mod.id")}-$loader-$mcVersion"
+		val localVersion = prop("publish.local.version").ifBlank { "local-SNAPSHOT" }
+
+		group = mavenGroup
+
+		val mainJar = tasks.named(ext.jarTask.get())
+		val sourcesJar = tasks.findByName(ext.sourcesJarTask.get())
+
+		extensions.configure<PublishingExtension>("publishing") {
+			publications {
+				listOf("release" to modVersion, "local" to localVersion).forEach { (publicationName, publishedVersion) ->
+					create<MavenPublication>(publicationName) {
+						groupId = mavenGroup
+						artifactId = mavenArtifact
+						version = publishedVersion
+
+						artifact(mainJar)
+						if (sourcesJar != null) artifact(sourcesJar) { classifier = "sources" }
+
+						pom {
+							name.set(prop("mod.name"))
+							description.set(prop("mod.description"))
+							url.set(prop("mod.homepage_url"))
+							licenses {
+								license { name.set(prop("mod.license")) }
+							}
+						}
+					}
+				}
+			}
+		}
+
+		tasks.withType<AbstractPublishToMaven>().configureEach { group = null }
+		tasks.withType<GenerateMavenPom>().configureEach { group = null }
+		tasks.withType<GenerateModuleMetadata>().configureEach { group = null }
+		tasks.matching { it.name == "publish" || it.name == "publishToMavenLocal" }
+			.configureEach { group = null }
 	}
 
 	private fun configureStonecutterReplacements(stonecutter: StonecutterBuildExtension) {

@@ -37,6 +37,12 @@ for (version in stonecutter.versions.map { it.version }.distinct()) tasks.regist
 	dependsOn(stonecutter.tasks.named("publishMods") { metadata.version == version })
 }
 
+tasks.register("publishMavenLocal") {
+	group = "publishing"
+	description = "Publish every currently configured version to the local Maven repository"
+	dependsOn(stonecutter.tasks.named("publishToMavenLocal"))
+}
+
 gradle.projectsEvaluated {
 	val versionOrder = stonecutter.versions.map { it.version }.distinct().reversed()
 
