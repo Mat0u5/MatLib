@@ -91,6 +91,7 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		val isForge = loader == "forge"
 
 		val modId = prop("mod.id")
+		val modVersionClean = prop("mod.version")
 		val originalModVersion = prop("mod.version_prefix")+prop("mod.version")+prop("mod.version_suffix")
 		var modVersion = prop("mod.version_prefix")+prop("mod.version")+prop("mod.version_suffix")
 		val mcVersion = prop("deps.minecraft")
@@ -153,6 +154,17 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 					modid.set("fabricloader")
 					versionRange.set(">=0.12.0")
 				}
+
+				incompatible.maybeCreate("lifeseries").apply {
+					modid.set("lifeseries")
+					versionRange.set("<${prop("deps.lifeseries.min")}")
+				}
+			}
+			else {
+				incompatible.maybeCreate("lifeseries").apply {
+					modid.set("lifeseries")
+					forgeVersionRange.set("(,${prop("deps.lifeseries.min")})")
+				}
 			}
 		}
 
@@ -164,7 +176,7 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 			isNeoForge,
 			isForge,
 			modId,
-			modVersion,
+			modVersionClean,
 			mcVersion,
 			extension,
 			extension.requiredJava.get(),
@@ -252,7 +264,7 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		isNeoForge: Boolean,
 		isForge: Boolean,
 		modId: String,
-		modVersion: String,
+		modVersionClean: String,
 		mcVersion: String,
 		extension: ModPlatformExtension,
 		requiredJava: JavaVersion,
@@ -293,12 +305,13 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 			}
 
 			val dependencies = buildDependenciesBlock(isFabric, modId, extension.dependencies)
+			val breaks = buildFabricBreaksBlock(extension.dependencies)
 			val cfgResourcePath = "aw/${stonecutter.current.version}.cfg"
 			val awResourcePath = "aw/${stonecutter.current.version}.accesswidener"
 			val ctResourcePath = "aw/${stonecutter.current.version}.classtweaker"
 
 			val props = mapOf(
-				"version" to modVersion,
+				"version" to modVersionClean,
 				"minecraft" to mcVersion,
 				"sc_version" to stonecutter.current.version,
 				"id" to modId,
@@ -319,7 +332,15 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 				isFabric -> {
 					filesMatching("fabric.mod.json") {
 						filter { line ->
-							if (line.trim() == "\"depends\": {}") "  \"depends\": {$dependencies\n  }" else line
+							val trimmed = line.trim()
+							val comma = if (trimmed.endsWith(",")) "," else ""
+							when {
+								trimmed.startsWith("\"depends\": {}") ->
+									"  \"depends\": {$dependencies\n  }$comma"
+								trimmed.startsWith("\"breaks\": {}") ->
+									if (breaks.isEmpty()) line else "  \"breaks\": {$breaks\n  }$comma"
+								else -> line
+							}
 						}
 						expand(props.filterKeys { it != "dependencies" })
 					}
@@ -356,6 +377,11 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 				}
 			}
 		}
+	}
+
+	private fun buildFabricBreaksBlock(deps: DependenciesConfig): String = buildString {
+		val entries = deps.incompatible.map { "    \"${it.modid.get()}\": \"${it.versionRange.get()}\"" }
+		if (entries.isNotEmpty()) append("\n" + entries.joinToString(",\n"))
 	}
 
 	private fun buildDependenciesBlock(

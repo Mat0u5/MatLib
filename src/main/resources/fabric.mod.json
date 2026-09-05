@@ -26,5 +26,6 @@
   "mixins": [
     "${id}.mixins.json"
   ],
-  "depends": {}
+  "depends": {},
+  "breaks": {}
 }
