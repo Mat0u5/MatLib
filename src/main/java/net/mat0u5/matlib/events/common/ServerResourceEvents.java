@@ -6,9 +6,17 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.CloseableResourceManager;
 
 public class ServerResourceEvents {
+
+	/**
+	 * Fires upon a reload starting.
+	 */
 	public static final Event<ServerResourceEvents.ReloadStart> RELOAD_START = EventFactory.create(ServerResourceEvents.ReloadStart.class,
 			listeners -> (server, manager) -> EventFactory.dispatch(listeners, listener -> listener.start(server, manager))
 	);
+
+	/**
+	 * Fires upon a reload ending.
+	 */
 	public static final Event<ServerResourceEvents.ReloadEnd> RELOAD_STOPPING = EventFactory.create(ServerResourceEvents.ReloadEnd.class,
 			listeners -> (server, manager, success) -> EventFactory.dispatch(listeners, listener -> listener.end(server, manager, success))
 	);
