@@ -24,6 +24,9 @@ import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.*
 import org.gradle.language.jvm.tasks.ProcessResources
 import org.gradle.plugins.ide.idea.model.IdeaModel
+import java.io.File
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 import javax.inject.Inject
 import kotlin.apply
@@ -595,6 +598,46 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		deps.embeds.forEach { dep -> whenNotNull(dep.curseforge) { embeds(it) } }
 	}
 
+	private val localVersionKey = "matlib.localPublishVersion"
+	private fun Project.localPublishVersion(): String {
+		prop("publish.local.version").takeIf { it.isNotBlank() }?.let { return it }
+
+		val extra = rootProject.extensions.extraProperties
+		if (extra.has(localVersionKey)) return extra.get(localVersionKey) as String
+
+		val stamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"))
+		return "local-$stamp".also { extra.set(localVersionKey, it) }
+	}
+
+	private fun localMavenRepository(): File {
+		System.getProperty("maven.repo.local")?.takeIf { it.isNotBlank() }?.let { return File(it) }
+		return File(System.getProperty("user.home"), ".m2/repository")
+	}
+
+	private fun Project.prunePreviousLocalPublications(group: String, artifact: String, keepVersion: String) {
+		val artifactDir = localMavenRepository().resolve(group.replace('.', '/')).resolve(artifact)
+		if (!artifactDir.isDirectory) return
+
+		val stale = artifactDir.listFiles()
+			?.filter { it.isDirectory && it.name.startsWith("local-") && it.name != keepVersion }
+			.orEmpty()
+		if (stale.isEmpty()) return
+
+		stale.forEach {
+			if (it.deleteRecursively()) logger.info("Removed previous local publication {}:{}", artifact, it.name)
+		}
+
+		val metadata = artifactDir.resolve("maven-metadata-local.xml")
+		if (!metadata.isFile) return
+
+		val staleNames = stale.map { it.name }.toSet()
+		val kept = metadata.readLines().filterNot { line ->
+			val version = line.trim().removeSurrounding("<version>", "</version>")
+			version != line.trim() && version in staleNames
+		}
+		metadata.writeText(kept.joinToString(System.lineSeparator(), postfix = System.lineSeparator()))
+	}
+
 	private fun Project.configureMavenPublishing(
 		ext: ModPlatformExtension,
 		loader: String,
@@ -603,7 +646,7 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 	) {
 		val mavenGroup = prop("mod.group")
 		val mavenArtifact = "${prop("mod.id")}-$loader-$mcVersion"
-		val localVersion = prop("publish.local.version").ifBlank { "local-SNAPSHOT" }
+		val localVersion = localPublishVersion()
 
 		group = mavenGroup
 
@@ -632,6 +675,10 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 					}
 				}
 			}
+		}
+
+		tasks.matching { it.name == "publishLocalPublicationToMavenLocal" }.configureEach {
+			doFirst { prunePreviousLocalPublications(mavenGroup, mavenArtifact, localVersion) }
 		}
 
 		tasks.withType<AbstractPublishToMaven>().configureEach { group = null }
