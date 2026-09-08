@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Collection;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BooleanSupplier;
 
@@ -65,5 +66,12 @@ public abstract class MinecraftServerMixin {
     @Inject(at = @At("TAIL"), method = "tickServer")
     private void onEndTick(BooleanSupplier shouldKeepTicking, CallbackInfo info) {
         ServerTickEvents.END_TICK.invoker().onTickEnd((MinecraftServer) (Object) this);
+    }
+
+    @Inject(method = "getServerResourcePack", at = @At("HEAD"), cancellable = true)
+    public void getServerResourcePack(CallbackInfoReturnable<Optional<MinecraftServer.ServerResourcePackInfo>> cir) {
+        var originalPack = cir.getReturnValue();
+        var newPack = ServerResourceEvents.GET_SERVER_PACK.invoker().getServerPack(originalPack);
+        if (newPack != null) cir.setReturnValue(newPack);
     }
 }
