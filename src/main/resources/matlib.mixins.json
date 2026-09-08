@@ -10,9 +10,11 @@
   "plugin": "net.mat0u5.matlib.mixin.plugin.MixinPlugin",
   "mixins": [
     "CommandsMixin",
+    "LivingEntityMixin",
     "MinecraftServerMixin",
     "PlayerListMixin",
-    "ServerGamePacketListenerImplMixin"
+    "ServerGamePacketListenerImplMixin",
+    "ServerPlayerMixin"
   ],
   "client": []
 }

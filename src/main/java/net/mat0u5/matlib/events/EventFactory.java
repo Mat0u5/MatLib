@@ -49,6 +49,27 @@ public final class EventFactory {
 		return EventResult.PASS;
 	}
 
+	/**
+	 * Calls all listeners until one returns something other than {@code null}, returning that answer.
+	 */
+	public static <T, U> U dispatchReturn(T[] listeners, Function<T, U> call) {
+		for (T listener : listeners) {
+			U result;
+
+			try {
+				result = call.apply(listener);
+			}
+			catch (Exception e) {
+				logListenerError(listener, e);
+				continue;
+			}
+
+			if (result != null) return result;
+		}
+
+		return null;
+	}
+
 	public static void logListenerError(Object listener, Throwable error) {
 		MatLib.LOGGER.error("Event listener {} threw an exception", listener.getClass().getName(), error);
 	}

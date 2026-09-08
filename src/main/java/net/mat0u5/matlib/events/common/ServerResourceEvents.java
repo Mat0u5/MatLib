@@ -28,15 +28,7 @@ public class ServerResourceEvents {
 	 * <p>This event returns the first non-null value returned by any listener, or original if not found.
 	 */
 	public static final Event<GetServerPack> GET_SERVER_PACK = EventFactory.create(GetServerPack.class,
-			listeners -> originalServerPack -> {
-				for (GetServerPack listener : listeners) {
-					Optional<MinecraftServer.ServerResourcePackInfo> packInfo = listener.getServerPack(originalServerPack);
-					if (packInfo != null) {
-						return packInfo;
-					}
-				}
-				return originalServerPack;
-			}
+			listeners -> originalServerPack -> EventFactory.dispatchReturn(listeners, listener -> listener.onGetServerPack(originalServerPack))
 	);
 
 	@FunctionalInterface
@@ -51,6 +43,6 @@ public class ServerResourceEvents {
 
 	@FunctionalInterface
 	public interface GetServerPack {
-		Optional<MinecraftServer.ServerResourcePackInfo> getServerPack(Optional<MinecraftServer.ServerResourcePackInfo> originalServerPack);
+		Optional<MinecraftServer.ServerResourcePackInfo> onGetServerPack(Optional<MinecraftServer.ServerResourcePackInfo> originalServerPack);
 	}
 }

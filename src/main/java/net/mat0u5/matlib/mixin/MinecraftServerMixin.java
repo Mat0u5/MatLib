@@ -71,7 +71,7 @@ public abstract class MinecraftServerMixin {
     @Inject(method = "getServerResourcePack", at = @At("HEAD"), cancellable = true)
     public void getServerResourcePack(CallbackInfoReturnable<Optional<MinecraftServer.ServerResourcePackInfo>> cir) {
         var originalPack = cir.getReturnValue();
-        var newPack = ServerResourceEvents.GET_SERVER_PACK.invoker().getServerPack(originalPack);
+        var newPack = ServerResourceEvents.GET_SERVER_PACK.invoker().onGetServerPack(originalPack);
         if (newPack != null) cir.setReturnValue(newPack);
     }
 }
