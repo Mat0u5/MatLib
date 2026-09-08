@@ -21,7 +21,7 @@ public class PlayerListMixin {
 	*///?} else {
 	private void handlePlayerConnection(Connection connection, ServerPlayer player, CommonListenerCookie arg, CallbackInfo ci) {
 	//?}
-		ServerPlayerEvents.CONNECT.invoker().connect(connection, player);
+		ServerPlayerEvents.CONNECT.invoker().onConnect(connection, player);
 	}
 }
 

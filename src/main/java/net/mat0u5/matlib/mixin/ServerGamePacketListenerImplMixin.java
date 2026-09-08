@@ -28,6 +28,6 @@ public class ServerGamePacketListenerImplMixin {
 	*///?} else {
 	private void onDisconnect(DisconnectionDetails details, CallbackInfo ci) {
 	//?}
-		ServerPlayerEvents.DISCONNECT.invoker().disconnect(details, this.player);
+		ServerPlayerEvents.DISCONNECT.invoker().onDisconnect(details, this.player);
 	}
 }

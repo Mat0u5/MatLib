@@ -37,7 +37,7 @@ public class ServerCommandEvents {
 	 * <p>You must use the arguments to register your commands as you wish.
 	 */
 	public static final Event<VanillaRegister> VANILLA_REGISTER = EventFactory.create(VanillaRegister.class,
-			listeners -> (dispatcher, commandRegistryAccess, registrationEnvironment) -> EventFactory.dispatch(listeners, listener -> listener.register(dispatcher, commandRegistryAccess, registrationEnvironment))
+			listeners -> (dispatcher, commandRegistryAccess, registrationEnvironment) -> EventFactory.dispatch(listeners, listener -> listener.onRegister(dispatcher, commandRegistryAccess, registrationEnvironment))
 	);
 
 	@FunctionalInterface
@@ -47,6 +47,6 @@ public class ServerCommandEvents {
 
 	@FunctionalInterface
 	public interface VanillaRegister {
-		void register(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandRegistryAccess, Commands.CommandSelection registrationEnvironment);
+		void onRegister(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandRegistryAccess, Commands.CommandSelection registrationEnvironment);
 	}
 }

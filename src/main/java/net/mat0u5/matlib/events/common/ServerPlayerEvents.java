@@ -17,27 +17,27 @@ public class ServerPlayerEvents {
 	 * Fires when a player joins the server.
 	 */
 	public static final Event<Connect> CONNECT = EventFactory.create(Connect.class,
-			listeners -> (connection, player) -> EventFactory.dispatch(listeners, listener -> listener.connect(connection, player))
+			listeners -> (connection, player) -> EventFactory.dispatch(listeners, listener -> listener.onConnect(connection, player))
 	);
 
 	/**
 	 * Fires when a player leaves the server.
 	 */
 	public static final Event<Disconnect> DISCONNECT = EventFactory.create(Disconnect.class,
-			listeners -> (details, player) -> EventFactory.dispatch(listeners, listener -> listener.disconnect(details, player))
+			listeners -> (details, player) -> EventFactory.dispatch(listeners, listener -> listener.onDisconnect(details, player))
 	);
 
 	@FunctionalInterface
 	public interface Connect {
-		void connect(Connection connection, ServerPlayer player);
+		void onConnect(Connection connection, ServerPlayer player);
 	}
 
 	@FunctionalInterface
 	public interface Disconnect {
 		//? if <= 1.20.5 {
-		/*void disconnect(Component reason, ServerPlayer player);
+		/*void onDisconnect(Component reason, ServerPlayer player);
 		*///?} else {
-		void disconnect(DisconnectionDetails details, ServerPlayer player);
+		void onDisconnect(DisconnectionDetails details, ServerPlayer player);
 		//?}
 	}
 }

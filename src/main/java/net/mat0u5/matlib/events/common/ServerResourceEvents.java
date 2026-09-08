@@ -11,23 +11,23 @@ public class ServerResourceEvents {
 	 * Fires upon a reload starting.
 	 */
 	public static final Event<ServerResourceEvents.ReloadStart> RELOAD_START = EventFactory.create(ServerResourceEvents.ReloadStart.class,
-			listeners -> (server, manager) -> EventFactory.dispatch(listeners, listener -> listener.start(server, manager))
+			listeners -> (server, manager) -> EventFactory.dispatch(listeners, listener -> listener.onStart(server, manager))
 	);
 
 	/**
 	 * Fires upon a reload ending.
 	 */
 	public static final Event<ServerResourceEvents.ReloadEnd> RELOAD_STOPPING = EventFactory.create(ServerResourceEvents.ReloadEnd.class,
-			listeners -> (server, manager, success) -> EventFactory.dispatch(listeners, listener -> listener.end(server, manager, success))
+			listeners -> (server, manager, success) -> EventFactory.dispatch(listeners, listener -> listener.onEnd(server, manager, success))
 	);
 
 	@FunctionalInterface
 	public interface ReloadStart {
-		void start(MinecraftServer server, CloseableResourceManager resourceManager);
+		void onStart(MinecraftServer server, CloseableResourceManager resourceManager);
 	}
 
 	@FunctionalInterface
 	public interface ReloadEnd {
-		void end(MinecraftServer server, CloseableResourceManager resourceManager, boolean success);
+		void onEnd(MinecraftServer server, CloseableResourceManager resourceManager, boolean success);
 	}
 }

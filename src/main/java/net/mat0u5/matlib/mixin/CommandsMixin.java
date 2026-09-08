@@ -31,7 +31,7 @@ public abstract class CommandsMixin {
     //?}
 *///?}
     private void addCommands(Commands.CommandSelection selection, CommandBuildContext buildContext, CallbackInfo ci) {
-        ServerCommandEvents.VANILLA_REGISTER.invoker().register(this.dispatcher, buildContext, selection);
+        ServerCommandEvents.VANILLA_REGISTER.invoker().onRegister(this.dispatcher, buildContext, selection);
         CommandManager.registerCustomCommands(this.dispatcher, buildContext, selection);
     }
 }
