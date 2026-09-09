@@ -567,7 +567,7 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		minecraftVersions.addAll(listOf(currentVersion) + additionalVersions)
 
 		// Environment
-		environment = ModrinthEnvironment.SERVER_ONLY_CLIENT_OPTIONAL
+		environment = ModrinthEnvironment.CLIENT_OR_SERVER_PREFERS_BOTH
 
 		if (!staging) {
 			deps.required.forEach { dep -> whenNotNull(dep.modrinth) { requires(it) } }
