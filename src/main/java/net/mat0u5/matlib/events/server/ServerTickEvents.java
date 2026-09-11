@@ -10,14 +10,14 @@ public class ServerTickEvents {
 	 */
 	public static final Event<StartTick> START_TICK = EventFactory.create(StartTick.class,
 			listeners -> server -> EventFactory.dispatch(listeners, listener -> listener.onTickStart(server))
-	);
+	).markLoud();
 
 	/**
 	 * Fires at the end of the server tick.
 	 */
 	public static final Event<EndTick> END_TICK = EventFactory.create(EndTick.class,
 			listeners -> server -> EventFactory.dispatch(listeners, listener -> listener.onTickEnd(server))
-	);
+	).markLoud();
 	
 	@FunctionalInterface
 	public interface StartTick {

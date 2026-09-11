@@ -1,7 +1,8 @@
 package net.mat0u5.matlib.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
-import net.mat0u5.matlib.events.server.ServerPlayerEvents;import net.minecraft.network.Connection;
+import net.mat0u5.matlib.events.server.ServerPlayerEvents;
+import net.minecraft.network.Connection;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import org.spongepowered.asm.mixin.Mixin;

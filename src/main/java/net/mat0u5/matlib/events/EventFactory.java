@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.events;
 
+import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -53,6 +54,15 @@ public final class EventFactory {
 	 * Calls all listeners until one returns something other than {@code null}, returning that answer.
 	 */
 	public static <T, U> U dispatchReturn(T[] listeners, Function<T, U> call) {
+		return dispatchReturn(listeners, null, call);
+	}
+
+	/**
+	 * Calls all listeners until one returns something other than {@param defaultReturnValue}, returning that answer.
+	 *
+	 * @param defaultReturnValue The value to ignore and default to if no listener provides a valid response.
+	 */
+	public static <T, U> U dispatchReturn(T[] listeners, U defaultReturnValue, Function<T, U> call) {
 		for (T listener : listeners) {
 			U result;
 
@@ -64,10 +74,10 @@ public final class EventFactory {
 				continue;
 			}
 
-			if (result != null) return result;
+			if (!Objects.equals(result, defaultReturnValue)) return result;
 		}
 
-		return null;
+		return defaultReturnValue;
 	}
 
 	public static void logListenerError(Object listener, Throwable error) {

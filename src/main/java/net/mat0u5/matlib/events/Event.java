@@ -1,5 +1,7 @@
 package net.mat0u5.matlib.events;
 
+import net.mat0u5.matlib.MatLib;
+
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Objects;
@@ -7,8 +9,12 @@ import java.util.function.Function;
 
 public class Event<T> {
 	private volatile T invoker;
+	private boolean loud = false;
 
 	public final T invoker() {
+		if (MatLib.DEBUG && !loud) {
+			MatLib.LOGGER.info("Event {} invoker called.", invoker.getClass().getName());
+		}
 		return invoker;
 	}
 
@@ -44,5 +50,10 @@ public class Event<T> {
 
 	public int listenerCount() {
 		return listeners.length;
+	}
+
+	public Event<T> markLoud() {
+		loud = true;
+		return this;
 	}
 }

@@ -39,7 +39,7 @@ public class ServerPlayerGameModeMixin {
 	@Inject(at = @At("HEAD"), method = "handleBlockBreakAction", cancellable = true)
 	public void startBlockBreak(BlockPos pos, ServerboundPlayerActionPacket.Action playerAction, Direction direction, int worldHeight, int i, CallbackInfo info) {
 		if (playerAction != ServerboundPlayerActionPacket.Action.START_DESTROY_BLOCK) return;
-		InteractionResult result = ServerPlayerEvents.BLOCK_ATTACK.invoker().onBlockAttack(player, level, pos, direction);
+		InteractionResult result = ServerPlayerEvents.ATTACK_BLOCK.invoker().onAttackBlock(player, level, pos, direction);
 
 		if (result != InteractionResult.PASS) {
 			// The client might have broken the block on its side, so make sure to let it know.
@@ -63,7 +63,7 @@ public class ServerPlayerGameModeMixin {
 
 	@Inject(at = @At("HEAD"), method = "useItemOn", cancellable = true)
 	public void interactBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult blockHitResult, CallbackInfoReturnable<InteractionResult> info) {
-		InteractionResult result = ServerPlayerEvents.BLOCK_CLICK.invoker().onClickBlock(player, level, stack, hand, blockHitResult);
+		InteractionResult result = ServerPlayerEvents.CLICK_BLOCK.invoker().onClickBlock(player, level, stack, hand, blockHitResult);
 
 		if (result != InteractionResult.PASS) {
 			info.setReturnValue(result);

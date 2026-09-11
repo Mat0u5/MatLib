@@ -13,6 +13,8 @@
     "LivingEntityMixin",
     "MinecraftServerMixin",
     "PlayerListMixin",
+    "PlayerMixin",
+    "ServerGamePacketListenerImplInnerMixin",
     "ServerGamePacketListenerImplMixin",
     "ServerPlayerGameModeMixin",
     "ServerPlayerMixin"

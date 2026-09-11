@@ -14,8 +14,9 @@ import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 
 public class MatLib {
 
+	public static final boolean DEBUG = true;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.0.7";
+	public static final String MOD_VERSION = "0.0.8";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
