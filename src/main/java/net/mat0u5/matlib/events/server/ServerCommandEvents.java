@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.events.common;
+package net.mat0u5.matlib.events.server;
 
 import com.mojang.brigadier.CommandDispatcher;
 import net.mat0u5.matlib.command.Command;

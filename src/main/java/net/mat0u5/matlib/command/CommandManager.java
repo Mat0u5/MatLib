@@ -1,7 +1,7 @@
 package net.mat0u5.matlib.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import net.mat0u5.matlib.events.common.ServerCommandEvents;
+import net.mat0u5.matlib.events.server.ServerCommandEvents;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;

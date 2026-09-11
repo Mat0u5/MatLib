@@ -2,7 +2,7 @@ package net.mat0u5.matlib.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.events.EventResult;
-import net.mat0u5.matlib.events.common.ServerEntityEvents;
+import net.mat0u5.matlib.events.server.ServerEntityEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
