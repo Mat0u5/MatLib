@@ -10,7 +10,9 @@
   "plugin": "net.mat0u5.matlib.mixin.plugin.MixinPlugin",
   "mixins": [
     "BuiltInPackSourceMixin",
+    "BuiltInRegistriesMixin",
     "CommandsMixin",
+    "DefaultAttributesMixin",
     "LivingEntityMixin",
     "MinecraftServerMixin",
     "PlayerListMixin",

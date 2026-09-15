@@ -12,11 +12,15 @@ import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 /*import net.mat0u5.matlib.platform.forge.ForgePlatform;
 *///?}
 
+//? fabric && <= 1.20.5 {
+/*import net.mat0u5.matlib.events.common.CommonRegistryEvents;
+*///?}
+
 public class MatLib {
 
 	public static final boolean DEBUG = true;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.0.9";
+	public static final String MOD_VERSION = "0.0.10";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
@@ -25,6 +29,12 @@ public class MatLib {
 	public static void onInitialize() {
 		LOGGER.info("Initializing {} on {}", MOD_ID, platform().loader());
 		LOGGER.info("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
+		/**
+		 * !fabric || > 1.20.5 has this logic in {@link net.mat0u5.matlib.mixin.BuiltInRegistriesMixin#registerPreFreeze}
+		 */
+		//? fabric && <= 1.20.5 {
+		/*CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
+		*///?}
 	}
 
 	public static Platform platform() {

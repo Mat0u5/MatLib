@@ -7,6 +7,9 @@ import net.minecraft.server.packs.repository.Pack;
 import java.util.function.Consumer;
 
 public class ClientPackSourceEvents {
+	/**
+	 * Fires when client resource packs begin loading.
+	 */
 	public static final Event<LoadPack> LOAD_PACK = EventFactory.create(LoadPack.class,
 			listeners -> consumer -> EventFactory.dispatch(listeners, listener -> listener.onLoad(consumer))
 	);
