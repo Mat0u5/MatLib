@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
+import net.mat0u5.matlib.events.common.CommonPlayerEvents;
 import net.mat0u5.matlib.events.server.ServerPlayerEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -81,4 +82,14 @@ public class ServerPlayerGameModeMixin {
 		}
 	}
 	//?}
+
+	@Inject(at = @At("RETURN"), method = "useItemOn")
+	private void onInteractBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
+		CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(player, player.getInventory());
+	}
+
+	@Inject(at = @At("RETURN"), method = "useItem")
+	private void onInteractItem(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, CallbackInfoReturnable<InteractionResult> cir) {
+		CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(player, player.getInventory());
+	}
 }

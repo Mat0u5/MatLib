@@ -22,4 +22,10 @@ public class PlayerMixin {
 			info.cancel();
 		}
 	}
+
+	@Inject(method = "attack", at = @At("TAIL"))
+	private void onAttackEntity(Entity target, CallbackInfo ci) {
+		Player player = (Player) (Object) this;
+		CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(player, player.getInventory());
+	}
 }

@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
+import net.mat0u5.matlib.events.common.CommonPlayerEvents;
 import net.mat0u5.matlib.events.server.ServerPlayerEvents;
 import net.minecraft.network.Connection;
 import net.minecraft.server.level.ServerPlayer;
@@ -23,6 +24,7 @@ public class PlayerListMixin {
 	private void handlePlayerConnection(Connection connection, ServerPlayer player, CommonListenerCookie arg, CallbackInfo ci) {
 	//?}
 		ServerPlayerEvents.CONNECT.invoker().onConnect(connection, player);
+		CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(player, player.getInventory());
 	}
 }
 

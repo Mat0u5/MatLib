@@ -16,6 +16,7 @@
     "LanguageMixin",
     "LivingEntityMixin",
     "MinecraftServerMixin",
+    "PlayerInventoryMixin",
     "PlayerListMixin",
     "PlayerMixin",
     "ServerGamePacketListenerImplInnerMixin",

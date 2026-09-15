@@ -1,7 +1,9 @@
 package net.mat0u5.matlib.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
+import net.mat0u5.matlib.events.common.CommonPlayerEvents;
 import net.mat0u5.matlib.events.server.ServerPlayerEvents;
+import net.minecraft.network.protocol.game.ServerboundPlayerActionPacket;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
@@ -55,4 +57,12 @@ public class ServerGamePacketListenerImplMixin {
 		}
 	}
 	//?}
+
+	@Inject(method = "handlePlayerAction", at = @At("RETURN"))
+	public void onPlayerAction(ServerboundPlayerActionPacket packet, CallbackInfo ci) {
+		ServerGamePacketListenerImpl handler = (ServerGamePacketListenerImpl) (Object) this;
+		if (packet.getAction() == ServerboundPlayerActionPacket.Action.SWAP_ITEM_WITH_OFFHAND) {
+			CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(handler.player, handler.player.getInventory());
+		}
+	}
 }
