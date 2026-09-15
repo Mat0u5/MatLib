@@ -1,5 +1,8 @@
 package net.mat0u5.matlib;
 
+import net.mat0u5.matlib.api.ApiProvider;
+import net.mat0u5.matlib.api.MatLibClientInitializer;
+import net.mat0u5.matlib.api.MatLibInitializer;
 import net.mat0u5.matlib.platform.Platform;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -20,15 +23,21 @@ public class MatLib {
 
 	public static final boolean DEBUG = true;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.0.12";
+	public static final String MOD_VERSION = "0.1.0";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
 	private static final Platform PLATFORM = createPlatformInstance();
 
+	public static void onRegister() {
+		ApiProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onRegister);
+		ApiProvider.callListeners(MatLibClientInitializer.class, MatLibClientInitializer::onRegister);
+	}
+
 	public static void onInitialize() {
 		LOGGER.info("Initializing {} on {}", MOD_ID, platform().loader());
 		LOGGER.info("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
+		ApiProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onInitialize);
 		/**
 		 * !fabric || > 1.20.5 has this logic in {@link net.mat0u5.matlib.mixin.BuiltInRegistriesMixin#registerPreFreeze}
 		 */

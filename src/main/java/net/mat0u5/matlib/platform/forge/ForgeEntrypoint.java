@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 public class ForgeEntrypoint {
 
 	public ForgeEntrypoint() {
+		MatLib.onRegister();
 		MatLib.onInitialize();
 	}
 }

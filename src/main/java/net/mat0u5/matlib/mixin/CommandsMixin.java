@@ -3,7 +3,7 @@ package net.mat0u5.matlib.mixin;
 import com.mojang.brigadier.CommandDispatcher;
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.command.CommandManager;
-import net.mat0u5.matlib.events.server.ServerCommandEvents;
+import net.mat0u5.matlib.events.server.ServerRegistryEvents;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -31,7 +31,7 @@ public abstract class CommandsMixin {
     //?}
 *///?}
     private void addCommands(Commands.CommandSelection selection, CommandBuildContext buildContext, CallbackInfo ci) {
-        ServerCommandEvents.VANILLA_REGISTER.invoker().onRegister(this.dispatcher, buildContext, selection);
+        ServerRegistryEvents.COMMAND_VANILLA.invoker().onRegister(this.dispatcher, buildContext, selection);
         CommandManager.registerCustomCommands(this.dispatcher, buildContext, selection);
     }
 }

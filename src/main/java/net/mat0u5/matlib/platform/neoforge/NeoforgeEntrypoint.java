@@ -9,6 +9,7 @@ import net.neoforged.fml.common.Mod;
 public class NeoforgeEntrypoint {
 
 	public NeoforgeEntrypoint() {
+		MatLib.onRegister();
 		MatLib.onInitialize();
 	}
 }

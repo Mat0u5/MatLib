@@ -11,12 +11,12 @@ import net.minecraft.commands.Commands;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ServerCommandEvents {
+public class ServerRegistryEvents {
 	/**
 	 * Fires upon command registration.
 	 * <p>Return a List of {@link Command} to register them.
 	 */
-	public static final Event<CustomRegister> CUSTOM_REGISTER = EventFactory.create(CustomRegister.class,
+	public static final Event<CustomRegister> COMMAND_CUSTOM = EventFactory.create(CustomRegister.class,
 			listeners -> () -> {
 				List<Command> allCommands = new ArrayList<>();
 				for (CustomRegister listener : listeners) {
@@ -36,7 +36,7 @@ public class ServerCommandEvents {
 	 * Fires upon command registration.
 	 * <p>You must use the arguments to register your commands as you wish.
 	 */
-	public static final Event<VanillaRegister> VANILLA_REGISTER = EventFactory.create(VanillaRegister.class,
+	public static final Event<VanillaRegister> COMMAND_VANILLA = EventFactory.create(VanillaRegister.class,
 			listeners -> (dispatcher, commandRegistryAccess, registrationEnvironment) -> EventFactory.dispatch(listeners, listener -> listener.onRegister(dispatcher, commandRegistryAccess, registrationEnvironment))
 	);
 

@@ -1,7 +1,7 @@
 package net.mat0u5.matlib.command;
 
 import com.mojang.brigadier.CommandDispatcher;
-import net.mat0u5.matlib.events.server.ServerCommandEvents;
+import net.mat0u5.matlib.events.server.ServerRegistryEvents;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -17,7 +17,7 @@ public class CommandManager {
      */
     public static void registerCustomCommands(CommandDispatcher<CommandSourceStack> dispatcher, CommandBuildContext commandRegistryAccess, Commands.CommandSelection registrationEnvironment) {
         if (registeredCommands.isEmpty()) {
-            registeredCommands = ServerCommandEvents.CUSTOM_REGISTER.invoker().getCommands();
+            registeredCommands = ServerRegistryEvents.COMMAND_CUSTOM.invoker().getCommands();
         }
         for (Command command : registeredCommands) {
             command.register(dispatcher, commandRegistryAccess);
