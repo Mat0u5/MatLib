@@ -2,7 +2,7 @@ package net.mat0u5.matlib.events.common;
 
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
-import net.mat0u5.matlib.util.AttributeEntity;
+import net.mat0u5.matlib.util.world.AttributeEntity;
 
 import java.util.List;
 

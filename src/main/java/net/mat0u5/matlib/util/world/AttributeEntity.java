@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.util;
+package net.mat0u5.matlib.util.world;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
