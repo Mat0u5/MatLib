@@ -13,6 +13,7 @@
     "BuiltInRegistriesMixin",
     "CommandsMixin",
     "DefaultAttributesMixin",
+    "LanguageMixin",
     "LivingEntityMixin",
     "MinecraftServerMixin",
     "PlayerListMixin",
