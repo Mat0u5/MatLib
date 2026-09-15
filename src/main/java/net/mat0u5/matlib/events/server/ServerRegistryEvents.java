@@ -8,7 +8,6 @@ import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ServerRegistryEvents {
@@ -17,19 +16,7 @@ public class ServerRegistryEvents {
 	 * <p>Return a List of {@link Command} to register them.
 	 */
 	public static final Event<CustomRegister> COMMAND_CUSTOM = EventFactory.create(CustomRegister.class,
-			listeners -> () -> {
-				List<Command> allCommands = new ArrayList<>();
-				for (CustomRegister listener : listeners) {
-					try {
-						List<Command> listenerCommands = listener.getCommands();
-						if (listenerCommands != null) allCommands.addAll(listenerCommands);
-					}
-					catch (Exception e) {
-						EventFactory.logListenerError(listener, e);
-					}
-				}
-				return allCommands;
-			}
+			listeners -> () -> EventFactory.dispatchCollect(listeners, listener -> listener.getCommands())
 	);
 
 	/**

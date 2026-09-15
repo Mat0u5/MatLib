@@ -1,5 +1,7 @@
 package net.mat0u5.matlib.events;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -48,6 +50,24 @@ public final class EventFactory {
 		}
 
 		return EventResult.PASS;
+	}
+
+	/**
+	 * Calls all listeners returning a list, collecting all answers.
+	 */
+	public static <T, U> List<U> dispatchCollect(T[] listeners, Function<T, List<U>> call) {
+		List<U> result = new ArrayList<>();
+		for (T listener : listeners) {
+			try {
+				List<U> returned = call.apply(listener);
+				if (returned != null) result.addAll(returned);
+			}
+			catch (Exception e) {
+				logListenerError(listener, e);
+			}
+		}
+
+		return result;
 	}
 
 	/**

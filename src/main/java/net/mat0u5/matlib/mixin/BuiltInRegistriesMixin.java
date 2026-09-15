@@ -22,6 +22,7 @@ public class BuiltInRegistriesMixin {
 			return;
 		}
 		*///?} else {
+        MatLib.onRegister();
         CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
 		//?}
     }

@@ -12,6 +12,7 @@
     "BuiltInPackSourceMixin",
     "BuiltInRegistriesMixin",
     "CommandsMixin",
+    "DefaultAttributesAccessor",
     "DefaultAttributesMixin",
     "LanguageMixin",
     "LivingEntityMixin",

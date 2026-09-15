@@ -4,6 +4,7 @@ import net.mat0u5.matlib.api.ApiProvider;
 import net.mat0u5.matlib.api.MatLibClientInitializer;
 import net.mat0u5.matlib.api.MatLibInitializer;
 import net.mat0u5.matlib.platform.Platform;
+import net.mat0u5.matlib.registries.MobRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class MatLib {
 
 	public static final boolean DEBUG = true;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.1.0";
+	public static final String MOD_VERSION = "0.1.1";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 
@@ -37,14 +38,21 @@ public class MatLib {
 	public static void onInitialize() {
 		LOGGER.info("Initializing {} on {}", MOD_ID, platform().loader());
 		LOGGER.info("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
+		oldRegister();
 		ApiProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onInitialize);
-		/**
-		 * !fabric || > 1.20.5 has this logic in {@link net.mat0u5.matlib.mixin.BuiltInRegistriesMixin#registerPreFreeze}
-		 */
-		//? fabric && <= 1.20.5 {
-		/*CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
-		*///?}
 	}
+
+	public static void oldRegister() {
+		//? fabric && <= 1.20.5 {
+		/*onRegister();
+		CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
+		*///?}
+
+		//? fabric || (forge && > 1.21) {
+		MobRegistry.registerAttributes();
+		//?}
+	}
+	
 
 	public static Platform platform() {
 		return PLATFORM;

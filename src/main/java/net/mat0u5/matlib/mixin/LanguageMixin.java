@@ -24,7 +24,7 @@ public class LanguageMixin {
 		Language vanilla = cir.getReturnValue();
 		Map<String, String> customTranslations = new HashMap<>();
 
-		List<String> fileNames = ServerLanguageEvents.LOAD_LANG_FILES.invoker().onLoadFiles();
+		List<String> fileNames = ServerLanguageEvents.LOAD_LANG_FILES.invoker().getPaths();
 		for (String fileName : fileNames) {
 			try (InputStream is = LanguageMixin.class.getResourceAsStream(fileName)) {
 				if (is != null) {

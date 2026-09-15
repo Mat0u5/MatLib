@@ -16,10 +16,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 //? if <= 1.20.3 {
 /^@Mod.EventBusSubscriber(modid = MatLib.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
  ^///?} else if <= 1.21.2 {
-/^@EventBusSubscriber(modid = MatLib.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
-^///?} else {
-@EventBusSubscriber(modid = MatLib.MOD_ID, value = Dist.CLIENT)
-//?}
+@EventBusSubscriber(modid = MatLib.MOD_ID, value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+//?} else {
+/^@EventBusSubscriber(modid = MatLib.MOD_ID, value = Dist.CLIENT)
+^///?}
 public class NeoforgeClientEventSubscriber {
 	@SubscribeEvent
 	public static void onClientSetup(final FMLClientSetupEvent event) {
