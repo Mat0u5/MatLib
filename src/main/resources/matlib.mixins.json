@@ -9,6 +9,7 @@
   },
   "plugin": "net.mat0u5.matlib.mixin.plugin.MixinPlugin",
   "mixins": [
+    "BuiltInPackSourceMixin",
     "CommandsMixin",
     "LivingEntityMixin",
     "MinecraftServerMixin",
@@ -19,5 +20,7 @@
     "ServerPlayerGameModeMixin",
     "ServerPlayerMixin"
   ],
-  "client": []
+  "client": [
+    "client.BuiltInPackSourceMixin"
+  ]
 }
