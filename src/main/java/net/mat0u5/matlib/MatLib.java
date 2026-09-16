@@ -5,11 +5,13 @@ import net.mat0u5.matlib.api.MatLibClientInitializer;
 import net.mat0u5.matlib.api.MatLibInitializer;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
+import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 //? fabric {
 import net.mat0u5.matlib.platform.fabric.FabricPlatform;
+import org.jetbrains.annotations.Nullable;
 //?} neoforge {
 /*import net.mat0u5.matlib.platform.neoforge.NeoforgePlatform;
  *///?} forge {
@@ -24,11 +26,11 @@ public class MatLib {
 
 	public static final boolean DEBUG = true;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.1.3";
+	public static final String MOD_VERSION = "0.1.4";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
-
 	private static final Platform PLATFORM = createPlatformInstance();
+	public static MinecraftServer server;
 
 	public static void onRegister() {
 		ApiProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onRegister);
@@ -66,5 +68,14 @@ public class MatLib {
 		 *///?} forge {
 		/*return new ForgePlatform();
 		*///?}
+	}
+
+	public static void setServer(MinecraftServer server) {
+		MatLib.server = server;
+	}
+
+	@Nullable
+	public static MinecraftServer server() {
+		return server;
 	}
 }

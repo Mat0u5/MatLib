@@ -1,9 +1,11 @@
 package net.mat0u5.matlib.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
+import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.events.server.ServerLifecycleEvents;
 import net.mat0u5.matlib.events.server.ServerResourceEvents;
 import net.mat0u5.matlib.events.server.ServerTickEvents;
+import net.mat0u5.matlib.util.other.TaskScheduler;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,11 +27,15 @@ public abstract class MinecraftServerMixin {
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;initServer()Z"), method = "runServer")
     private void beforeSetupServer(CallbackInfo info) {
+        MinecraftServer server = (MinecraftServer) (Object) this;
+        MatLib.setServer(server);
         ServerLifecycleEvents.SERVER_STARTING.invoker().onStarting((MinecraftServer) (Object) this);
     }
 
     @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;buildServerStatus()Lnet/minecraft/network/protocol/status/ServerStatus;", ordinal = 0), method = "runServer")
     private void afterSetupServer(CallbackInfo info) {
+        MinecraftServer server = (MinecraftServer) (Object) this;
+        MatLib.setServer(server);
         ServerLifecycleEvents.SERVER_STARTED.invoker().onStarted((MinecraftServer) (Object) this);
     }
 
@@ -65,7 +71,8 @@ public abstract class MinecraftServerMixin {
 
     @Inject(at = @At("TAIL"), method = "tickServer")
     private void onEndTick(BooleanSupplier shouldKeepTicking, CallbackInfo info) {
-        ServerTickEvents.END_TICK.invoker().onTickEnd((MinecraftServer) (Object) this);
+        MinecraftServer server = (MinecraftServer) (Object) this;
+        ServerTickEvents.END_TICK.invoker().onTickEnd(server);
     }
 
     @Inject(method = "getServerResourcePack", at = @At("HEAD"), cancellable = true)
