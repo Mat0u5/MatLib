@@ -689,10 +689,21 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 	}
 
 	private fun configureStonecutterReplacements(stonecutter: StonecutterBuildExtension) {
+		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=1.21.2"), "!renames_1_21_2") {
+			replace (".getMinBuildHeight()", ".getMinY()")
+			replace (".getMaxBuildHeight()", ".getMaxY()")
+			replace ("MobSpawnType", "EntitySpawnReason")
+		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=1.21.11"), "!renames_1_21_11") {
 			replace("ResourceLocation", "Identifier")
 			replace("location()", "identifier()")
 			replace ("IdentifierHelper", "IdentifierHelper")
+			replace ("net.minecraft.world.level.GameRules;", "net.minecraft.world.level.gamerules.GameRules;")
+			replace ("net.minecraft.world.entity.monster.Zombie", "net.minecraft.world.entity.monster.zombie.Zombie")
+		}
+		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.2"), "!renames_26_2") {
+			replace ("EntityType.", "EntityTypes.")
+			replace ("EntityType.Builder", "EntityType.Builder")
 		}
 	}
 }
