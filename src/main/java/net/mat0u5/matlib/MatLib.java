@@ -5,6 +5,7 @@ import net.mat0u5.matlib.api.MatLibClientInitializer;
 import net.mat0u5.matlib.api.MatLibInitializer;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
+import net.mat0u5.matlib.registries.ModRegistries;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,7 +27,7 @@ public class MatLib {
 
 	public static final boolean DEBUG = true;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.1.5";
+	public static final String MOD_VERSION = "0.1.6";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
@@ -42,6 +43,8 @@ public class MatLib {
 		LOGGER.info("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
 		oldRegister();
 		ApiProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onInitialize);
+
+		ModRegistries.initialize();
 	}
 
 	public static void oldRegister() {
