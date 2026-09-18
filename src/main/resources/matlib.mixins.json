@@ -29,6 +29,8 @@
     "client.BuiltInPackSourceMixin",
     "client.ClientCommonPacketListenerImplMixin",
     "client.ClientPacketListenerMixin",
-    "client.ConnectionMixin"
+    "client.ConnectionMixin",
+    "client.EntityRenderDispatcherMixin",
+    "client.LevelExtractorMixin"
   ]
 }

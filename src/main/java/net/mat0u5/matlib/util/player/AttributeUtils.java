@@ -1,9 +1,8 @@
 package net.mat0u5.matlib.util.player;
 
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.Attribute;
-import net.minecraft.world.entity.ai.attributes.AttributeInstance;
-import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.*;
 //? if > 1.20.3 {
 import net.minecraft.core.Holder;
 //?}
@@ -43,11 +42,7 @@ public class AttributeUtils {
 	//?}
 
 		public void reset() {
-			//? if <=1.20.3 {
-			/*this.set(attributeHolder.getDefaultValue());
-			*///?} else {
-			this.set(attributeHolder.value().getDefaultValue());
-			 //?}
+			this.set(getDefaultValue());
 		}
 
 		public void set(double value) {
@@ -57,7 +52,13 @@ public class AttributeUtils {
 		}
 
 		public double getDefaultValue() {
-			if (attributeHolder == null) return 0;
+			if (entity == null || attributeHolder == null) return 0;
+			try {
+				if (DefaultAttributes.hasSupplier(entity.getType())) {
+					AttributeSupplier supplier = DefaultAttributes.getSupplier((EntityType<? extends LivingEntity>) entity.getType());
+					return supplier.getBaseValue(attributeHolder);
+				}
+			}catch(Exception ignored) {}
 			//? if <=1.20.3 {
 			/*return attributeHolder.getDefaultValue();
 			 *///?} else {
