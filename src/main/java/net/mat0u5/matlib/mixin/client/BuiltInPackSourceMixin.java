@@ -1,7 +1,7 @@
 package net.mat0u5.matlib.mixin.client;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
-import net.mat0u5.matlib.events.client.ClientPackSourceEvents;
+import net.mat0u5.matlib.client.events.ClientPackSourceEvents;
 import net.minecraft.server.packs.repository.BuiltInPackSource;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.client.resources.ClientPackSource;

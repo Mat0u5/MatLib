@@ -26,6 +26,9 @@
     "ServerPlayerMixin"
   ],
   "client": [
-    "client.BuiltInPackSourceMixin"
+    "client.BuiltInPackSourceMixin",
+    "client.ClientCommonPacketListenerImplMixin",
+    "client.ClientPacketListenerMixin",
+    "client.ConnectionMixin"
   ]
 }
