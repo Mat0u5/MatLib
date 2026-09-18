@@ -20,6 +20,7 @@ public class EntityRenderDispatcherMixin {
 	//?} else {
 	/*public void render(Entity entity, Frustum culler, double camX, double camY, double camZ, float partialTicks, CallbackInfoReturnable<Boolean> cir) {
 	 *///?}
+	 	if (ClientEntityRenderEvents.SHOULD_RENDER.listenerCount() == 0) return;
 		EventResult result = ClientEntityRenderEvents.SHOULD_RENDER.invoker().shouldRender(entity, culler, camX, camY, camZ);
 		if (result.isAllow()) cir.setReturnValue(true);
 		if (result.isDeny()) cir.setReturnValue(false);

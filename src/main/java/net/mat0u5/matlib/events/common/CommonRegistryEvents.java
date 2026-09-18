@@ -2,7 +2,8 @@ package net.mat0u5.matlib.events.common;
 
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
-import net.mat0u5.matlib.util.world.AttributeEntity;
+import net.mat0u5.matlib.registries.util.AttributeEntity;
+import net.mat0u5.matlib.registries.util.IdentifiedParticle;
 
 import java.util.List;
 
@@ -29,5 +30,17 @@ public class CommonRegistryEvents {
 	@FunctionalInterface
 	public interface MobAttribute {
 		List<AttributeEntity> getAttributeEntities();
+	}
+
+	/**
+	 * Fires when custom particles are being registered.
+	 */
+	public static final Event<Particle> PARTICLE = EventFactory.create(Particle.class,
+			listeners -> () -> EventFactory.dispatchCollect(listeners, listener -> listener.getIdentifiedParticles())
+	);
+
+	@FunctionalInterface
+	public interface Particle {
+		List<IdentifiedParticle> getIdentifiedParticles();
 	}
 }

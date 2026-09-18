@@ -31,6 +31,9 @@
     "client.ClientPacketListenerMixin",
     "client.ConnectionMixin",
     "client.EntityRenderDispatcherMixin",
-    "client.LevelExtractorMixin"
+    "client.EntityRenderersMixin",
+    "client.LevelExtractorMixin",
+    "client.OptionsMixin",
+    "client.ParticleResourcesMixin"
   ]
 }

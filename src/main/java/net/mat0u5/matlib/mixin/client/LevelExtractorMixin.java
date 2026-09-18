@@ -28,6 +28,7 @@ public class LevelExtractorMixin {
     @Redirect(method = "extractVisibleEntities", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;entitiesForRendering()Ljava/lang/Iterable;"))
 	//?}
 	private Iterable<Entity> addMorphedEntities(ClientLevel instance) {
+		if (ClientEntityRenderEvents.ENTITIES_FOR_RENDERING.listenerCount() == 0) return instance.entitiesForRendering();
 		List<Entity> entities = new ArrayList<>();
 		instance.entitiesForRendering().forEach(entities::add);
 		ClientEntityRenderEvents.ENTITIES_FOR_RENDERING.invoker().modifyList(entities);

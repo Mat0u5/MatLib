@@ -3,9 +3,13 @@ package net.mat0u5.matlib;
 import net.mat0u5.matlib.api.ApiProvider;
 import net.mat0u5.matlib.api.MatLibClientInitializer;
 import net.mat0u5.matlib.api.MatLibInitializer;
+import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
 import net.mat0u5.matlib.registries.ModRegistries;
+import net.mat0u5.matlib.registries.util.IdentifiedParticle;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,7 +31,7 @@ public class MatLib {
 
 	public static final boolean DEBUG = true;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.2.1";
+	public static final String MOD_VERSION = "0.2.2";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
@@ -36,6 +40,11 @@ public class MatLib {
 	public static void onRegister() {
 		ApiProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onRegister);
 		ApiProvider.callListeners(MatLibClientInitializer.class, MatLibClientInitializer::onRegister);
+
+		CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
+		CommonRegistryEvents.PARTICLE.invoker().getIdentifiedParticles().forEach(particle -> {
+			Registry.register(BuiltInRegistries.PARTICLE_TYPE, particle.id(), particle.particleType());
+		});
 	}
 
 	public static void onInitialize() {
@@ -50,7 +59,6 @@ public class MatLib {
 	public static void oldRegister() {
 		//? fabric && <= 1.20.5 {
 		/*onRegister();
-		CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
 		*///?}
 
 		//? fabric || (forge && > 1.21) {

@@ -1,7 +1,7 @@
 package net.mat0u5.matlib.registries;
 
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
-import net.mat0u5.matlib.util.world.AttributeEntity;
+import net.mat0u5.matlib.registries.util.AttributeEntity;
 //? fabric || (forge && > 1.21) {
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.mixin.DefaultAttributesAccessor;
