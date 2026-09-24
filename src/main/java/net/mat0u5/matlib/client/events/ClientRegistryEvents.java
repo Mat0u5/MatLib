@@ -13,7 +13,7 @@ public class ClientRegistryEvents {
 	/**
 	 * Fires when layer definitions for models are registered.
 	 */
-	public static final Event<EntityModelData> ENTITY_MODEL_LAYER_DEFINITION = EventFactory.create(EntityModelData.class,
+	public static final Event<EntityModelData> ENTITY_MODEL_LAYER_DEFINITION = EventFactory.createClient(EntityModelData.class,
 			listeners -> () -> EventFactory.dispatchCollect(listeners, listener -> listener.getLayerDefinitionModels())
 	);
 
@@ -25,7 +25,7 @@ public class ClientRegistryEvents {
 	/**
 	 * Fires when entity renderers are being registered.
 	 */
-	public static final Event<EntityRenderer> ENTITY_RENDERER = EventFactory.create(EntityRenderer.class,
+	public static final Event<EntityRenderer> ENTITY_RENDERER = EventFactory.createClient(EntityRenderer.class,
 			listeners -> () -> EventFactory.dispatchCollect(listeners, listener -> listener.getEntityRenderers())
 	);
 
@@ -37,7 +37,7 @@ public class ClientRegistryEvents {
 	/**
 	 * Fires when particle providers are being registered.
 	 */
-	public static final Event<ParticleProvider> PARTICLE_PROVIDER = EventFactory.create(ParticleProvider.class,
+	public static final Event<ParticleProvider> PARTICLE_PROVIDER = EventFactory.createClient(ParticleProvider.class,
 			listeners -> () -> EventFactory.dispatchCollect(listeners, listener -> listener.getProvidedParticles())
 	);
 
@@ -49,7 +49,7 @@ public class ClientRegistryEvents {
 	/**
 	 * Fires when keybinds are being registered.
 	 */
-	public static final Event<KeyMapping> KEYBIND = EventFactory.create(KeyMapping.class,
+	public static final Event<KeyMapping> KEYBIND = EventFactory.createClient(KeyMapping.class,
 			listeners -> mappings -> EventFactory.dispatch(listeners, listener -> listener.modifyKeymappings(mappings))
 	);
 

@@ -11,14 +11,14 @@ public class ClientRenderEvents {
 	/**
 	 * Fires when the GUI renders.
 	 */
-	public static final Event<RenderGui> RENDER_GUI = EventFactory.create(RenderGui.class,
+	public static final Event<RenderGui> RENDER_GUI = EventFactory.createClient(RenderGui.class,
 			listeners -> (guiGraphics, deltaTracker) -> EventFactory.dispatch(listeners, listener -> listener.onRenderGui(guiGraphics, deltaTracker))
 	).markLoud();
 
 	/**
 	 * Fires after the GUI renders.
 	 */
-	public static final Event<RenderGuiPost> RENDER_GUI_POST = EventFactory.create(RenderGuiPost.class,
+	public static final Event<RenderGuiPost> RENDER_GUI_POST = EventFactory.createClient(RenderGuiPost.class,
 			listeners -> (guiGraphics, deltaTracker) -> EventFactory.dispatch(listeners, listener -> listener.onPostRenderGui(guiGraphics, deltaTracker))
 	).markLoud();
 

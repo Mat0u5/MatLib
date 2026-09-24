@@ -11,14 +11,14 @@ public class ClientPackSourceEvents {
 	/**
 	 * Fires when client resource packs begin loading.
 	 */
-	public static final Event<LoadPack> LOAD_PACK = EventFactory.create(LoadPack.class,
+	public static final Event<LoadPack> LOAD_PACK = EventFactory.createClient(LoadPack.class,
 			listeners -> consumer -> EventFactory.dispatch(listeners, listener -> listener.onLoad(consumer))
 	);
 
 	/**
 	 * Fires when client begins downloading a resource pack from the server
 	 */
-	public static final Event<ServerPackDownload> SERVER_PACK_DOWNLOAD = EventFactory.create(ServerPackDownload.class,
+	public static final Event<ServerPackDownload> SERVER_PACK_DOWNLOAD = EventFactory.createClient(ServerPackDownload.class,
 			listeners -> url -> EventFactory.dispatchResult(listeners, listener -> listener.onPackDownload(url))
 	);
 

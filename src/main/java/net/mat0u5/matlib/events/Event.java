@@ -9,13 +9,29 @@ import java.util.function.Function;
 
 public class Event<T> {
 	private volatile T invoker;
-	private boolean loud = false;
+	private boolean loud;
+	private final Environment environment;
 
+	public enum Environment {
+		CLIENT,
+		COMMON,
+		SERVER;
+	}
 	public final T invoker() {
-		if (MatLib.DEBUG && !loud) {
+		if (MatLib.DEBUG) invokerTests();
+		return invoker;
+	}
+
+	private void invokerTests() {
+		if (environment == Environment.CLIENT && !MatLib.platform().isClient()) {
+			MatLib.LOGGER.error("Event {} marked client triggered on server.", invoker.getClass().getName());
+		}
+		if (environment == Environment.SERVER && MatLib.platform().isClient()) {
+			MatLib.LOGGER.warn("Event {} marked server triggered on client.", invoker.getClass().getName());
+		}
+		if (!loud) {
 			MatLib.LOGGER.info("Event {} invoker called.", invoker.getClass().getName());
 		}
-		return invoker;
 	}
 
 	private final Function<T[], T> invokerFactory;
@@ -29,9 +45,10 @@ public class Event<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Event(Class<? super T> type, Function<T[], T> invokerFactory) {
+	public Event(Class<? super T> type, Function<T[], T> invokerFactory, Environment environment) {
 		this.invokerFactory = invokerFactory;
 		this.listeners = (T[]) Array.newInstance(type, 0);
+		this.environment = environment;
 		update();
 	}
 

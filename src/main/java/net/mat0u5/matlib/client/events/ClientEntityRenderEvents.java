@@ -13,14 +13,14 @@ public class ClientEntityRenderEvents {
 	/**
 	 * Fires when an entity is about to be rendered.
 	 */
-	public static final Event<ShouldRender> SHOULD_RENDER = EventFactory.create(ShouldRender.class,
+	public static final Event<ShouldRender> SHOULD_RENDER = EventFactory.createClient(ShouldRender.class,
 			listeners -> (entity, culler, camX, camY, camZ) -> EventFactory.dispatchResult(listeners, listener -> listener.shouldRender(entity, culler, camX, camY, camZ))
 	).markLoud();
 
 	/**
 	 * Modify the list of entities for rendering.
 	 */
-	public static final Event<EntitiesForRendering> ENTITIES_FOR_RENDERING = EventFactory.create(EntitiesForRendering.class,
+	public static final Event<EntitiesForRendering> ENTITIES_FOR_RENDERING = EventFactory.createClient(EntitiesForRendering.class,
 			listeners -> entities -> EventFactory.dispatch(listeners, listener -> listener.modifyList(entities))
 	).markLoud();
 

@@ -11,10 +11,31 @@ import net.mat0u5.matlib.MatLib;
 public final class EventFactory {
 	private EventFactory() { }
 	/**
+	 * Creates a client event.
+	 */
+	public static <T> Event<T> createClient(Class<? super T> type, Function<T[], T> invokerFactory) {
+		return new Event<>(type, invokerFactory, Event.Environment.CLIENT);
+	}
+
+	/**
+	 * Creates a common event.
+	 */
+	public static <T> Event<T> createCommon(Class<? super T> type, Function<T[], T> invokerFactory) {
+		return new Event<>(type, invokerFactory, Event.Environment.COMMON);
+	}
+
+	/**
+	 * Creates a server event.
+	 */
+	public static <T> Event<T> createServer(Class<? super T> type, Function<T[], T> invokerFactory) {
+		return new Event<>(type, invokerFactory, Event.Environment.SERVER);
+	}
+
+	/**
 	 * Creates an event.
 	 */
-	public static <T> Event<T> create(Class<? super T> type, Function<T[], T> invokerFactory) {
-		return new Event<>(type, invokerFactory);
+	private static <T> Event<T> create(Class<? super T> type, Function<T[], T> invokerFactory, Event.Environment environment) {
+		return new Event<>(type, invokerFactory, environment);
 	}
 
 	/**

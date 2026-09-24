@@ -9,7 +9,6 @@ import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
 import net.mat0u5.matlib.registries.ModRegistries;
-import net.mat0u5.matlib.registries.util.IdentifiedParticle;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
@@ -31,9 +30,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class MatLib {
 
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.2.5";
+	public static final String MOD_VERSION = "0.2.6";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();

@@ -12,14 +12,14 @@ public class CommonPlayerEvents {
 	/**
 	 * Fires when a player attacks an entity.
 	 */
-	public static final Event<AttackEntity> ATTACK_ENTITY = EventFactory.create(AttackEntity.class,
+	public static final Event<AttackEntity> ATTACK_ENTITY = EventFactory.createCommon(AttackEntity.class,
 			listeners -> (player, entity) -> EventFactory.dispatchReturn(listeners, InteractionResult.PASS, listener -> listener.onAttackEntity(player, entity))
 	);
 
 	/**
 	 * Fires when a player's inventory is updated.
 	 */
-	public static final Event<UpdateInventory> UPDATE_INVENTORY = EventFactory.create(UpdateInventory.class,
+	public static final Event<UpdateInventory> UPDATE_INVENTORY = EventFactory.createCommon(UpdateInventory.class,
 			listeners -> (player, inventory) -> EventFactory.dispatch(listeners, listener -> listener.onUpdateInventory(player, inventory))
 	);
 

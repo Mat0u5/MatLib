@@ -9,14 +9,14 @@ public class ClientLifecycleEvents {
 	/**
 	 * Fires upon client starting.
 	 */
-	public static final Event<ClientStarted> CLIENT_STARTED = EventFactory.create(ClientStarted.class,
+	public static final Event<ClientStarted> CLIENT_STARTED = EventFactory.createClient(ClientStarted.class,
 			listeners -> minecraft -> EventFactory.dispatch(listeners, listener -> listener.onStarted(minecraft))
 	);
 
 	/**
 	 * Fires upon client stopping.
 	 */
-	public static final Event<ClientStopping> CLIENT_STOPPING = EventFactory.create(ClientStopping.class,
+	public static final Event<ClientStopping> CLIENT_STOPPING = EventFactory.createClient(ClientStopping.class,
 			listeners -> minecraft -> EventFactory.dispatch(listeners, listener -> listener.onStopping(minecraft))
 	);
 

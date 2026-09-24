@@ -28,49 +28,49 @@ public class ServerPlayerEvents {
 	/**
 	 * Fires when a player joins the server.
 	 */
-	public static final Event<Connect> CONNECT = EventFactory.create(Connect.class,
+	public static final Event<Connect> CONNECT = EventFactory.createServer(Connect.class,
 			listeners -> (connection, player) -> EventFactory.dispatch(listeners, listener -> listener.onConnect(connection, player))
 	);
 
 	/**
 	 * Fires when a player leaves the server.
 	 */
-	public static final Event<Disconnect> DISCONNECT = EventFactory.create(Disconnect.class,
+	public static final Event<Disconnect> DISCONNECT = EventFactory.createServer(Disconnect.class,
 			listeners -> (details, player) -> EventFactory.dispatch(listeners, listener -> listener.onDisconnect(details, player))
 	);
 
 	/**
 	 * Fires when a player dies.
 	 */
-	public static final Event<Death> DEATH = EventFactory.create(Death.class,
+	public static final Event<Death> DEATH = EventFactory.createServer(Death.class,
 			listeners -> (player, source) -> EventFactory.dispatch(listeners, listener -> listener.onDeath(player, source))
 	);
 
 	/**
 	 * Fires when a player starts breaking a block.
 	 */
-	public static final Event<AttackBlock> ATTACK_BLOCK = EventFactory.create(AttackBlock.class,
+	public static final Event<AttackBlock> ATTACK_BLOCK = EventFactory.createServer(AttackBlock.class,
 			listeners -> (player, level, pos, direction) -> EventFactory.dispatchReturn(listeners, InteractionResult.PASS, listener -> listener.onAttackBlock(player, level, pos, direction))
 	);
 
 	/**
 	 * Fires when a player right-clicks on a block.
 	 */
-	public static final Event<ClickBlock> CLICK_BLOCK = EventFactory.create(ClickBlock.class,
+	public static final Event<ClickBlock> CLICK_BLOCK = EventFactory.createServer(ClickBlock.class,
 			listeners -> (player, level, stack, hand, blockHitResult) -> EventFactory.dispatchReturn(listeners, InteractionResult.PASS, listener -> listener.onClickBlock(player, level, stack, hand, blockHitResult))
 	);
 
 	/**
 	 * Fires when a player dies.
 	 */
-	public static final Event<ItemUse> ITEM_USE = EventFactory.create(ItemUse.class,
+	public static final Event<ItemUse> ITEM_USE = EventFactory.createServer(ItemUse.class,
 			listeners -> (player, level, stack, hand) -> EventFactory.dispatchReturn(listeners, InteractionResult.PASS, listener -> listener.onItemUse(player, level, stack, hand))
 	);
 
 	/**
 	 * Fires when a player interacts with an entity.
 	 */
-	public static final Event<ClickEntity> CLICK_ENTITY = EventFactory.create(ClickEntity.class,
+	public static final Event<ClickEntity> CLICK_ENTITY = EventFactory.createServer(ClickEntity.class,
 			listeners -> (player, level, hand, entity, hitResult) -> EventFactory.dispatchReturn(listeners, InteractionResult.PASS, listener -> listener.onClickEntity(player, level, hand, entity, hitResult))
 	);
 

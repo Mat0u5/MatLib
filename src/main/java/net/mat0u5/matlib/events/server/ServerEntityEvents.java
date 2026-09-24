@@ -11,14 +11,14 @@ public class ServerEntityEvents {
 	/**
 	 * Fires when an entity dies.
 	 */
-	public static final Event<Death> DEATH = EventFactory.create(Death.class,
+	public static final Event<Death> DEATH = EventFactory.createServer(Death.class,
 			listeners -> (entity, source) -> EventFactory.dispatch(listeners, listener -> listener.onDeath(entity, source))
 	);
 
 	/**
-	 * Fires when an entity drops their.
+	 * Fires when an entity drops their items.
 	 */
-	public static final Event<DropLoot> DROP_LOOT = EventFactory.create(DropLoot.class,
+	public static final Event<DropLoot> DROP_LOOT = EventFactory.createServer(DropLoot.class,
 			listeners -> (entity, source) -> EventFactory.dispatchResult(listeners, listener -> listener.onDropLoot(entity, source))
 	);
 

@@ -8,7 +8,7 @@ public class ClientLevelEvents {
 	/**
 	 * Fires when the level ticks entities.
 	 */
-	public static final Event<TickEntities> TICK_ENTITIES = EventFactory.create(TickEntities.class,
+	public static final Event<TickEntities> TICK_ENTITIES = EventFactory.createClient(TickEntities.class,
 			listeners -> level -> EventFactory.dispatch(listeners, listener -> listener.onTickEntities(level))
 	).markLoud();
 	@FunctionalInterface

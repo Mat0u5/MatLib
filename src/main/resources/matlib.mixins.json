@@ -41,6 +41,8 @@
     "client.LocalPlayerMixin",
     "client.MinecraftMixin",
     "client.OptionsMixin",
-    "client.ParticleResourcesMixin"
+    "client.ParticleResourcesMixin",
+    "client.ScreenMixin",
+    "client.SoundManagerMixin"
   ]
 }

@@ -13,14 +13,14 @@ public class ClientPlayerEvents {
 	/**
 	 * Fires when you join a world.
 	 */
-	public static final Event<Join> JOIN = EventFactory.create(Join.class,
+	public static final Event<Join> JOIN = EventFactory.createClient(Join.class,
 			listeners -> packet -> EventFactory.dispatch(listeners, listener -> listener.onJoin(packet))
 	);
 
 	/**
 	 * Fires when you leave a world.
 	 */
-	public static final Event<Leave> LEAVE = EventFactory.create(Leave.class,
+	public static final Event<Leave> LEAVE = EventFactory.createClient(Leave.class,
 			listeners -> () -> EventFactory.dispatch(listeners, listener -> listener.onLeave())
 	);
 
@@ -36,14 +36,14 @@ public class ClientPlayerEvents {
 	/**
 	 * Fires at the start of the local player tick.
 	 */
-	public static final Event<StartTick> START_TICK = EventFactory.create(StartTick.class,
+	public static final Event<StartTick> START_TICK = EventFactory.createClient(StartTick.class,
 			listeners -> player -> EventFactory.dispatch(listeners, listener -> listener.onTickStart(player))
 	).markLoud();
 
 	/**
 	 * Fires at the end of the local player tick.
 	 */
-	public static final Event<EndTick> END_TICK = EventFactory.create(EndTick.class,
+	public static final Event<EndTick> END_TICK = EventFactory.createClient(EndTick.class,
 			listeners -> player -> EventFactory.dispatch(listeners, listener -> listener.onTickEnd(player))
 	).markLoud();
 

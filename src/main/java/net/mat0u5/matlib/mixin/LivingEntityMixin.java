@@ -2,6 +2,7 @@ package net.mat0u5.matlib.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.events.EventResult;
+import net.mat0u5.matlib.events.common.CommonEntityEvents;
 import net.mat0u5.matlib.events.server.ServerEntityEvents;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,5 +30,9 @@ public class LivingEntityMixin {
 		if (result == EventResult.DENY) {
 			ci.cancel();
 		}
+	}
+	@Inject(method = "jumpFromGround", at = @At("TAIL"))
+	private void onJump(CallbackInfo ci) {
+		CommonEntityEvents.JUMP.invoker().onJump((LivingEntity) (Object) this);
 	}
 }

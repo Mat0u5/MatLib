@@ -12,14 +12,14 @@ public class ServerResourceEvents {
 	/**
 	 * Fires upon a reload starting.
 	 */
-	public static final Event<ReloadStart> RELOAD_START = EventFactory.create(ReloadStart.class,
+	public static final Event<ReloadStart> RELOAD_START = EventFactory.createServer(ReloadStart.class,
 			listeners -> (server, manager) -> EventFactory.dispatch(listeners, listener -> listener.onStart(server, manager))
 	);
 
 	/**
 	 * Fires upon a reload ending.
 	 */
-	public static final Event<ReloadEnd> RELOAD_STOPPING = EventFactory.create(ReloadEnd.class,
+	public static final Event<ReloadEnd> RELOAD_STOPPING = EventFactory.createServer(ReloadEnd.class,
 			listeners -> (server, manager, success) -> EventFactory.dispatch(listeners, listener -> listener.onEnd(server, manager, success))
 	);
 
@@ -27,7 +27,7 @@ public class ServerResourceEvents {
 	 * Fires upon the server reading its resourcepack info.
 	 * <p>This event returns the first non-null value returned by any listener, or original if not found.
 	 */
-	public static final Event<GetServerPack> GET_SERVER_PACK = EventFactory.create(GetServerPack.class,
+	public static final Event<GetServerPack> GET_SERVER_PACK = EventFactory.createServer(GetServerPack.class,
 			listeners -> originalServerPack -> EventFactory.dispatchReturn(listeners, listener -> listener.onGetServerPack(originalServerPack))
 	);
 
