@@ -694,6 +694,10 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 			replace (".getMaxBuildHeight()", ".getMaxY()")
 			replace ("MobSpawnType", "EntitySpawnReason")
 		}
+		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=1.21.6"), "renames_1_21_6_volatile") {
+			replace (".popPose()", ".popMatrix()")
+			replace (".pushPose()", ".pushMatrix()")
+		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=1.21.11"), "!renames_1_21_11") {
 			replace("ResourceLocation", "Identifier")
 			replace("location()", "identifier()")
@@ -703,6 +707,14 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.1"), "!renames_26_1") {
 			replace ("GuiGraphics", "GuiGraphicsExtractor")
+		}
+		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.1"), "renames_26_1_volatile") {
+			replace ("render(", "extractRenderState(")
+			replace ("renderListItems(", "extractListItems(")
+			replace ("renderContent(", "extractContent(")
+			replace ("renderBackground(", "extractBackground(")
+			replace ("drawString(", "text(")
+			replace ("drawCenteredString(", "centeredText(")
 		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.2"), "!renames_26_2") {
 			replace ("EntityType.", "EntityTypes.")

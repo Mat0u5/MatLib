@@ -3,6 +3,8 @@ package net.mat0u5.matlib;
 import net.mat0u5.matlib.api.ApiProvider;
 import net.mat0u5.matlib.api.MatLibClientInitializer;
 import net.mat0u5.matlib.api.MatLibInitializer;
+import net.mat0u5.matlib.client.events.ClientRenderEvents;
+import net.mat0u5.matlib.client.render.VignetteRenderer;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
@@ -31,7 +33,7 @@ public class MatLib {
 
 	public static final boolean DEBUG = true;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.2.3";
+	public static final String MOD_VERSION = "0.2.4";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
@@ -45,6 +47,7 @@ public class MatLib {
 		CommonRegistryEvents.PARTICLE.invoker().getIdentifiedParticles().forEach(particle -> {
 			Registry.register(BuiltInRegistries.PARTICLE_TYPE, particle.id(), particle.particleType());
 		});
+		ClientRenderEvents.RENDER_GUI.register((guiGraphics, deltaTracker) -> VignetteRenderer.renderVignette(guiGraphics));
 	}
 
 	public static void onInitialize() {
