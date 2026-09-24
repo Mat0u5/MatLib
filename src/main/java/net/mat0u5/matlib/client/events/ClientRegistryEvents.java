@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.events;
 
+import net.mat0u5.matlib.client.registries.util.LayerDefinitionModel;
 import net.mat0u5.matlib.client.registries.util.ProvidedParticle;
 import net.mat0u5.matlib.client.registries.util.RenderableEntity;
 import net.mat0u5.matlib.events.Event;
@@ -8,6 +9,18 @@ import net.mat0u5.matlib.events.EventFactory;
 import java.util.List;
 
 public class ClientRegistryEvents {
+
+	/**
+	 * Fires when layer definitions for models are registered.
+	 */
+	public static final Event<EntityModelData> ENTITY_MODEL_LAYER_DEFINITION = EventFactory.create(EntityModelData.class,
+			listeners -> () -> EventFactory.dispatchCollect(listeners, listener -> listener.getLayerDefinitionModels())
+	);
+
+	@FunctionalInterface
+	public interface EntityModelData {
+		List<LayerDefinitionModel> getLayerDefinitionModels();
+	}
 
 	/**
 	 * Fires when entity renderers are being registered.

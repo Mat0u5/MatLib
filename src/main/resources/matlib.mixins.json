@@ -28,6 +28,7 @@
   "client": [
     "client.BuiltInPackSourceMixin",
     "client.ClientCommonPacketListenerImplMixin",
+    "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",
     "client.ConnectionMixin",
     "client.EntityRenderDispatcherMixin",
@@ -35,7 +36,10 @@
     "client.EntityRenderersMixin",
     "client.EntityRenderStateMixin",
     "client.HudMixin",
+    "client.LayerDefinitionsMixin",
     "client.LevelExtractorMixin",
+    "client.LocalPlayerMixin",
+    "client.MinecraftMixin",
     "client.OptionsMixin",
     "client.ParticleResourcesMixin"
   ]
