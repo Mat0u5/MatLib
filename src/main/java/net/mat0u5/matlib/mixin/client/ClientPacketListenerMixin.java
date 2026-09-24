@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = ClientPacketListener.class, priority = 1)
 @MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
 public class ClientPacketListenerMixin {
-	@Deprecated
 	@Inject(method = "handleLogin", at = @At("RETURN"))
 	private void handleServerPlayReady(ClientboundLoginPacket packet, CallbackInfo ci) {
 		ClientPlayerEvents.JOIN.invoker().onJoin(packet);

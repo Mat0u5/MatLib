@@ -32,6 +32,7 @@
     "client.ConnectionMixin",
     "client.EntityRenderDispatcherMixin",
     "client.EntityRenderersMixin",
+    "client.HudMixin",
     "client.LevelExtractorMixin",
     "client.OptionsMixin",
     "client.ParticleResourcesMixin"

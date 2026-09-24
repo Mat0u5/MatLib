@@ -13,14 +13,14 @@ public class NeoforgePlatform implements Platform {
 	public boolean isModLoaded(String modId) {
 		try {
 			//? if <= 1.21.6 {
-			if (FMLLoader.getLoadingModList() != null) {
+			/^if (FMLLoader.getLoadingModList() != null) {
 				return FMLLoader.getLoadingModList().getModFileById(modId) != null;
 			}
-			//?} else {
-			/^if (FMLLoader.getCurrent().getLoadingModList() != null) {
+			^///?} else {
+			if (FMLLoader.getCurrent().getLoadingModList() != null) {
 				return FMLLoader.getCurrent().getLoadingModList().getModFileById(modId) != null;
 			}
-			^///?}
+			//?}
 		} catch (Throwable ignored) {}
 
 		try {
@@ -43,16 +43,16 @@ public class NeoforgePlatform implements Platform {
 
 	@Override
 	public boolean isDevelopmentEnvironment() {
-		return !FMLLoader/^? if > 1.21.7 {^//^.getCurrent()^//^?}^/.isProduction();
+		return !FMLLoader/^? if > 1.21.7 {^/.getCurrent()/^?}^/.isProduction();
 	}
 
 	@Override
 	public boolean isClient() {
 		//? if <= 1.21.6 {
-        return FMLEnvironment.dist.isClient();
-		//?} else {
-        /^return FMLEnvironment.getDist().isClient();
-		^///?}
+        /^return FMLEnvironment.dist.isClient();
+		^///?} else {
+        return FMLEnvironment.getDist().isClient();
+		//?}
 	}
 }
 *///?}

@@ -6,11 +6,17 @@ import net.mat0u5.matlib.client.MatLibClient;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+
+//? if <= 1.20 {
+/^import net.minecraftforge.client.event.RenderGuiEvent;
+import net.mat0u5.matlib.client.events.ClientRenderEvents;
+^///?}
+
 //? if <= 1.21.5 {
-/^import net.minecraftforge.eventbus.api.SubscribeEvent;
-^///?} else {
-import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
- //?}
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+//?} else {
+/^import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
+ ^///?}
 
 @Mod.EventBusSubscriber(modid = MatLib.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ForgeClientEventSubscriber {
@@ -19,5 +25,15 @@ public class ForgeClientEventSubscriber {
 	public static void onClientSetup(final FMLClientSetupEvent event) {
 		MatLibClient.onInitializeClient();
 	}
+	//? if <= 1.20 {
+    /^@SubscribeEvent
+	public static void onRenderGui(RenderGuiEvent.Pre event) {
+		ClientRenderEvents.RENDER_GUI.invoker().onRenderGui(event.getGuiGraphicsExtractor(), event.getPartialTick());
+	}
+	@SubscribeEvent
+	public static void onRenderGui(RenderGuiEvent.Post event) {
+		ClientRenderEvents.RENDER_GUI_POST.invoker().onPostRenderGui(event.getGuiGraphicsExtractor(), event.getPartialTick());
+	}
+    ^///?}
 }
 *///?}

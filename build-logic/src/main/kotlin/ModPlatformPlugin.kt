@@ -701,6 +701,9 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 			replace ("net.minecraft.world.level.GameRules;", "net.minecraft.world.level.gamerules.GameRules;")
 			replace ("net.minecraft.world.entity.monster.Zombie", "net.minecraft.world.entity.monster.zombie.Zombie")
 		}
+		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.1"), "!renames_26_1") {
+			replace ("GuiGraphics", "GuiGraphicsExtractor")
+		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.2"), "!renames_26_2") {
 			replace ("EntityType.", "EntityTypes.")
 			replace ("EntityType.Builder", "EntityType.Builder")

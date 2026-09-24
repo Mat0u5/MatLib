@@ -25,10 +25,10 @@ public abstract class CommandsMixin {
     @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/CommandDispatcher;setConsumer(Lcom/mojang/brigadier/ResultConsumer;)V"), method = "<init>")
 //?} else {
     /*//? if <= 1.20.5 {
-    /^@Inject(method = "<init>", at = @At("RETURN"))
-    ^///?} else {
-    @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/CommandDispatcher;setConsumer(Lcom/mojang/brigadier/ResultConsumer;)V", unsafe = true), method = "<init>")
-    //?}
+    @Inject(method = "<init>", at = @At("RETURN"))
+    //?} else {
+    /^@Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/CommandDispatcher;setConsumer(Lcom/mojang/brigadier/ResultConsumer;)V", unsafe = true), method = "<init>")
+    ^///?}
 *///?}
     private void addCommands(Commands.CommandSelection selection, CommandBuildContext buildContext, CallbackInfo ci) {
         ServerRegistryEvents.COMMAND_VANILLA.invoker().onRegister(this.dispatcher, buildContext, selection);

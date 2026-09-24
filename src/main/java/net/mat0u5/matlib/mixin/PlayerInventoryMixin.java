@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 //? if >= 26.3
-//import net.minecraft.util.Prediction;
+import net.minecraft.util.Prediction;
 
 @Mixin(value = Inventory.class, priority = 1)
 @MixinEnvironment(type = MixinEnvironment.Env.MAIN)
@@ -20,56 +20,56 @@ public abstract class PlayerInventoryMixin {
 
     @Inject(method = "setChanged", at = @At("TAIL"))
     private void onMarkDirty(CallbackInfo info) {
-        ls$onUpdatedInventory();
+        ml$onUpdatedInventory();
     }
 
     //? if <= 26.2 {
-    @Inject(method = "placeItemBackInInventory(Lnet/minecraft/world/item/ItemStack;Z)V", at = @At("TAIL"))
+    /*@Inject(method = "placeItemBackInInventory(Lnet/minecraft/world/item/ItemStack;Z)V", at = @At("TAIL"))
     private void onOffer(ItemStack stack, boolean notifiesClient, CallbackInfo info) {
-    //?} else {
-    /*@Inject(method = "placeItemBackInInventory(Lnet/minecraft/world/item/ItemStack;ZLnet/minecraft/util/Prediction;)V", at = @At("TAIL"))
+    *///?} else {
+    @Inject(method = "placeItemBackInInventory(Lnet/minecraft/world/item/ItemStack;ZLnet/minecraft/util/Prediction;)V", at = @At("TAIL"))
     private void onOffer(ItemStack itemStack, boolean shouldSendSetSlotPacket, Prediction prediction, CallbackInfo ci) {
-    *///?}
-        ls$onUpdatedInventory();
+    //?}
+        ml$onUpdatedInventory();
     }
 
     @Inject(method = "add(Lnet/minecraft/world/item/ItemStack;)Z", at = @At("RETURN"))
     private void onInsertStack(ItemStack stack, CallbackInfoReturnable<Boolean> cir) {
         if (cir != null && cir.getReturnValue()) {
-            ls$onUpdatedInventory();
+            ml$onUpdatedInventory();
         }
     }
 
     @Inject(method = "removeFromSelected", at = @At("RETURN"))
     private void onDropSelectedItem(boolean entireStack, CallbackInfoReturnable<ItemStack> cir) {
         if (!cir.getReturnValue().isEmpty()) {
-            ls$onUpdatedInventory();
+            ml$onUpdatedInventory();
         }
     }
 
     @Inject(method = "removeItem(II)Lnet/minecraft/world/item/ItemStack;", at = @At("RETURN"))
     private void onRemoveStack(int slot, int amount, CallbackInfoReturnable<ItemStack> cir) {
         if (!cir.getReturnValue().isEmpty()) {
-            ls$onUpdatedInventory();
+            ml$onUpdatedInventory();
         }
     }
 
     @Inject(method = "setItem", at = @At("TAIL"))
     private void onSetStack(int slot, ItemStack stack, CallbackInfo info) {
-        ls$onUpdatedInventory();
+        ml$onUpdatedInventory();
     }
 
     @Unique
-    private boolean ls$processing = false;
+    private boolean ml$processing = false;
 
     @Unique
-    private void ls$onUpdatedInventory() {
-        if (ls$processing) {
+    private void ml$onUpdatedInventory() {
+        if (ml$processing) {
             return;
         }
-        ls$processing = true;
+        ml$processing = true;
         Inventory inventory = (Inventory) (Object) this;
         CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(inventory.player, inventory);
-        ls$processing = false;
+        ml$processing = false;
     }
 }

@@ -33,36 +33,36 @@ public abstract class ServerGamePacketListenerImplInnerMixin implements Serverbo
     Entity val$target;
 //?} else {
     /^//? if <= 1.20 {
-    /^¹private static java.lang.reflect.Field lifeseries$handlerField;
-    private static java.lang.reflect.Field lifeseries$entityField;
+    /^¹private static java.lang.reflect.Field ml$handlerField;
+    private static java.lang.reflect.Field ml$entityField;
 
-    private ServerGamePacketListenerImpl ls$getHandler() {
+    private ServerGamePacketListenerImpl ml$getHandler() {
         try {
-            if (lifeseries$handlerField == null) {
+            if (ml$handlerField == null) {
                 for (java.lang.reflect.Field f : this.getClass().getDeclaredFields()) {
                     if (f.getType() == ServerGamePacketListenerImpl.class) {
                         f.setAccessible(true);
-                        lifeseries$handlerField = f;
+                        ml$handlerField = f;
                         break;
                     }
                 }
             }
-            return (ServerGamePacketListenerImpl) lifeseries$handlerField.get(this);
+            return (ServerGamePacketListenerImpl) ml$handlerField.get(this);
         } catch (Exception e) { throw new RuntimeException("Failed to find handler field", e); }
     }
 
-    private Entity ls$getTarget() {
+    private Entity ml$getTarget() {
         try {
-            if (lifeseries$entityField == null) {
+            if (ml$entityField == null) {
                 for (java.lang.reflect.Field f : this.getClass().getDeclaredFields()) {
                     if (Entity.class.isAssignableFrom(f.getType())) {
                         f.setAccessible(true);
-                        lifeseries$entityField = f;
+                        ml$entityField = f;
                         break;
                     }
                 }
             }
-            return (Entity) lifeseries$entityField.get(this);
+            return (Entity) ml$entityField.get(this);
         } catch (Exception e) { throw new RuntimeException("Failed to find entity field", e); }
     }
     ¹^///?} else {
@@ -76,8 +76,8 @@ public abstract class ServerGamePacketListenerImplInnerMixin implements Serverbo
     //?}
 ^///?}
 
-    //~ if !fabric && <= 1.20 'field_28963' -> 'ls$getHandler()' {
-    //~ if !fabric && <= 1.20 'val$target' -> 'ls$getTarget()' {
+    //~ if !fabric && <= 1.20 'field_28963' -> 'ml$getHandler()' {
+    //~ if !fabric && <= 1.20 'val$target' -> 'ml$getTarget()' {
     @Inject(method = "onInteraction(Lnet/minecraft/world/InteractionHand;Lnet/minecraft/world/phys/Vec3;)V", at = @At(value = "HEAD"), cancellable = true)
     public void onPlayerInteractEntity(InteractionHand hand, Vec3 hitPosition, CallbackInfo info) {
         ServerPlayer player = this.field_28963.player;
