@@ -23,7 +23,8 @@
     "ServerGamePacketListenerImplInnerMixin",
     "ServerGamePacketListenerImplMixin",
     "ServerPlayerGameModeMixin",
-    "ServerPlayerMixin"
+    "ServerPlayerMixin",
+    "client.BuiltInRegistriesMixin"
   ],
   "client": [
     "client.BuiltInPackSourceMixin",

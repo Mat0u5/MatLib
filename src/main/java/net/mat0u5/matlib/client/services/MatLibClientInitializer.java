@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.api;
+package net.mat0u5.matlib.client.services;
 
 public interface MatLibClientInitializer {
 	default void onRegister() {}

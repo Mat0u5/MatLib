@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 public class MixinPlugin implements IMixinConfigPlugin {
-
+    //TODO maybe move all client mixins to .client.
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         boolean isClient = MatLib.platform().isClient();
