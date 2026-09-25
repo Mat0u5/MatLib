@@ -1,8 +1,8 @@
 package net.mat0u5.matlib.registries;
 
 import net.mat0u5.matlib.events.server.ServerTickEvents;
-import net.mat0u5.matlib.util.other.DefaultTaskScheduler;
-import net.mat0u5.matlib.util.player.PlayerUtils;
+import net.mat0u5.matlib.utils.other.DefaultTaskScheduler;
+import net.mat0u5.matlib.utils.player.PlayerUtils;
 
 public class ModRegistries {
 	public static void initialize() {

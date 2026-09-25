@@ -11,7 +11,7 @@ public class EntityRenderStateMixin {
 }
 *///?} else {
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
-import net.mat0u5.matlib.client.util.interfaces.IEntityRenderState;
+import net.mat0u5.matlib.client.utils.interfaces.IEntityRenderState;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.Nullable;

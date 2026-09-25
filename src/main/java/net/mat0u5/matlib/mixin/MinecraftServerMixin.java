@@ -5,7 +5,6 @@ import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.events.server.ServerLifecycleEvents;
 import net.mat0u5.matlib.events.server.ServerResourceEvents;
 import net.mat0u5.matlib.events.server.ServerTickEvents;
-import net.mat0u5.matlib.util.other.TaskScheduler;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

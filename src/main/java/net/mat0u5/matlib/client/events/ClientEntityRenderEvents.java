@@ -14,7 +14,7 @@ public class ClientEntityRenderEvents {
 	 * Fires when an entity is about to be rendered.
 	 */
 	public static final Event<ShouldRender> SHOULD_RENDER = EventFactory.createClient(ShouldRender.class,
-			listeners -> (entity, culler, camX, camY, camZ) -> EventFactory.dispatchResult(listeners, listener -> listener.shouldRender(entity, culler, camX, camY, camZ))
+			listeners -> (entity, culler, camX, camY, camZ) -> EventFactory.dispatchEventResult(listeners, listener -> listener.shouldRender(entity, culler, camX, camY, camZ))
 	).markLoud();
 
 	/**

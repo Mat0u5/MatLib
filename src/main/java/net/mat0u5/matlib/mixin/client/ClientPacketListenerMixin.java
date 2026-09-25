@@ -1,7 +1,7 @@
 package net.mat0u5.matlib.mixin.client;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
-import net.mat0u5.matlib.client.events.ClientPlayerEvents;
+import net.mat0u5.matlib.client.events.ClientLocalPlayerEvents;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.game.ClientboundLoginPacket;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,6 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ClientPacketListenerMixin {
 	@Inject(method = "handleLogin", at = @At("RETURN"))
 	private void handleServerPlayReady(ClientboundLoginPacket packet, CallbackInfo ci) {
-		ClientPlayerEvents.JOIN.invoker().onJoin(packet);
+		ClientLocalPlayerEvents.JOIN.invoker().onJoin(packet);
 	}
 }

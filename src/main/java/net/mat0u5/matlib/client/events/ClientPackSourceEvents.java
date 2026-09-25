@@ -19,7 +19,7 @@ public class ClientPackSourceEvents {
 	 * Fires when client begins downloading a resource pack from the server
 	 */
 	public static final Event<ServerPackDownload> SERVER_PACK_DOWNLOAD = EventFactory.createClient(ServerPackDownload.class,
-			listeners -> url -> EventFactory.dispatchResult(listeners, listener -> listener.onPackDownload(url))
+			listeners -> url -> EventFactory.dispatchEventResult(listeners, listener -> listener.onPackDownload(url))
 	);
 
 	@FunctionalInterface

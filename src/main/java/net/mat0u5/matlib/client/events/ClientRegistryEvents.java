@@ -5,10 +5,11 @@ import net.mat0u5.matlib.client.registries.util.ProvidedParticle;
 import net.mat0u5.matlib.client.registries.util.RenderableEntity;
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
+import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 
 import java.util.List;
 
-public class ClientRegistryEvents {
+public class ClientRegistryEvents extends CommonRegistryEvents {
 
 	/**
 	 * Fires when layer definitions for models are registered.

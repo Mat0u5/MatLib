@@ -2,58 +2,32 @@ package net.mat0u5.matlib.client.events;
 
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
-import net.mat0u5.matlib.events.server.ServerTickEvents;
-import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.network.protocol.game.ClientboundLoginPacket;
-import net.minecraft.server.MinecraftServer;
+import net.mat0u5.matlib.events.OptionalEventReturn;
+import net.mat0u5.matlib.events.common.CommonPlayerEvents;
+import net.minecraft.client.multiplayer.PlayerInfo;
+import org.jetbrains.annotations.NotNull;
 
-public class ClientPlayerEvents {
+//? if <= 1.20 {
+/*import net.minecraft.resources.Identifier;
+*///?} else {
+import net.minecraft.world.entity.player.PlayerSkin;
+//?}
 
-
-	/**
-	 * Fires when you join a world.
-	 */
-	public static final Event<Join> JOIN = EventFactory.createClient(Join.class,
-			listeners -> packet -> EventFactory.dispatch(listeners, listener -> listener.onJoin(packet))
-	);
+public class ClientPlayerEvents extends CommonPlayerEvents {
 
 	/**
-	 * Fires when you leave a world.
+	 * Fires when a player fetches their skin.
 	 */
-	public static final Event<Leave> LEAVE = EventFactory.createClient(Leave.class,
-			listeners -> () -> EventFactory.dispatch(listeners, listener -> listener.onLeave())
-	);
-
-	@FunctionalInterface
-	public interface Join {
-		void onJoin(ClientboundLoginPacket packet);
-	}
-
-	@FunctionalInterface
-	public interface Leave {
-		void onLeave();
-	}
-	/**
-	 * Fires at the start of the local player tick.
-	 */
-	public static final Event<StartTick> START_TICK = EventFactory.createClient(StartTick.class,
-			listeners -> player -> EventFactory.dispatch(listeners, listener -> listener.onTickStart(player))
-	).markLoud();
-
-	/**
-	 * Fires at the end of the local player tick.
-	 */
-	public static final Event<EndTick> END_TICK = EventFactory.createClient(EndTick.class,
-			listeners -> player -> EventFactory.dispatch(listeners, listener -> listener.onTickEnd(player))
+	public static final Event<GetSkin> GET_SKIN = EventFactory.createClient(GetSkin.class,
+			listeners -> (playerInfo, originalReturn) -> EventFactory.dispatchOptionalReturn(listeners, listener -> listener.getSkin(playerInfo, originalReturn))
 	).markLoud();
 
 	@FunctionalInterface
-	public interface StartTick {
-		void onTickStart(LocalPlayer player);
-	}
-
-	@FunctionalInterface
-	public interface EndTick {
-		void onTickEnd(LocalPlayer player);
+	public interface GetSkin {
+		//? if <= 1.20 {
+		/*@NotNull OptionalEventReturn<Identifier> getSkin(PlayerInfo playerInfo, Identifier originalReturn);
+		*///?} else {
+		@NotNull OptionalEventReturn<PlayerSkin> getSkin(PlayerInfo playerInfo, PlayerSkin originalReturn);
+		//?}
 	}
 }

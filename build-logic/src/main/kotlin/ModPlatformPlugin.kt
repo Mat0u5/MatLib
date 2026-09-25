@@ -698,12 +698,17 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 			replace (".popPose()", ".popMatrix()")
 			replace (".pushPose()", ".pushMatrix()")
 		}
+		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=1.21.9"), "!renames_1_21_9") {
+			replace ("net.minecraft.client.resources.PlayerSkin", "net.minecraft.world.entity.player.PlayerSkin")
+		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=1.21.11"), "!renames_1_21_11") {
 			replace("ResourceLocation", "Identifier")
 			replace("location()", "identifier()")
 			replace ("IdentifierHelper", "IdentifierHelper")
+			replace ("net.minecraft.Util", "net.minecraft.util.Util")
 			replace ("net.minecraft.world.level.GameRules;", "net.minecraft.world.level.gamerules.GameRules;")
 			replace ("net.minecraft.world.entity.monster.Zombie", "net.minecraft.world.entity.monster.zombie.Zombie")
+			replace ("net.minecraft.client.renderer.RenderType;", "net.minecraft.client.renderer.rendertype.RenderType;")
 		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.1"), "!renames_26_1") {
 			replace ("GuiGraphics", "GuiGraphicsExtractor")

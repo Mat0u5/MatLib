@@ -1,6 +1,6 @@
 package net.mat0u5.matlib.client.render;
 
-import net.mat0u5.matlib.client.util.TextColors;
+import net.mat0u5.matlib.client.utils.TextColors;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;

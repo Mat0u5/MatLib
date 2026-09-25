@@ -3,10 +3,11 @@ package net.mat0u5.matlib.events.server;
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
 import net.mat0u5.matlib.events.EventResult;
+import net.mat0u5.matlib.events.common.CommonEntityEvents;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
-public class ServerEntityEvents {
+public class ServerEntityEvents extends CommonEntityEvents {
 
 	/**
 	 * Fires when an entity dies.
@@ -19,7 +20,7 @@ public class ServerEntityEvents {
 	 * Fires when an entity drops their items.
 	 */
 	public static final Event<DropLoot> DROP_LOOT = EventFactory.createServer(DropLoot.class,
-			listeners -> (entity, source) -> EventFactory.dispatchResult(listeners, listener -> listener.onDropLoot(entity, source))
+			listeners -> (entity, source) -> EventFactory.dispatchEventResult(listeners, listener -> listener.onDropLoot(entity, source))
 	);
 
 	@FunctionalInterface

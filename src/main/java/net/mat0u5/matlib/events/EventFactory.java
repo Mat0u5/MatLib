@@ -55,7 +55,7 @@ public final class EventFactory {
 	/**
 	 * Calls all listeners until one returns something other than {@link EventResult#PASS}, returning that answer.
 	 */
-	public static <T> EventResult dispatchResult(T[] listeners, Function<T, EventResult> call) {
+	public static <T> EventResult dispatchEventResult(T[] listeners, Function<T, EventResult> call) {
 		for (T listener : listeners) {
 			EventResult result;
 
@@ -71,6 +71,27 @@ public final class EventFactory {
 		}
 
 		return EventResult.PASS;
+	}
+
+	/**
+	 * Calls all listeners until one returns something other than {@link OptionalEventReturn#pass()}, returning that answer.
+	 */
+	public static <T, U> OptionalEventReturn<U> dispatchOptionalReturn(T[] listeners, Function<T, OptionalEventReturn<U>> call) {
+		for (T listener : listeners) {
+			OptionalEventReturn<U> result;
+
+			try {
+				result = call.apply(listener);
+			}
+			catch (Exception e) {
+				logListenerError(listener, e);
+				continue;
+			}
+
+			if (result != null && !result.isPass()) return result;
+		}
+
+		return OptionalEventReturn.pass();
 	}
 
 	/**

@@ -4,13 +4,14 @@ import com.mojang.brigadier.CommandDispatcher;
 import net.mat0u5.matlib.command.Command;
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
+import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 
 import java.util.List;
 
-public class ServerRegistryEvents {
+public class ServerRegistryEvents extends CommonRegistryEvents {
 	/**
 	 * Fires upon command registration.
 	 * <p>Return a List of {@link Command} to register them.

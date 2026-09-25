@@ -2,6 +2,7 @@ package net.mat0u5.matlib.events.server;
 
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
+import net.mat0u5.matlib.events.common.CommonPlayerEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.Connection;
@@ -23,7 +24,7 @@ import org.jetbrains.annotations.Nullable;
 import net.minecraft.network.DisconnectionDetails;
 //?}
 
-public class ServerPlayerEvents {
+public class ServerPlayerEvents extends CommonPlayerEvents {
 
 	/**
 	 * Fires when a player joins the server.
