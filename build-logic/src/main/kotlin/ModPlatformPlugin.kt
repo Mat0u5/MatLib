@@ -689,6 +689,9 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 	}
 
 	private fun configureStonecutterReplacements(stonecutter: StonecutterBuildExtension) {
+		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=1.20.2"), "!renames_1_20_2") {
+			replace ("net.mat0u5.lifeseries.utils.interfaces.CustomPacketPayload;", "net.minecraft.network.protocol.common.custom.CustomPacketPayload;")
+		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=1.21.2"), "!renames_1_21_2") {
 			replace (".getMinBuildHeight()", ".getMinY()")
 			replace (".getMaxBuildHeight()", ".getMaxY()")

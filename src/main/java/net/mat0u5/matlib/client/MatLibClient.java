@@ -2,13 +2,19 @@ package net.mat0u5.matlib.client;
 
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.client.events.ClientRenderEvents;
+import net.mat0u5.matlib.client.network.NetworkHandlerClient;
 import net.mat0u5.matlib.client.render.VignetteRenderer;
 import net.mat0u5.matlib.services.ServiceProvider;
 import net.mat0u5.matlib.client.services.MatLibClientInitializer;
+import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+
+import java.util.UUID;
 
 import static net.mat0u5.matlib.MatLib.*;
 
-public class MatLibClient {
+public class MatLibClient implements ClientAccessor {
 	public static void onRegister() {
 		ServiceProvider.callListeners(MatLibClientInitializer.class, MatLibClientInitializer::onRegister);
 		ClientRenderEvents.RENDER_GUI.register((guiGraphics, deltaTracker) -> VignetteRenderer.renderVignette(guiGraphics));
@@ -26,4 +32,34 @@ public class MatLibClient {
 		/*onRegister();
 		 *///?}
 	}
+
+	public static boolean isClientPlayer(UUID uuid) {
+		Minecraft client = Minecraft.getInstance();
+		if (client == null) return false;
+		if (client.player == null) return false;
+		return client.player.getUUID().equals(uuid);
+	}
+
+	@Override
+	public boolean isRunningIntegratedServer() {
+		Minecraft client = Minecraft.getInstance();
+		if (client == null) return false;
+		return client.hasSingleplayerServer();
+	}
+
+	@Override
+	public boolean isMainClientPlayer(UUID uuid) {
+		return isClientPlayer(uuid);
+	}
+
+	@Override
+	public void sendPacket(CustomPacketPayload payload) {
+		NetworkHandlerClient.send(payload);
+	}
+	//? if neoforge {
+    /*@Override
+    public <T extends CustomPacketPayload> void handlePacket(T payload, IPayloadContext context) {
+        NeoForgeClientNetworkRegistration.handleClientPacket(payload, context);
+    }
+    *///?}
 }

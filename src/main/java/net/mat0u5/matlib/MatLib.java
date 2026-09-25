@@ -6,6 +6,7 @@ import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
 import net.mat0u5.matlib.registries.ModRegistries;
+import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
@@ -15,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 //? fabric {
 import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.UUID;
 //?} neoforge {
 /*import net.mat0u5.matlib.platform.neoforge.NeoforgePlatform;
  *///?} forge {
@@ -34,6 +37,7 @@ public class MatLib {
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
 	public static MinecraftServer server;
+	private static ClientAccessor clientAccessor;
 
 	public static void onRegister() {
 		ServiceProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onRegister);
@@ -85,5 +89,26 @@ public class MatLib {
 	@Nullable
 	public static MinecraftServer server() {
 		return server;
+	}
+
+	public static boolean hasClient() {
+		return clientAccessor != null;
+	}
+
+	public static ClientAccessor getClientAccessor() {
+		return clientAccessor;
+	}
+
+	public static void setClientAccessor(ClientAccessor helper) {
+		clientAccessor = helper;
+	}
+
+	public static boolean isLogicalSide() {
+		if (clientAccessor == null) return true;
+		return clientAccessor.isRunningIntegratedServer();
+	}
+
+	public static boolean isClientPlayer(UUID uuid) {
+		return clientAccessor != null && clientAccessor.isMainClientPlayer(uuid);
 	}
 }

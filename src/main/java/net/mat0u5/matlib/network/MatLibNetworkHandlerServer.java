@@ -1,4 +1,8 @@
 package net.mat0u5.matlib.network;
 
-public class MatLibNetworkHandlerServer {
+import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.services.NetworkCommon;
+import net.mat0u5.matlib.services.NetworkServer;
+
+public class MatLibNetworkHandlerServer implements NetworkServer {
 }
