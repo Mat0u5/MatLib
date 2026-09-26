@@ -71,7 +71,6 @@ stonecutter {
 		else if (env("GRADLE_ONLY_IMPORTANT_FABRIC") == "true") {
 			// Main Fabric versions, this is the recommended setting for development
 			match("26.3", "fabric")
-			match("26.2", "fabric")
 			match("26.1", "fabric")
 			match("1.21.11", "fabric")
 			match("1.21", "fabric")
@@ -153,13 +152,13 @@ stonecutter {
 			vcsVersion = "26.3-fabric"
 		}
 		else if (env("GRADLE_ONLY_FORGE") == "true") {
-			vcsVersion = "26.2-forge"
+			vcsVersion = "26.3-forge"
 		}
 		else if (env("GRADLE_ONLY_NEOFORGE") == "true") {
-			vcsVersion = "26.2-neoforge"
+			vcsVersion = "26.3-neoforge"
 		}
 		else {
-			vcsVersion = "26.2-fabric"
+			vcsVersion = "26.3-fabric"
 		}
 	}
 }
