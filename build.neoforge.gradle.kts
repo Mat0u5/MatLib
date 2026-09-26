@@ -52,6 +52,9 @@ repositories {
 dependencies {
 	implementation(libs.moulberry.mixinconstraints)
 	jarJar(libs.moulberry.mixinconstraints)
+
+	compileOnly("com.google.auto.service:auto-service-annotations:1.1.1")
+	annotationProcessor("com.google.auto.service:auto-service:1.1.1")
 }
 
 tasks.named("createMinecraftArtifacts") {

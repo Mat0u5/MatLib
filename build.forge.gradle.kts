@@ -140,6 +140,9 @@ dependencies {
 	if (stonecutter.eval(stonecutter.current.version, "<=1.14.4")) {
 		compileOnly("org.spongepowered:mixin:${libs.versions.mixin.get()}")
 	}
+
+	compileOnly("com.google.auto.service:auto-service-annotations:1.1.1")
+	annotationProcessor("com.google.auto.service:auto-service:1.1.1")
 }
 
 if (legacyForge) {

@@ -1,6 +1,56 @@
 package net.mat0u5.matlib.network;
 
-import net.mat0u5.matlib.services.NetworkServer;
+import com.google.auto.service.AutoService;
+import net.mat0u5.matlib.events.common.CommonRegistryEvents;
+import net.mat0u5.matlib.events.server.ServerNetworkEvents;
+import net.mat0u5.matlib.network.packets.*;
+import net.mat0u5.matlib.services.Registrable;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public class MatLibNetworkHandlerServer implements NetworkServer {
+import java.util.*;
+
+//? if <= 1.20.3 {
+/*import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.Identifier;
+import java.util.function.Function;
+*///?} else {
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+//?}
+
+@AutoService(Registrable.class)
+public class MatLibNetworkHandlerServer implements Registrable {
+
+	//? if <= 1.20.3 {
+    /*private static final Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> SIMPLE_PACKET_PAYLOADS = new HashMap<>();
+    static {
+        PAYLOAD_READERS.put(DoublePayload.ID, DoublePayload::read);
+        PAYLOAD_READERS.put(StringPayload.ID, StringPayload::read);
+        PAYLOAD_READERS.put(StringListPayload.ID, StringListPayload::read);
+        PAYLOAD_READERS.put(LongPayload.ID, LongPayload::read);
+        PAYLOAD_READERS.put(EmptyPayload.ID, EmptyPayload::read);
+        PAYLOAD_READERS.put(BooleanPayload.ID, BooleanPayload::read);
+        PAYLOAD_READERS.put(IntPayload.ID, IntPayload::read);
+    }
+    *///?} else {
+	private static final List<CustomPacketPayload.TypeAndCodec<? super RegistryFriendlyByteBuf, ? extends CustomPacketPayload>> SIMPLE_PACKET_PAYLOADS = List.of(
+			new CustomPacketPayload.TypeAndCodec<>(DoublePayload.ID, DoublePayload.CODEC)
+			, new CustomPacketPayload.TypeAndCodec<>(StringPayload.ID, StringPayload.CODEC)
+			, new CustomPacketPayload.TypeAndCodec<>(StringListPayload.ID, StringListPayload.CODEC)
+			, new CustomPacketPayload.TypeAndCodec<>(LongPayload.ID, LongPayload.CODEC)
+			, new CustomPacketPayload.TypeAndCodec<>(EmptyPayload.ID, EmptyPayload.CODEC)
+			, new CustomPacketPayload.TypeAndCodec<>(BooleanPayload.ID, BooleanPayload.CODEC)
+			, new CustomPacketPayload.TypeAndCodec<>(IntPayload.ID, IntPayload.CODEC)
+	);
+	//?}
+
+	@Override
+	public void onRegister() {
+		CommonRegistryEvents.PACKET_PAYLOADS.register(() -> SIMPLE_PACKET_PAYLOADS);
+		ServerNetworkEvents.RECEIVE_CUSTOM_PACKET.register(MatLibNetworkHandlerServer::onCustomPayload);
+	}
+
+	public static boolean onCustomPayload(CustomPacketPayload customPacketPayload, ServerPlayer player) {
+		return false;
+	}
 }

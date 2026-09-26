@@ -2,6 +2,7 @@ package net.mat0u5.matlib.client;
 
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.client.events.ClientRenderEvents;
+import net.mat0u5.matlib.client.network.MatLibNetworkHandlerClient;
 import net.mat0u5.matlib.client.network.NetworkHandlerClient;
 import net.mat0u5.matlib.client.render.VignetteRenderer;
 import net.mat0u5.matlib.services.ServiceProvider;
@@ -17,6 +18,10 @@ import static net.mat0u5.matlib.MatLib.*;
 public class MatLibClient implements ClientAccessor {
 	public static void onRegister() {
 		ServiceProvider.callListeners(MatLibClientInitializer.class, MatLibClientInitializer::onRegister);
+
+
+		// MatLib stuff
+		MatLibNetworkHandlerClient.registerEvents();
 		ClientRenderEvents.RENDER_GUI.register((guiGraphics, deltaTracker) -> VignetteRenderer.renderVignette(guiGraphics));
 	}
 

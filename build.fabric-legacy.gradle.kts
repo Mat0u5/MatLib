@@ -49,6 +49,9 @@ dependencies {
 			officialMojangMappings()
 		})
 	modImplementation(libs.fabric.loader)
+
+	modCompileOnly("com.google.auto.service:auto-service-annotations:1.1.1")
+	annotationProcessor("com.google.auto.service:auto-service:1.1.1")
 }
 
 project.afterEvaluate {

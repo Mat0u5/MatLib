@@ -1,5 +1,7 @@
 package net.mat0u5.matlib;
 
+import net.mat0u5.matlib.network.MatLibNetworkHandlerServer;
+import net.mat0u5.matlib.services.Registrable;
 import net.mat0u5.matlib.services.ServiceProvider;
 import net.mat0u5.matlib.services.MatLibInitializer;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
@@ -40,7 +42,7 @@ public class MatLib {
 	private static ClientAccessor clientAccessor;
 
 	public static void onRegister() {
-		ServiceProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onRegister);
+		ServiceProvider.callListeners(Registrable.class, Registrable::onRegister);
 
 		CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
 		CommonRegistryEvents.PARTICLE.invoker().getIdentifiedParticles().forEach(particle -> {
