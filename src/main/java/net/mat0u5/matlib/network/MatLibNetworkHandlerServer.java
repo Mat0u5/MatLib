@@ -4,7 +4,7 @@ import com.google.auto.service.AutoService;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.events.server.ServerNetworkEvents;
 import net.mat0u5.matlib.network.packets.*;
-import net.mat0u5.matlib.services.Registrable;
+import net.mat0u5.matlib.services.RegistrableServer;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 import java.util.*;
@@ -18,8 +18,8 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 //?}
 
-@AutoService(Registrable.class)
-public class MatLibNetworkHandlerServer implements Registrable {
+@AutoService(RegistrableServer.class)
+public class MatLibNetworkHandlerServer implements RegistrableServer {
 
 	//? if <= 1.20.3 {
     /*private static final Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> SIMPLE_PACKET_PAYLOADS = new HashMap<>();

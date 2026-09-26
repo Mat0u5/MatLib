@@ -1,5 +1,8 @@
 package net.mat0u5.matlib.client.render;
 
+import com.google.auto.service.AutoService;
+import net.mat0u5.matlib.client.events.ClientRenderEvents;
+import net.mat0u5.matlib.client.services.RegistrableClient;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -17,10 +20,16 @@ import net.minecraft.util.ARGB;
 //? if >= 1.21.6
 import net.minecraft.client.renderer.RenderPipelines;
 
-public class VignetteRenderer {
+@AutoService(RegistrableClient.class)
+public class VignetteRenderer implements RegistrableClient {
     private static final Identifier VIGNETTE_TEXTURE = IdentifierHelper.vanilla("textures/misc/vignette.png");
     private static float vignetteDarkness = 0.0F;
     private static long vignetteEnd = 0;
+
+    @Override
+    public void onRegister() {
+        ClientRenderEvents.RENDER_GUI.register((guiGraphics, deltaTracker) -> VignetteRenderer.renderVignette(guiGraphics));
+    }
 
     public static void renderVignette(GuiGraphicsExtractor context) {
         if (System.currentTimeMillis() >= vignetteEnd && vignetteEnd != -1) return;
