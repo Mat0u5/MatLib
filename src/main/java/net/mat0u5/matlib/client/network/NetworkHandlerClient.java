@@ -7,11 +7,19 @@ import net.mat0u5.matlib.network.packets.simple.SimplePacket;
 import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
 import java.util.Objects;
+//? if <= 1.20.3 {
+/*import net.minecraft.network.FriendlyByteBuf;
+ *///?}
+//? if <= 1.20 {
+/*import io.netty.buffer.Unpooled;
+import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;
+*///?} else {
+import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
+//?}
 
 public class NetworkHandlerClient {
 

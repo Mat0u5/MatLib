@@ -1,8 +1,6 @@
 package net.mat0u5.matlib.events;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -103,6 +101,26 @@ public final class EventFactory {
 			try {
 				List<U> returned = call.apply(listener);
 				if (returned != null) result.addAll(returned);
+			}
+			catch (Exception e) {
+				logListenerError(listener, e);
+			}
+		}
+
+		return result;
+	}
+
+	/**
+	 * Calls all listeners returning a list, collecting all answers.
+	 */
+	public static <T, U, V> Map<U, V> dispatchCollectMap(T[] listeners, Function<T, Map<U, V>> call) {
+		Map<U, V> result = new HashMap<>();
+		for (T listener : listeners) {
+			try {
+				Map<U, V> returned = call.apply(listener);
+				if (returned != null) {
+					returned.forEach(result::putIfAbsent);
+				}
 			}
 			catch (Exception e) {
 				logListenerError(listener, e);

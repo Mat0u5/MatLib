@@ -3,15 +3,22 @@ package net.mat0u5.matlib.network;
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.network.packets.*;
 import net.mat0u5.matlib.services.NetworkCommon;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-import java.util.List;
+import java.util.*;
+
+//? if <= 1.20.3 {
+/*import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.Identifier;
+import java.util.function.Function;
+*///?} else {
+import net.minecraft.network.RegistryFriendlyByteBuf;
+//?}
 
 public class MatLibNetworkHandlerCommon implements NetworkCommon {
 
 	//? if <= 1.20.3 {
-    /*public static final Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> PAYLOAD_READERS = new HashMap<>();
+    /*public static final Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> SIMPLE_PACKET_PAYLOAD_READERS = new HashMap<>();
     static {
         PAYLOAD_READERS.put(DoublePayload.ID, DoublePayload::read);
         PAYLOAD_READERS.put(StringPayload.ID, StringPayload::read);
@@ -22,7 +29,7 @@ public class MatLibNetworkHandlerCommon implements NetworkCommon {
         PAYLOAD_READERS.put(IntPayload.ID, IntPayload::read);
     }
     *///?} else {
-	public static final List<CustomPacketPayload.TypeAndCodec<? super RegistryFriendlyByteBuf, ? extends CustomPacketPayload>> PAYLOADS = List.of(
+	public static final List<CustomPacketPayload.TypeAndCodec<? super RegistryFriendlyByteBuf, ? extends CustomPacketPayload>> SIMPLE_PACKET_PAYLOADS = List.of(
 			new CustomPacketPayload.TypeAndCodec<>(DoublePayload.ID, DoublePayload.CODEC)
 			, new CustomPacketPayload.TypeAndCodec<>(StringPayload.ID, StringPayload.CODEC)
 			, new CustomPacketPayload.TypeAndCodec<>(StringListPayload.ID, StringListPayload.CODEC)

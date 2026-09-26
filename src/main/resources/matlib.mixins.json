@@ -11,6 +11,7 @@
   "mixins": [
     "BuiltInPackSourceMixin",
     "BuiltInRegistriesMixin",
+    "ClientboundCustomPayloadPacketMixin",
     "CommandsMixin",
     "DefaultAttributesAccessor",
     "DefaultAttributesMixin",
@@ -20,14 +21,16 @@
     "PlayerInventoryMixin",
     "PlayerListMixin",
     "PlayerMixin",
+    "ServerboundCustomPayloadPacketMixin",
+    "ServerCommonPacketListenerImplMixin",
     "ServerGamePacketListenerImplInnerMixin",
     "ServerGamePacketListenerImplMixin",
     "ServerPlayerGameModeMixin",
-    "ServerPlayerMixin",
-    "client.BuiltInRegistriesMixin"
+    "ServerPlayerMixin"
   ],
   "client": [
     "client.BuiltInPackSourceMixin",
+    "client.BuiltInRegistriesMixin",
     "client.ClientCommonPacketListenerImplMixin",
     "client.ClientLevelMixin",
     "client.ClientPacketListenerMixin",

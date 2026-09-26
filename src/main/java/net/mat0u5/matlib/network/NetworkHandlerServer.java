@@ -5,7 +5,6 @@ import net.mat0u5.matlib.events.server.ServerNetworkEvents;
 import net.mat0u5.matlib.network.packets.simple.SimplePacket;
 import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
 import net.mat0u5.matlib.utils.other.TextUtils;
-import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -17,6 +16,17 @@ import static net.mat0u5.matlib.MatLib.server;
 
 //? if neoforge && > 1.20.3
 //import net.neoforged.neoforge.network.registration.NetworkRegistry;
+
+//? if <= 1.20.3 {
+/*import net.minecraft.network.FriendlyByteBuf;
+ *///?}
+ 
+//? if <= 1.20 {
+/*import io.netty.buffer.Unpooled;
+import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
+*///?} else {
+import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
+//?}
 
 public class NetworkHandlerServer {
 
@@ -41,8 +51,6 @@ public class NetworkHandlerServer {
 		if (player.hasDisconnected()) {
 			return;
 		}
-
-		//Simple Packets
 
 		if (customPacketPayload instanceof SimplePacketPayload simplePacketPayload) {
 			//String modId = simplePacketPayload.modId();

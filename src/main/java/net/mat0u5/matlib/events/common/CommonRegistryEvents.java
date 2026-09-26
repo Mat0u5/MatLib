@@ -4,8 +4,17 @@ import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
 import net.mat0u5.matlib.registries.util.AttributeEntity;
 import net.mat0u5.matlib.registries.util.IdentifiedParticle;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-import java.util.List;
+import java.util.*;
+
+//? if <= 1.20.3 {
+/*import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.Identifier;
+import java.util.function.Function;
+*///?} else {
+import net.minecraft.network.RegistryFriendlyByteBuf;
+//?}
 
 public class CommonRegistryEvents {
 	/**
@@ -42,5 +51,23 @@ public class CommonRegistryEvents {
 	@FunctionalInterface
 	public interface Particle {
 		List<IdentifiedParticle> getIdentifiedParticles();
+	}
+
+	/**
+	 * Fires when payload readers are being registered.
+	 */
+	public static final Event<PacketPayloads> PACKET_PAYLOADS = EventFactory.createCommon(PacketPayloads.class,
+			//~ if >  1.20.3 '.dispatchCollectMap' -> '.dispatchCollect' {
+			listeners -> () -> EventFactory.dispatchCollect(listeners, listener -> listener.getPacketPayloads())
+			//~}
+	);
+
+	@FunctionalInterface
+	public interface PacketPayloads {
+		//? if <= 1.20.3 {
+		/*Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> getPacketPayloads();
+		*///?} else {
+		List<CustomPacketPayload.TypeAndCodec<? super RegistryFriendlyByteBuf, ? extends CustomPacketPayload>> getPacketPayloads();
+		//?}
 	}
 }

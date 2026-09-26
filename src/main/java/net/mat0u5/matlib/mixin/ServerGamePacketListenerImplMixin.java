@@ -12,6 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if >= 1.20.5 {
+import net.mat0u5.matlib.network.NetworkHandlerServer;
+import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
+//?}
+
 //? if <= 1.20.5 {
 /*import net.minecraft.network.chat.Component;
  *///?} else {
@@ -65,4 +70,11 @@ public class ServerGamePacketListenerImplMixin {
 			CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(handler.player, handler.player.getInventory());
 		}
 	}
+
+	//? if >= 1.20.5 {
+	@Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
+	private void onHandlePayload(ServerboundCustomPayloadPacket packet, CallbackInfo ci) {
+		NetworkHandlerServer.onCustomPayload(packet.payload(), this.player);
+	}
+	//?}
 }
