@@ -8,8 +8,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import net.minecraft.resources.Identifier;
 *///?}
 //? if <= 1.20.3 {
-/*import net.mat0u5.lifeseries.network.NetworkHandlerCommon;
+/*import net.mat0u5.matlib.network.NetworkHandlerCommon;
+import net.mat0u5.matlib.network.NetworkHandlerServer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 *///?}
 
 //? if <= 1.20 {

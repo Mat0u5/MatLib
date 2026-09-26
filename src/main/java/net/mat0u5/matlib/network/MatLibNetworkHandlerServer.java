@@ -6,6 +6,7 @@ import net.mat0u5.matlib.events.server.ServerNetworkEvents;
 import net.mat0u5.matlib.network.packets.*;
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.util.*;
 
@@ -15,7 +16,6 @@ import net.minecraft.resources.Identifier;
 import java.util.function.Function;
 *///?} else {
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.server.level.ServerPlayer;
 //?}
 
 @AutoService(RegistrableServer.class)
@@ -24,13 +24,13 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 	//? if <= 1.20.3 {
     /*private static final Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> SIMPLE_PACKET_PAYLOADS = new HashMap<>();
     static {
-        PAYLOAD_READERS.put(DoublePayload.ID, DoublePayload::read);
-        PAYLOAD_READERS.put(StringPayload.ID, StringPayload::read);
-        PAYLOAD_READERS.put(StringListPayload.ID, StringListPayload::read);
-        PAYLOAD_READERS.put(LongPayload.ID, LongPayload::read);
-        PAYLOAD_READERS.put(EmptyPayload.ID, EmptyPayload::read);
-        PAYLOAD_READERS.put(BooleanPayload.ID, BooleanPayload::read);
-        PAYLOAD_READERS.put(IntPayload.ID, IntPayload::read);
+        SIMPLE_PACKET_PAYLOADS.put(DoublePayload.ID, DoublePayload::read);
+        SIMPLE_PACKET_PAYLOADS.put(StringPayload.ID, StringPayload::read);
+        SIMPLE_PACKET_PAYLOADS.put(StringListPayload.ID, StringListPayload::read);
+        SIMPLE_PACKET_PAYLOADS.put(LongPayload.ID, LongPayload::read);
+        SIMPLE_PACKET_PAYLOADS.put(EmptyPayload.ID, EmptyPayload::read);
+        SIMPLE_PACKET_PAYLOADS.put(BooleanPayload.ID, BooleanPayload::read);
+        SIMPLE_PACKET_PAYLOADS.put(IntPayload.ID, IntPayload::read);
     }
     *///?} else {
 	private static final List<CustomPacketPayload.TypeAndCodec<? super RegistryFriendlyByteBuf, ? extends CustomPacketPayload>> SIMPLE_PACKET_PAYLOADS = List.of(
