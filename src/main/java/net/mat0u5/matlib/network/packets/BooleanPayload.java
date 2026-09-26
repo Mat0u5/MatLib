@@ -1,11 +1,12 @@
 package net.mat0u5.matlib.network.packets;
 //? if <= 1.20.3 {
-/*import net.mat0u5.matlib.utils.other.IdentifierHelper;
+/*import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
+import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
-public record BooleanPayload(String name, boolean value) implements CustomPacketPayload {
+public record BooleanPayload(String name, boolean value) implements CustomPacketPayload, SimplePacketPayload {
 
     public static final Identifier ID = IdentifierHelper.matlib("boolean");
 
@@ -27,13 +28,14 @@ public record BooleanPayload(String name, boolean value) implements CustomPacket
     }
 }
 *///?} else {
+import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record BooleanPayload(String name, boolean value) implements CustomPacketPayload {
+public record BooleanPayload(String name, boolean value) implements CustomPacketPayload, SimplePacketPayload {
 
     public static final Type<BooleanPayload> ID = new Type<>(IdentifierHelper.matlib("boolean"));
     public static final StreamCodec<RegistryFriendlyByteBuf, BooleanPayload> CODEC = StreamCodec.composite(

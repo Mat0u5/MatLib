@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.network.packets;
 //? if <= 1.20.3 {
-/*import net.mat0u5.matlib.utils.other.IdentifierHelper;
+/*import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
+import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
@@ -8,7 +9,7 @@ import net.minecraft.resources.Identifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public record StringListPayload(String name, List<String> value) implements CustomPacketPayload {
+public record StringListPayload(String name, List<String> value) implements CustomPacketPayload, SimplePacketPayload {
 
     public static final Identifier ID = IdentifierHelper.matlib("stringlist");
 
@@ -37,6 +38,7 @@ public record StringListPayload(String name, List<String> value) implements Cust
     }
 }
 *///?} else {
+import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -45,7 +47,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 import java.util.List;
 
-public record StringListPayload(String name, List<String> value) implements CustomPacketPayload {
+public record StringListPayload(String name, List<String> value) implements CustomPacketPayload, SimplePacketPayload {
 
     public static final Type<StringListPayload> ID = new Type<>(IdentifierHelper.matlib("stringlist"));
     public static final StreamCodec<RegistryFriendlyByteBuf, StringListPayload> CODEC = StreamCodec.composite(

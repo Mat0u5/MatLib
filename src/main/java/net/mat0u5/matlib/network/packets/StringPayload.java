@@ -1,11 +1,12 @@
 package net.mat0u5.matlib.network.packets;
 //? if <= 1.20.3 {
-/*import net.mat0u5.matlib.utils.other.IdentifierHelper;
+/*import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
+import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
-public record StringPayload(String name, String value) implements CustomPacketPayload {
+public record StringPayload(String name, String value) implements CustomPacketPayload, SimplePacketPayload {
 
     public static final Identifier ID = IdentifierHelper.matlib("string");
 
@@ -27,13 +28,14 @@ public record StringPayload(String name, String value) implements CustomPacketPa
     }
 }
 *///?} else {
+import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
-public record StringPayload(String name, String value) implements CustomPacketPayload {
+public record StringPayload(String name, String value) implements CustomPacketPayload, SimplePacketPayload {
 
     public static final Type<StringPayload> ID = new Type<>(IdentifierHelper.matlib("string"));
     public static final StreamCodec<RegistryFriendlyByteBuf, StringPayload> CODEC = StreamCodec.composite(

@@ -30,7 +30,7 @@ import java.util.UUID;
 
 public class MatLib {
 
-	public static final boolean DEBUG = false;
+	public static final boolean DEBUG = false; //TODO debug options for logging specific events
 	public static final String MOD_ID = "matlib";
 	public static final String MOD_VERSION = "0.3.0";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
