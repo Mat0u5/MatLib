@@ -45,6 +45,7 @@ public record VersionCompatibility(String minVersion, String maxVersion, String 
 	}
 
 	public static Result passes(VersionTrackedMod thisMod, VersionTrackedModImpl otherMod, boolean onServer) {
+		if (!thisMod.modId().equalsIgnoreCase(otherMod.modId())) return Result.PASS;
 		if (onServer) {
 			return passesOnServer(thisMod.serverCompatibility(), otherMod);
 		}

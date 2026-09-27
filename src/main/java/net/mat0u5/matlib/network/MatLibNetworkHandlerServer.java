@@ -1,14 +1,17 @@
 package net.mat0u5.matlib.network;
 
 import com.google.auto.service.AutoService;
+import com.mojang.authlib.GameProfile;
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.events.server.ServerNetworkEvents;
 import net.mat0u5.matlib.events.server.ServerPlayerEvents;
+import net.mat0u5.matlib.mixin.ServerLoginPacketListenerImplAccessor;
 import net.mat0u5.matlib.network.packets.*;
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.utils.enums.HandshakeStatus;
 import net.mat0u5.matlib.utils.other.DefaultTaskScheduler;
+import net.mat0u5.matlib.utils.other.OtherUtils;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.mat0u5.matlib.utils.other.VersionCompatibility;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
@@ -29,11 +32,14 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 //?}
 //? if > 1.20.5
 import net.minecraft.network.DisconnectionDetails;
+import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 
 @AutoService(RegistrableServer.class)
 public class MatLibNetworkHandlerServer implements RegistrableServer {
+	public static final int PRELOGIN_TRANSACTION_ID = 10942423;
+	public static final String preLoginPacketID = "preloginpacket";
 	private static final Map<UUID, HandshakeStatus> handshakes = new ConcurrentHashMap<>();
-	private static final Map<UUID, List<Integer>> preLoginHandshakes = new ConcurrentHashMap<>();
+	private static final Map<UUID, List<String>> preLoginHandshakes = new ConcurrentHashMap<>();
 
 	//? if <= 1.20.3 {
     /*private static final Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> SIMPLE_PACKET_PAYLOADS = new HashMap<>();
@@ -114,10 +120,28 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 			//?}
 		}
 
-		MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER] Received handshake from {}", player));
+		MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER] Received handshake from {} with {}", player, payload.modIds()));
 		handshakes.putIfAbsent(player.getUUID(), new HandshakeStatus());
 		handshakes.get(player.getUUID()).setReceivedMods(payload.modIds());
 		PlayerUtils.resendCommandTree(player);
+	}
+
+	public static void handlePreLogin(boolean understood, List<String> modIds, ServerLoginPacketListenerImpl handler) {
+		if (!understood && !modIds.isEmpty()) {
+			understood = true;
+		}
+		GameProfile profile = ((ServerLoginPacketListenerImplAccessor) handler).getGameProfile();
+		UUID uuid = OtherUtils.profileId(profile);
+		String username = OtherUtils.profileName(profile);
+		preLoginHandshakes.put(uuid, modIds);
+
+		if (understood) {
+			MatLib.LOGGER.info("Received pre-login packet from " + username + " with: " + modIds);
+		}
+		else {
+			MatLib.LOGGER.info("Did not receive pre-login packet from " + username);
+		}
+		ServerNetworkEvents.PRE_LOGIN_PACKET.invoker().onPreLoginPacket(handler, uuid, username, understood, modIds);
 	}
 
 	public static boolean wasHandshakeSuccessful(ServerPlayer player, String modId) {
@@ -132,10 +156,10 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		return status.hasReceived(modId);
 	}
 
-	public static boolean wasPreLoginHandshakeSuccessful(UUID uuid, int ID) {
+	public static boolean wasPreLoginHandshakeSuccessful(UUID uuid, String modId) {
 		if (uuid == null) return false;
-		List<Integer> loadedIDs = preLoginHandshakes.get(uuid);
+		List<String> loadedIDs = preLoginHandshakes.get(uuid);
 		if (loadedIDs == null) return false;
-		return loadedIDs.contains(ID);
+		return loadedIDs.contains(modId);
 	}
 }

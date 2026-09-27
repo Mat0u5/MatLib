@@ -27,6 +27,14 @@ public class MatLibVersionControl implements VersionTrackedMod, RegistrableServe
 		CACHED_VERSION_TRACKED_MODS = newList;
 	}
 
+	public static List<String> getTrackedModIds() {
+		List<String> result = new ArrayList<>();
+		for (VersionTrackedMod localMod : CACHED_VERSION_TRACKED_MODS) {
+			result.add(localMod.modId());
+		}
+		return result;
+	}
+
 
 	@Override
 	public String modId() {

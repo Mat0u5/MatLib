@@ -8,7 +8,6 @@ import net.mat0u5.matlib.client.utils.ClientUtils;
 import net.mat0u5.matlib.client.utils.SharedClientInfo;
 import net.mat0u5.matlib.network.MatLibNetworkHandlerCommon;
 import net.mat0u5.matlib.network.packets.HandshakePayload;
-import net.mat0u5.matlib.utils.enums.HandshakeStatus;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.mat0u5.matlib.utils.other.VersionCompatibility;
 import net.minecraft.network.chat.Component;
@@ -41,7 +40,7 @@ public class MatLibNetworkHandlerClient implements RegistrableClient {
 		}
 
 		ClientNetworkEvents.RECEIVE_HANDSHAKE.invoker().onReceiveHandshake();
-		MatLib.LOGGER.info(TextUtils.formatString("[PACKET_CLIENT] Received handshake from server"));
+		MatLib.LOGGER.info(TextUtils.formatString("[PACKET_CLIENT] Received handshake from server with {}", payload.modIds()));
 		sendHandshake();
 	}
 

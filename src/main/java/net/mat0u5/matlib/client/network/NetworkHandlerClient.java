@@ -51,13 +51,11 @@ public class NetworkHandlerClient {
 		//~ if > 1.20.3 'payload.id()' -> 'payload.type().id()' {
 		Identifier id = payload.type().id();
 		//~}
-		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[CLIENT -> SERVER] Sending {}", id.toString()));
-
-
 		Objects.requireNonNull(payload, "Payload cannot be null");
 
 		var connection = Minecraft.getInstance().getConnection();
 		if (connection != null) {
+			if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[CLIENT -> SERVER] Sending {}", id.toString()));
 			//? if <= 1.20 {
             /*FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
             payload.write(buf);
@@ -68,6 +66,6 @@ public class NetworkHandlerClient {
 			return;
 		}
 
-		throw new IllegalStateException("Cannot send packets when not in game!");
+		//throw new IllegalStateException("Cannot send packets when not in game!");
 	}
 }

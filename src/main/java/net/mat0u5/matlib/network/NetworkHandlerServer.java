@@ -105,7 +105,7 @@ public class NetworkHandlerServer {
 		return MatLibNetworkHandlerServer.wasHandshakeSuccessful(uuid, modId);
 	}
 
-	public static boolean wasPreLoginHandshakeSuccessful(UUID uuid, int ID) {
-		return MatLibNetworkHandlerServer.wasPreLoginHandshakeSuccessful(uuid, ID);
+	public static boolean wasPreLoginHandshakeSuccessful(UUID uuid, String modId) {
+		return MatLibNetworkHandlerServer.wasPreLoginHandshakeSuccessful(uuid, modId);
 	}
 }
