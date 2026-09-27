@@ -3,8 +3,10 @@ package net.mat0u5.matlib.client;
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.client.network.NetworkHandlerClient;
 import net.mat0u5.matlib.client.services.RegistrableClient;
+import net.mat0u5.matlib.client.utils.SharedClientInfo;
 import net.mat0u5.matlib.services.ServiceProvider;
 import net.mat0u5.matlib.client.services.MultiplatformClientModInitializer;
+import net.mat0u5.matlib.utils.enums.HandshakeStatus;
 import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -62,4 +64,9 @@ public class MatLibClient implements ClientAccessor {
         NeoForgeClientNetworkRegistration.handleClientPacket(payload, context);
     }
     *///?}
+
+	@Override
+	public HandshakeStatus handshakeWithServer() {
+		return SharedClientInfo.getHandshakeStatus();
+	}
 }

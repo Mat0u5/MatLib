@@ -6,13 +6,10 @@ import net.mat0u5.matlib.utils.interfaces.VersionTrackedModImpl;
 
 public record VersionCompatibility(String minVersion, String maxVersion, String equalVersion) {
 	public static class Result {
+		public static Result PASS = new Result(null);
 		private final String error;
 		private Result(String error) {
 			this.error = error;
-		}
-
-		public static Result pass() {
-			return new Result(null);
 		}
 
 		public static Result error(String error) {
@@ -57,7 +54,7 @@ public record VersionCompatibility(String minVersion, String maxVersion, String 
 	}
 
 	private static Result passesOnServer(VersionCompatibility serverSideCompat, VersionTrackedModImpl clientSideMod) {
-		if (serverSideCompat.isAny()) return Result.pass();
+		if (serverSideCompat.isAny()) return Result.PASS;
 		int clientModVersionInt = getModVersionInt(clientSideMod.modVersion());
 		Integer requiredMinVersionInt = getModVersionInt(serverSideCompat.minVersion);
 		Integer requiredMaxVersionInt = getModVersionInt(serverSideCompat.maxVersion);
@@ -91,11 +88,11 @@ public record VersionCompatibility(String minVersion, String maxVersion, String 
 			);
 			return Result.error(error);
 		}
-		return Result.pass();
+		return Result.PASS;
 	}
 
 	private static Result passesOnClient(VersionCompatibility clientSideCompat, VersionTrackedModImpl serverSideMod) {
-		if (clientSideCompat.isAny()) return Result.pass();
+		if (clientSideCompat.isAny()) return Result.PASS;
 		int serverModVersionInt = getModVersionInt(serverSideMod.modVersion());
 		Integer requiredMinVersionInt = getModVersionInt(clientSideCompat.minVersion);
 		Integer requiredMaxVersionInt = getModVersionInt(clientSideCompat.maxVersion);
@@ -132,7 +129,7 @@ public record VersionCompatibility(String minVersion, String maxVersion, String 
 			);
 			return Result.error(error);
 		}
-		return Result.pass();
+		return Result.PASS;
 	}
 
 

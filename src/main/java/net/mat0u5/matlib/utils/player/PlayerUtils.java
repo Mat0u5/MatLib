@@ -1,6 +1,9 @@
 package net.mat0u5.matlib.utils.player;
 
+import com.google.auto.service.AutoService;
 import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.events.server.ServerTickEvents;
+import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.utils.interfaces.FakePlayer;
 import net.mat0u5.matlib.utils.other.DefaultTaskScheduler;
 import net.mat0u5.matlib.utils.other.TextUtils;
@@ -41,7 +44,13 @@ import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.network.chat.contents.objects.PlayerSprite;
 //?}
 
-public class PlayerUtils {
+@AutoService(RegistrableServer.class)
+public class PlayerUtils implements RegistrableServer {
+
+	@Override
+	public void onRegister() {
+		ServerTickEvents.END_TICK.register(server -> onTick());
+	}
 
 	/**
 	 * Sends a chat message to a player.

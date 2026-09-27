@@ -18,4 +18,16 @@ public class ClientNetworkEvents {
 	public interface ReceiveCustomPacket {
 		boolean onReceivePacket(CustomPacketPayload customPacketPayload);
 	}
+
+	/**
+	 * Fires when the client receives the server handshake.
+	 */
+	public static final Event<ReceiveHandshake> RECEIVE_HANDSHAKE = EventFactory.createServer(ReceiveHandshake.class,
+			listeners -> () -> EventFactory.dispatch(listeners,  listener -> listener.onReceiveHandshake())
+	);
+
+	@FunctionalInterface
+	public interface ReceiveHandshake {
+		void onReceiveHandshake();
+	}
 }

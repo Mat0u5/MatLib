@@ -11,4 +11,8 @@ public class ServiceProvider {
 			call.accept(provider);
 		}
 	}
+
+	public static <T> ServiceLoader<T> getListeners(Class<T> type) {
+		return ServiceLoader.load(type);
+	}
 }

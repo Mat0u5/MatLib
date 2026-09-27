@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.utils.interfaces;
 
+import net.mat0u5.matlib.utils.enums.HandshakeStatus;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
 import java.util.UUID;
@@ -8,6 +9,7 @@ import java.util.UUID;
 //import net.neoforged.neoforge.network.handling.IPayloadContext;
 
 public interface ClientAccessor {
+	HandshakeStatus handshakeWithServer();
 	boolean isRunningIntegratedServer();
 	boolean isMainClientPlayer(UUID uuid);
 	void sendPacket(CustomPacketPayload payload);

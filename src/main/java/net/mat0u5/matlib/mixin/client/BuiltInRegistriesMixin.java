@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //? fabric && <= 1.20.5
-import net.mat0u5.matlib.MatLib;
+//import net.mat0u5.matlib.MatLib;
 
 @Mixin(BuiltInRegistries.class)
 @MixinEnvironment(type = MixinEnvironment.Env.CLIENT)

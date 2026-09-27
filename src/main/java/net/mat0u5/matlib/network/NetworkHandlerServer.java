@@ -11,6 +11,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Objects;
+import java.util.UUID;
 
 import static net.mat0u5.matlib.MatLib.server;
 
@@ -94,5 +95,17 @@ public class NetworkHandlerServer {
 		player.connection.send(new ClientboundCustomPayloadPacket(payload));
 		//?}
 		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER -> {}] Sending {}", player, id.toString()));
+	}
+
+	public static boolean wasHandshakeSuccessful(ServerPlayer player, String modId) {
+		return MatLibNetworkHandlerServer.wasHandshakeSuccessful(player, modId);
+	}
+
+	public static boolean wasHandshakeSuccessful(UUID uuid, String modId) {
+		return MatLibNetworkHandlerServer.wasHandshakeSuccessful(uuid, modId);
+	}
+
+	public static boolean wasPreLoginHandshakeSuccessful(UUID uuid, int ID) {
+		return MatLibNetworkHandlerServer.wasPreLoginHandshakeSuccessful(uuid, ID);
 	}
 }
