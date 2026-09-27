@@ -2,7 +2,7 @@ package net.mat0u5.matlib;
 
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.services.ServiceProvider;
-import net.mat0u5.matlib.services.MatLibInitializer;
+import net.mat0u5.matlib.services.MultiplatformModInitializer;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
@@ -33,7 +33,7 @@ public class MatLib {
 
 	public static final boolean DEBUG = false; //TODO debug options for logging specific events
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.3.6";
+	public static final String MOD_VERSION = "0.3.8";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
@@ -42,6 +42,7 @@ public class MatLib {
 
 	public static void onRegister() {
 		ServiceProvider.callListeners(RegistrableServer.class, RegistrableServer::onRegister);
+		ServiceProvider.callListeners(MultiplatformModInitializer.class, MultiplatformModInitializer::onRegister);
 
 		CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
 		CommonRegistryEvents.PARTICLE.invoker().getIdentifiedParticles().forEach(particle -> {
@@ -53,7 +54,7 @@ public class MatLib {
 		LOGGER.info("Initializing {} on {}", MOD_ID, platform().loader());
 		LOGGER.info("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
 		oldRegister();
-		ServiceProvider.callListeners(MatLibInitializer.class, MatLibInitializer::onInitialize);
+		ServiceProvider.callListeners(MultiplatformModInitializer.class, MultiplatformModInitializer::onInitialize);
 
 		ModRegistries.initialize();
 	}

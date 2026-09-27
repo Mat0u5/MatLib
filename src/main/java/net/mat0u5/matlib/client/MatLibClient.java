@@ -4,7 +4,7 @@ import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.client.network.NetworkHandlerClient;
 import net.mat0u5.matlib.client.services.RegistrableClient;
 import net.mat0u5.matlib.services.ServiceProvider;
-import net.mat0u5.matlib.client.services.MatLibClientInitializer;
+import net.mat0u5.matlib.client.services.MultiplatformClientModInitializer;
 import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -16,13 +16,15 @@ import static net.mat0u5.matlib.MatLib.*;
 public class MatLibClient implements ClientAccessor {
 	public static void onRegister() {
 		ServiceProvider.callListeners(RegistrableClient.class, RegistrableClient::onRegister);
+		ServiceProvider.callListeners(MultiplatformClientModInitializer.class, MultiplatformClientModInitializer::onRegister);
+		MatLib.setClientAccessor(new MatLibClient());
 	}
 
 	public static void onInitializeClient() {
 		MatLib.LOGGER.info("Initializing {} Client on {}", MOD_ID, platform().loader());
 		MatLib.LOGGER.info("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
 		oldRegister();
-		ServiceProvider.callListeners(MatLibClientInitializer.class, MatLibClientInitializer::onInitializeClient);
+		ServiceProvider.callListeners(MultiplatformClientModInitializer.class, MultiplatformClientModInitializer::onInitializeClient);
 	}
 
 	public static void oldRegister() {
