@@ -8,7 +8,7 @@ public class CommonEntityEvents {
 	/**
 	 * Fires when an entity jumps.
 	 */
-	public static final Event<Jump> JUMP = EventFactory.createServer(Jump.class,
+	public static final Event<Jump> JUMP = EventFactory.createCommon(Jump.class,
 			listeners -> entity -> EventFactory.dispatch(listeners, listener -> listener.onJump(entity))
 	);
 

@@ -15,11 +15,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PlayerMixin {
 
 	@Inject(method = "attack", at = @At("HEAD"), cancellable = true)
-	public void onPlayerInteractEntity(Entity target, CallbackInfo info) {
+	public void onPlayerInteractEntity(Entity target, CallbackInfo ci) {
 		InteractionResult result = CommonPlayerEvents.ATTACK_ENTITY.invoker().onAttackEntity((Player) (Object) this, target);
 
 		if (result != InteractionResult.PASS) {
-			info.cancel();
+			ci.cancel();
 		}
 	}
 

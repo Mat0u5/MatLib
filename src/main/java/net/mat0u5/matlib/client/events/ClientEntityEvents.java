@@ -5,7 +5,9 @@ import net.mat0u5.matlib.events.EventFactory;
 import net.mat0u5.matlib.events.OptionalEventReturn;
 import net.mat0u5.matlib.events.common.CommonEntityEvents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.NotNull;
 
 public class ClientEntityEvents extends CommonEntityEvents {
@@ -32,5 +34,17 @@ public class ClientEntityEvents extends CommonEntityEvents {
 	@FunctionalInterface
 	public interface RenderNameTag {
 		@NotNull OptionalEventReturn<Component> getNameTag(Entity entity, Component originalReturn);
+	}
+
+	/**
+	 * Fires when an entity dies.
+	 */
+	public static final Event<Die> DEATH = EventFactory.createClient(Die.class,
+			listeners -> (entity, source) -> EventFactory.dispatch(listeners, listener -> listener.onDeath(entity, source))
+	);
+
+	@FunctionalInterface
+	public interface Die {
+		void onDeath(LivingEntity entity, DamageSource source);
 	}
 }

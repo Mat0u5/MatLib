@@ -27,7 +27,7 @@ import net.minecraft.network.codec.StreamCodec;
 ^///?} else {
 @EventBusSubscriber(modid = MatLib.MOD_ID)
 //?}
-@Deprecated
+
 public class NeoForgeNetworkRegistration {
 //? if <= 1.20.3 {
 /^@SubscribeEvent

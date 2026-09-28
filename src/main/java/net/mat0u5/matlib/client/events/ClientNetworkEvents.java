@@ -10,7 +10,7 @@ public class ClientNetworkEvents {
 	 * Fires when the client receives a custom payload.
 	 * Return `true` if packet was consumed, `false` otherwise.
 	 */
-	public static final Event<ReceiveCustomPacket> RECEIVE_CUSTOM_PACKET = EventFactory.createServer(ReceiveCustomPacket.class,
+	public static final Event<ReceiveCustomPacket> RECEIVE_CUSTOM_PACKET = EventFactory.createClient(ReceiveCustomPacket.class,
 			listeners -> customPacketPayload -> EventFactory.dispatchReturn(listeners, false,  listener -> listener.onReceivePacket(customPacketPayload))
 	);
 
@@ -22,7 +22,7 @@ public class ClientNetworkEvents {
 	/**
 	 * Fires when the client receives the server handshake.
 	 */
-	public static final Event<ReceiveHandshake> RECEIVE_HANDSHAKE = EventFactory.createServer(ReceiveHandshake.class,
+	public static final Event<ReceiveHandshake> RECEIVE_HANDSHAKE = EventFactory.createClient(ReceiveHandshake.class,
 			listeners -> () -> EventFactory.dispatch(listeners,  listener -> listener.onReceiveHandshake())
 	);
 

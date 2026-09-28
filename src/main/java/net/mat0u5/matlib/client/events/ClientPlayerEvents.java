@@ -5,6 +5,8 @@ import net.mat0u5.matlib.events.EventFactory;
 import net.mat0u5.matlib.events.OptionalEventReturn;
 import net.mat0u5.matlib.events.common.CommonPlayerEvents;
 import net.minecraft.client.multiplayer.PlayerInfo;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 //? if <= 1.20 {
@@ -29,5 +31,17 @@ public class ClientPlayerEvents extends CommonPlayerEvents {
 		*///?} else {
 		@NotNull OptionalEventReturn<PlayerSkin> getSkin(PlayerInfo playerInfo, PlayerSkin originalReturn);
 		//?}
+	}
+
+	/**
+	 * Fires when a player dies.
+	 */
+	public static final Event<Die> DEATH = EventFactory.createClient(Die.class,
+			listeners -> (player, source) -> EventFactory.dispatch(listeners, listener -> listener.onDeath(player, source))
+	);
+
+	@FunctionalInterface
+	public interface Die {
+		void onDeath(Player player, DamageSource source);
 	}
 }

@@ -2,6 +2,7 @@ package net.mat0u5.matlib.events.server;
 
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
+import net.mat0u5.matlib.events.EventResult;
 import net.mat0u5.matlib.events.common.CommonPlayerEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -11,6 +12,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.level.Level;
@@ -45,6 +48,13 @@ public class ServerPlayerEvents extends CommonPlayerEvents {
 	 */
 	public static final Event<Death> DEATH = EventFactory.createServer(Death.class,
 			listeners -> (player, source) -> EventFactory.dispatch(listeners, listener -> listener.onDeath(player, source))
+	);
+
+	/**
+	 * Fires before a player dies.
+	 */
+	public static final Event<PreDeath> PRE_DEATH = EventFactory.createServer(PreDeath.class,
+			listeners -> (player, source) -> EventFactory.dispatchEventResult(listeners, listener -> listener.onPreDeath(player, source))
 	);
 
 	/**
@@ -95,6 +105,11 @@ public class ServerPlayerEvents extends CommonPlayerEvents {
 	}
 
 	@FunctionalInterface
+	public interface PreDeath {
+		EventResult onPreDeath(ServerPlayer player, DamageSource source);
+	}
+
+	@FunctionalInterface
 	public interface AttackBlock {
 		InteractionResult onAttackBlock(ServerPlayer player, ServerLevel level, BlockPos pos, Direction direction);
 	}
@@ -112,5 +127,29 @@ public class ServerPlayerEvents extends CommonPlayerEvents {
 	@FunctionalInterface
 	public interface ClickEntity {
 		InteractionResult onClickEntity(ServerPlayer player, Level level, InteractionHand hand, Entity entity, @Nullable EntityHitResult hitResult);
+	}
+
+	/**
+	 * Fires when the player gets ticked.
+	 */
+	public static final Event<Tick> TICK = EventFactory.createServer(Tick.class,
+			listeners -> player -> EventFactory.dispatch(listeners, listener -> listener.onTickStart(player))
+	).markLoud();
+
+	@FunctionalInterface
+	public interface Tick {
+		void onTickStart(ServerPlayer player);
+	}
+
+	/**
+	 * Fires when the player opens a menu screen.
+	 */
+	public static final Event<OpenMenu> OPEN_MENU = EventFactory.createServer(OpenMenu.class,
+			listeners -> (player, menu) -> EventFactory.dispatch(listeners, listener -> listener.onOpenMenu(player, menu))
+	);
+
+	@FunctionalInterface
+	public interface OpenMenu {
+		void onOpenMenu(ServerPlayer player, AbstractContainerMenu menu);
 	}
 }

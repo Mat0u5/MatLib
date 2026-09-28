@@ -46,11 +46,13 @@
     "client.HudMixin",
     "client.LayerDefinitionsMixin",
     "client.LevelExtractorMixin",
+    "client.LivingEntityMixin",
     "client.LocalPlayerMixin",
     "client.MinecraftMixin",
     "client.OptionsMixin",
     "client.ParticleResourcesMixin",
     "client.PlayerInfoMixin",
+    "client.PlayerMixin",
     "client.ScreenMixin",
     "client.SoundManagerMixin"
   ]

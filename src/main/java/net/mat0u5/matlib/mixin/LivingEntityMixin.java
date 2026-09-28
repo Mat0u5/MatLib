@@ -15,6 +15,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = LivingEntity.class, priority = 1)
 @MixinEnvironment(type = MixinEnvironment.Env.MAIN)
 public class LivingEntityMixin {
+	@Inject(method = "die", at = @At("HEAD"), cancellable = true)
+	private void preDeath(DamageSource source, CallbackInfo ci) {
+		EventResult result = ServerEntityEvents.PRE_DEATH.invoker().onPreDeath((LivingEntity) (Object) this, source);
+		if (result.isDeny()) {
+			ci.cancel();
+		}
+	}
+
 	@Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;broadcastEntityEvent(Lnet/minecraft/world/entity/Entity;B)V"))
 	private void notifyDeath(DamageSource source, CallbackInfo ci) {
 		ServerEntityEvents.DEATH.invoker().onDeath((LivingEntity) (Object) this, source);
@@ -27,12 +35,16 @@ public class LivingEntityMixin {
 	private void onDrop(ServerLevel level, DamageSource damageSource, CallbackInfo ci) {
 	//?}
 		EventResult result = ServerEntityEvents.DROP_LOOT.invoker().onDropLoot((LivingEntity) (Object) this, damageSource);
-		if (result == EventResult.DENY) {
+		if (result.isDeny()) {
 			ci.cancel();
 		}
 	}
 	@Inject(method = "jumpFromGround", at = @At("TAIL"))
 	private void onJump(CallbackInfo ci) {
 		CommonEntityEvents.JUMP.invoker().onJump((LivingEntity) (Object) this);
+	}
+	@Inject(method = "tick", at = @At("HEAD"))
+	private void onTick(CallbackInfo ci) {
+		ServerEntityEvents.TICK.invoker().onTickStart((LivingEntity) (Object) this);
 	}
 }

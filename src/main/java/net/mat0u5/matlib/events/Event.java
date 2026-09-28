@@ -18,7 +18,7 @@ public class Event<T> {
 		SERVER;
 	}
 	public final T invoker() {
-		if (MatLib.DEBUG) invokerTests();
+		invokerTests();
 		return invoker;
 	}
 
@@ -29,7 +29,7 @@ public class Event<T> {
 		if (environment == Environment.SERVER && (MatLib.platform().isClient() && MatLib.hasClient() && !MatLib.getClientAccessor().isRunningIntegratedServer())) {
 			MatLib.LOGGER.warn("Event {} marked server triggered on client.", invoker.getClass().getName());
 		}
-		if (!loud) {
+		if (MatLib.DEBUG && !loud) {
 			MatLib.LOGGER.info("Event {} invoker called.", invoker.getClass().getName());
 		}
 	}
