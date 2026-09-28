@@ -16,4 +16,16 @@ public class CommonEntityEvents {
 	public interface Jump {
 		void onJump(LivingEntity entity);
 	}
+
+	/**
+	 * Fires when the entity gets ticked.
+	 */
+	public static final Event<Tick> TICK = EventFactory.createCommon(Tick.class,
+			listeners -> entity -> EventFactory.dispatch(listeners, listener -> listener.onTickStart(entity))
+	).markLoud();
+
+	@FunctionalInterface
+	public interface Tick {
+		void onTickStart(LivingEntity entity);
+	}
 }

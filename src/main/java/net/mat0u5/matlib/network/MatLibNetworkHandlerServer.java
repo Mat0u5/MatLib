@@ -106,7 +106,6 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		HandshakePayload payload = MatLibNetworkHandlerCommon.getHandshakePayload();
 		NetworkHandlerServer.sendPacket(player, payload);
 		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER] Sending handshake to {}", player));
-
 	}
 
 	public static void handleHandshakeResponse(ServerPlayer player, HandshakePayload payload) {

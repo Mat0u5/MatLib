@@ -11,12 +11,14 @@ public class Event<T> {
 	private volatile T invoker;
 	private boolean loud;
 	private final Environment environment;
+	private final Class<? super T> type;
 
 	public enum Environment {
 		CLIENT,
 		COMMON,
 		SERVER;
 	}
+
 	public final T invoker() {
 		invokerTests();
 		return invoker;
@@ -24,13 +26,13 @@ public class Event<T> {
 
 	private void invokerTests() {
 		if (environment == Environment.CLIENT && !MatLib.platform().isClient()) {
-			MatLib.LOGGER.error("Event {} marked client triggered on server.", invoker.getClass().getName());
+			MatLib.LOGGER.error("Event {} marked client triggered on server.", type.getName());
 		}
 		if (environment == Environment.SERVER && (MatLib.platform().isClient() && MatLib.hasClient() && !MatLib.getClientAccessor().isRunningIntegratedServer())) {
-			MatLib.LOGGER.warn("Event {} marked server triggered on client.", invoker.getClass().getName());
+			MatLib.LOGGER.warn("Event {} marked server triggered on client.", type.getName());
 		}
 		if (MatLib.DEBUG && !loud) {
-			MatLib.LOGGER.info("Event {} invoker called.", invoker.getClass().getName());
+			MatLib.LOGGER.info("Event {} invoker called.", type.getName());
 		}
 	}
 
@@ -46,6 +48,7 @@ public class Event<T> {
 
 	@SuppressWarnings("unchecked")
 	public Event(Class<? super T> type, Function<T[], T> invokerFactory, Environment environment) {
+		this.type = type;
 		this.invokerFactory = invokerFactory;
 		this.listeners = (T[]) Array.newInstance(type, 0);
 		this.environment = environment;

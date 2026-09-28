@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.EntityHitResult;
@@ -151,5 +151,29 @@ public class ServerPlayerEvents extends CommonPlayerEvents {
 	@FunctionalInterface
 	public interface OpenMenu {
 		void onOpenMenu(ServerPlayer player, AbstractContainerMenu menu);
+	}
+
+	/**
+	 * Fires when the entity gets damaged.
+	 */
+	public static final Event<Damage> DAMAGE = EventFactory.createServer(Damage.class,
+			listeners -> (player, source, amount) -> EventFactory.dispatch(listeners, listener -> listener.onDamage(player, source, amount))
+	);
+
+	@FunctionalInterface
+	public interface Damage {
+		void onDamage(Player player, DamageSource source, float amount);
+	}
+
+	/**
+	 * Fires before the entity gets damaged.
+	 */
+	public static final Event<PreDamage> PRE_DAMAGE = EventFactory.createServer(PreDamage.class,
+			listeners -> (player, source, amount) -> EventFactory.dispatchEventResult(listeners, listener -> listener.onPreDamage(player, source, amount))
+	);
+
+	@FunctionalInterface
+	public interface PreDamage {
+		EventResult onPreDamage(Player entity, DamageSource source, float amount);
 	}
 }

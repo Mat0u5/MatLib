@@ -4,7 +4,6 @@ import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
 import net.mat0u5.matlib.events.EventResult;
 import net.mat0u5.matlib.events.common.CommonEntityEvents;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -47,14 +46,50 @@ public class ServerEntityEvents extends CommonEntityEvents {
 	}
 
 	/**
-	 * Fires when the entity gets ticked.
+	 * Fires when the entity gets damaged.
 	 */
-	public static final Event<Tick> TICK = EventFactory.createServer(Tick.class,
-			listeners -> entity -> EventFactory.dispatch(listeners, listener -> listener.onTickStart(entity))
-	).markLoud();
+	public static final Event<Damage> DAMAGE = EventFactory.createServer(Damage.class,
+			listeners -> (entity, source, amount) -> EventFactory.dispatch(listeners, listener -> listener.onDamage(entity, source, amount))
+	);
 
 	@FunctionalInterface
-	public interface Tick {
-		void onTickStart(LivingEntity entity);
+	public interface Damage {
+		void onDamage(LivingEntity entity, DamageSource source, float amount);
+	}
+
+	/**
+	 * Fires before the entity gets damaged.
+	 */
+	public static final Event<PreDamage> PRE_DAMAGE = EventFactory.createServer(PreDamage.class,
+			listeners -> (entity, source, amount) -> EventFactory.dispatchEventResult(listeners, listener -> listener.onPreDamage(entity, source, amount))
+	);
+
+	@FunctionalInterface
+	public interface PreDamage {
+		EventResult onPreDamage(LivingEntity entity, DamageSource source, float amount);
+	}
+
+	/**
+	 * Fires when the entity gets healed.
+	 */
+	public static final Event<Heal> HEAL = EventFactory.createServer(Heal.class,
+			listeners -> (entity, amount) -> EventFactory.dispatch(listeners, listener -> listener.onHeal(entity, amount))
+	);
+
+	@FunctionalInterface
+	public interface Heal {
+		void onHeal(LivingEntity entity, float amount);
+	}
+
+	/**
+	 * Fires before the entity gets healed.
+	 */
+	public static final Event<PreHeal> PRE_HEAL = EventFactory.createServer(PreHeal.class,
+			listeners -> (entity, amount) -> EventFactory.dispatchEventResult(listeners, listener -> listener.onPreHeal(entity, amount))
+	);
+
+	@FunctionalInterface
+	public interface PreHeal {
+		EventResult onPreHeal(LivingEntity entity, float amount);
 	}
 }

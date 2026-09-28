@@ -11,7 +11,7 @@ public class ClientSoundEvents {
 	 */
 	public static final Event<PlaySound> PLAY_SOUND = EventFactory.createClient(PlaySound.class,
 			listeners -> sound -> EventFactory.dispatch(listeners, listener -> listener.onPlay(sound))
-	);
+	).markLoud();
 
 	@FunctionalInterface
 	public interface PlaySound {

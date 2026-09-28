@@ -66,6 +66,6 @@ public class NetworkHandlerClient {
 			return;
 		}
 
-		//throw new IllegalStateException("Cannot send packets when not in game!");
+		throw new IllegalStateException("Cannot send packets when not in game!");
 	}
 }
