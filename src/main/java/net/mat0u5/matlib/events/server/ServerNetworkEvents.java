@@ -16,7 +16,14 @@ public class ServerNetworkEvents {
 	 * Return `true` if packet was consumed, `false` otherwise.
 	 */
 	public static final Event<ReceiveCustomPacket> RECEIVE_CUSTOM_PACKET = EventFactory.createServer(ReceiveCustomPacket.class,
-			listeners -> (customPacketPayload, player) -> EventFactory.dispatchReturn(listeners, false,  listener -> listener.onReceivePacket(customPacketPayload, player))
+			listeners -> (customPacketPayload, player) -> {
+				for (ReceiveCustomPacket listener : listeners) {
+					if (listener.onReceivePacket(customPacketPayload, player)) {
+						return true;
+					}
+				}
+				return false;
+			}
 	);
 
 	@FunctionalInterface

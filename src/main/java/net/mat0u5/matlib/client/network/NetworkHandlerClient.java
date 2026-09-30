@@ -39,6 +39,9 @@ public class NetworkHandlerClient {
 				received = true;
 				client.execute(() -> packet.receiveClient(customPacketPayload));
 			}
+			else {
+				MatLib.LOGGER.error("Received unregistered SimplePacketPayload: {}", packetName);
+			}
 		}
 		else {
 			received = ClientNetworkEvents.RECEIVE_CUSTOM_PACKET.invoker().onReceivePacket(customPacketPayload);
@@ -48,6 +51,10 @@ public class NetworkHandlerClient {
 	}
 
 	public static void send(CustomPacketPayload payload) {
+		send(payload, false);
+	}
+
+	private static void send(CustomPacketPayload payload, boolean resent) {
 		//~ if > 1.20.3 'payload.id()' -> 'payload.type().id()' {
 		Identifier id = payload.type().id();
 		//~}
@@ -63,9 +70,9 @@ public class NetworkHandlerClient {
             *///?} else {
 			connection.send(new ServerboundCustomPayloadPacket(payload));
 			//?}
-			return;
 		}
-
-		throw new IllegalStateException("Cannot send packets when not in game!");
+		else if (!resent) {
+			Minecraft.getInstance().execute(() -> send(payload, true));
+		}
 	}
 }
