@@ -1,5 +1,6 @@
 package net.mat0u5.matlib;
 
+import net.mat0u5.matlib.events.server.ServerPackSourceEvents;
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.services.ServiceProvider;
 import net.mat0u5.matlib.services.MultiplatformModInitializer;
@@ -7,9 +8,11 @@ import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
 import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
+import net.mat0u5.matlib.utils.other.ModBuiltInPacks;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.packs.PackType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,7 +35,7 @@ public class MatLib {
 
 	public static final boolean DEBUG = false; //TODO debug options for logging specific events
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.4.2";
+	public static final String MOD_VERSION = "0.5.0";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
@@ -47,6 +50,8 @@ public class MatLib {
 		CommonRegistryEvents.PARTICLE.invoker().getIdentifiedParticles().forEach(particle -> {
 			Registry.register(BuiltInRegistries.PARTICLE_TYPE, particle.id(), particle.particleType());
 		});
+
+		ServerPackSourceEvents.LOAD_PACK.register(consumer -> ModBuiltInPacks.loadPacks(consumer, PackType.SERVER_DATA, ServerPackSourceEvents.GATHER_PACKS.invoker().getDataPacks()));
 	}
 
 	public static void onInitialize() {

@@ -3,8 +3,10 @@ package net.mat0u5.matlib.client.events;
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
 import net.mat0u5.matlib.events.EventResult;
+import net.mat0u5.matlib.utils.other.ModBuiltInPacks;
 import net.minecraft.server.packs.repository.Pack;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class ClientPackSourceEvents {
@@ -29,5 +31,17 @@ public class ClientPackSourceEvents {
 	@FunctionalInterface
 	public interface ServerPackDownload {
 		EventResult onPackDownload(String url);
+	}
+
+	/**
+	 * Fires when the client loads resource packs.
+	 */
+	public static final Event<GatherResourcePacks> GATHER_PACKS = EventFactory.createClient(GatherResourcePacks.class,
+			listeners -> () -> EventFactory.dispatchCollect(listeners, listener -> listener.getResourcePacks())
+	);
+
+	@FunctionalInterface
+	public interface GatherResourcePacks {
+		List<ModBuiltInPacks.PackDef> getResourcePacks();
 	}
 }

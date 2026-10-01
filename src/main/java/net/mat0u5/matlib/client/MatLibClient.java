@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.client;
 
 import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.client.events.ClientPackSourceEvents;
 import net.mat0u5.matlib.client.network.NetworkHandlerClient;
 import net.mat0u5.matlib.client.services.RegistrableClient;
 import net.mat0u5.matlib.client.utils.SharedClientInfo;
@@ -8,8 +9,10 @@ import net.mat0u5.matlib.services.ServiceProvider;
 import net.mat0u5.matlib.client.services.MultiplatformClientModInitializer;
 import net.mat0u5.matlib.utils.enums.HandshakeStatus;
 import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
+import net.mat0u5.matlib.utils.other.ModBuiltInPacks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.server.packs.PackType;
 
 import java.util.UUID;
 
@@ -20,6 +23,8 @@ public class MatLibClient implements ClientAccessor {
 		ServiceProvider.callListeners(RegistrableClient.class, RegistrableClient::onRegister);
 		ServiceProvider.callListeners(MultiplatformClientModInitializer.class, MultiplatformClientModInitializer::onRegister);
 		MatLib.setClientAccessor(new MatLibClient());
+
+		ClientPackSourceEvents.LOAD_PACK.register(consumer -> ModBuiltInPacks.loadPacks(consumer, PackType.CLIENT_RESOURCES, ClientPackSourceEvents.GATHER_PACKS.invoker().getResourcePacks()));
 	}
 
 	public static void onInitializeClient() {
