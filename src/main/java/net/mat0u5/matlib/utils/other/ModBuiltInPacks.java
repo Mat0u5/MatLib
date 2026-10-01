@@ -10,10 +10,7 @@ import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URI;
-import java.net.URL;
 import java.nio.file.*;
-import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -22,6 +19,10 @@ import net.minecraft.server.packs.PackLocationInfo;
 import net.minecraft.server.packs.PackSelectionConfig;
 import java.util.Optional;
 //?}
+
+//? if fabric
+import net.fabricmc.loader.api.FabricLoader;
+
 //? if neoforge {
 /*import net.neoforged.fml.ModList;
     //? if > 1.21.6 {
@@ -91,34 +92,30 @@ public final class ModBuiltInPacks {
     }
 
     private static @Nullable Path getResourceAsPath(String namespace, String path) {
-    //? if fabric || forge {
+        String cleanPath = path.startsWith("/") ? path.substring(1) : path;
+
+        //? if fabric {
         try {
-            URL url = ModBuiltInPacks.class.getResource(path);
-            if (url == null) return null;
-
-            URI uri = url.toURI();
-
-            if ("jar".equals(uri.getScheme())) {
-                try {
-                    return FileSystems.getFileSystem(uri).getPath(path);
-                } catch (FileSystemNotFoundException e) {
-                    FileSystems.newFileSystem(uri, Collections.emptyMap());
-                    return FileSystems.getFileSystem(uri).getPath(path);
-                }
-            }
-
-            return Paths.get(uri);
+            return FabricLoader.getInstance()
+                    .getModContainer(namespace)
+                    .flatMap(mod -> mod.findPath(cleanPath))
+                    .orElse(null);
         } catch (Exception e) {
             LOGGER.error("Failed to resolve path for built-in pack: " + path, e);
             return null;
         }
-    //?} else if neoforge {
-        /*//? if <= 1.21.6 {
-        /^return ModList.get().getModFileById(namespace)
-                .getFile()
-                .findResource(path);
+        //?} else if neoforge {
+        /*
+        //? if <= 1.21.6 {
+        /^try {
+            return net.neoforged.fml.ModList.get().getModFileById(namespace)
+                    .getFile()
+                    .findResource(cleanPath);
+        } catch (Exception e) {
+            LOGGER.error("Failed to resolve path for built-in pack: " + path, e);
+            return null;
+        }
         ^///?} else {
-        String cleanPath = path.startsWith("/") ? path.substring(1) : path;
         IModFileInfo info = ModList.get().getModFileById(namespace);
         if (info == null) return null;
 
@@ -153,6 +150,15 @@ public final class ModBuiltInPacks {
 
         return null;
         //?}
-    *///?}
+        *///?} else if forge {
+        /*try {
+            return ModList.get().getModFileById(namespace)
+                    .getFile()
+                    .findResource(cleanPath);
+        } catch (Exception e) {
+            LOGGER.error("Failed to resolve path for built-in pack: " + path, e);
+            return null;
+        }
+        *///?}
     }
 }
