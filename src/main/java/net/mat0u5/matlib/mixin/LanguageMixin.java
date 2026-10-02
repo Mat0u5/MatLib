@@ -20,7 +20,7 @@ public class LanguageMixin {
 
 	@Inject(method = "loadDefault", at = @At("RETURN"), cancellable = true)
 	private static void onServerLanguageLoad(CallbackInfoReturnable<Language> cir) {
-		//if (.hasClient()) return;//TODO
+		if (MatLib.hasClient()) return;
 		Language vanilla = cir.getReturnValue();
 		Map<String, String> customTranslations = new HashMap<>();
 

@@ -32,11 +32,13 @@ public class NeoForgeNetworkRegistration {
 //? if <= 1.20.3 {
 /^@SubscribeEvent
 public static void registerPackets(RegisterPayloadHandlerEvent event) {
-    final IPayloadRegistrar registrar = event.registrar(MatLib.MOD_ID)
-            .versioned("1")
-            .optional();
-
     NetworkHandlerCommon.getPayloadReaders().forEach((id, reader) -> {
+        String namespace = id.getNamespace();
+
+        final IPayloadRegistrar registrar = event.registrar(namespace)
+				.versioned("1")
+				.optional();
+
         registerPacket(registrar, id, reader);
     });
 }

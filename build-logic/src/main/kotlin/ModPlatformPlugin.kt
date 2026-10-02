@@ -163,10 +163,15 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 					versionRange.set("<${prop("deps.lifeseries.min")}")
 				}
 			}
-			else {
+			else if (isNeoForge) {
 				incompatible.maybeCreate("lifeseries").apply {
 					modid.set("lifeseries")
 					forgeVersionRange.set("(,${prop("deps.lifeseries.min")})")
+				}
+			} else if (isForge) {
+				optional.maybeCreate("lifeseries").apply {
+					modid.set("lifeseries")
+					forgeVersionRange.set("[${prop("deps.lifeseries.min")},)")
 				}
 			}
 		}

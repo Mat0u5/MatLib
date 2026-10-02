@@ -105,7 +105,7 @@ public abstract class ServerLoginPacketListenerImplMixin {
 
             /^if (self.connection.getPacketListener() != self) return;
 
-            MatLibNetworkHandlerServer.handlePreLogin(understood, self);
+            MatLibNetworkHandlerServer.handlePreLogin(finalUnderstood, modIds, self);
 
             this.state = ServerLoginPacketListenerImpl.State.READY_TO_ACCEPT;
             ^///?}

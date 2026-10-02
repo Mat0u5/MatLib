@@ -15,10 +15,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 *///?}
-
 //? if <= 1.20 {
 /*import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;
-@Mixin(value = ServerGamePacketListenerImpl.class, priority = 1)
+*///?} else if <= 1.20.3 {
+/*import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
+*///?}
+
+//? if <= 1.20 {
+/*@Mixin(value = ServerGamePacketListenerImpl.class, priority = 1)
 *///?} else {
 import net.minecraft.server.network.ServerCommonPacketListenerImpl;
 @Mixin(value = ServerCommonPacketListenerImpl.class, priority = 1)

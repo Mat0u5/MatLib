@@ -15,12 +15,11 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.PackType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.Nullable;
+import java.util.UUID;
 
 //? fabric {
 import net.mat0u5.matlib.platform.fabric.FabricPlatform;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.UUID;
 //?} neoforge {
 /*import net.mat0u5.matlib.platform.neoforge.NeoforgePlatform;
  *///?} forge {

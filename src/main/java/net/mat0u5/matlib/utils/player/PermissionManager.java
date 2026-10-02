@@ -13,7 +13,7 @@ public class PermissionManager {
      */
     public static boolean isAdmin(ServerPlayer player) {
         if (player == null) return false;
-        //if (MatLib.isClientPlayer(player.getUUID())) return true;//TODO
+        if (MatLib.isClientPlayer(player.getUUID())) return true;
         if (server == null) return false;
         //? if < 1.21.9 {
         /*return server.getPlayerList().isOp(player.getGameProfile());

@@ -15,12 +15,15 @@ import java.util.UUID;
 
 import static net.mat0u5.matlib.MatLib.server;
 
-//? if neoforge && > 1.20.3
-//import net.neoforged.neoforge.network.registration.NetworkRegistry;
+//? neoforge && <= 1.20.3 {
+/*import net.mat0u5.matlib.network.packets.HandshakePayload;
+*///?} else if neoforge {
+/*import net.neoforged.neoforge.network.registration.NetworkRegistry;
+*///?}
 
 //? if <= 1.20.3 {
 /*import net.minecraft.network.FriendlyByteBuf;
- *///?}
+*///?}
  
 //? if <= 1.20 {
 /*import io.netty.buffer.Unpooled;
@@ -76,10 +79,13 @@ public class NetworkHandlerServer {
 		//~}
 
 	//? if neoforge {
-        /*//? if <= 1.20.3 {//TODO
-		/^if (!wasHandshakeSuccessful(player) && id != HandshakePayload.ID) {
-			return;
-		}
+        /*//? if <= 1.20.3 {
+		/^String packetModId = id.getNamespace();
+		if (!packetModId.equals("minecraft") && id != HandshakePayload.ID) { //TODO test
+           if (!wasHandshakeSuccessful(player, packetModId)) {
+               return;
+           }
+       }
 		^///?} else {
 		if (!NetworkRegistry.hasChannel(player.connection, id)) {
 			return;

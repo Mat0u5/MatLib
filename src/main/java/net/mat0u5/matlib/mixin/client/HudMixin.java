@@ -37,18 +37,18 @@ public class HudMixin {
 
 //? if forge {
     /*//? if <= 1.20.5 {
-    @Inject(method = "render", at = @At(value = "TAIL"))
+    /^@Inject(method = "render", at = @At(value = "TAIL"))
     public void renderPost(GuiGraphicsExtractor guiGraphics, float deltaTracker, CallbackInfo ci) {
-    //?} else if <= 1.21.6 {
+    ^///?} else if <= 1.21.6 {
     /^@Inject(method = "render", at = @At(value = "TAIL"))
     public void renderPost(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
     ^///?} else if <= 1.21.11 {
     /^@Inject(method = "render", at = @At(value = "RETURN"))
     public void renderPost(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
     ^///?} else {
-    /^@Inject(method = "extractRenderState", at = @At(value = "RETURN"))
+    @Inject(method = "extractRenderState", at = @At(value = "RETURN"))
     public void renderPost(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-    ^///?}
+    //?}
 *///?} else {
 	//? if <= 1.20.5 {
     /*@Inject(method = "render", at = @At(value = "TAIL"))

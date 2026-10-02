@@ -22,6 +22,8 @@ import java.util.Optional;
 
 //? if fabric
 import net.fabricmc.loader.api.FabricLoader;
+//? if forge
+//import net.minecraftforge.fml.ModList;
 
 //? if neoforge {
 /*import net.neoforged.fml.ModList;
@@ -108,7 +110,7 @@ public final class ModBuiltInPacks {
         /*
         //? if <= 1.21.6 {
         /^try {
-            return net.neoforged.fml.ModList.get().getModFileById(namespace)
+            return ModList.get().getModFileById(namespace)
                     .getFile()
                     .findResource(cleanPath);
         } catch (Exception e) {
@@ -152,9 +154,11 @@ public final class ModBuiltInPacks {
         //?}
         *///?} else if forge {
         /*try {
-            return ModList.get().getModFileById(namespace)
+            //~ if >= 26.1 'ModList.get()' -> 'ModList' {
+            return ModList.getModFileById(namespace)
                     .getFile()
                     .findResource(cleanPath);
+            //~}
         } catch (Exception e) {
             LOGGER.error("Failed to resolve path for built-in pack: " + path, e);
             return null;

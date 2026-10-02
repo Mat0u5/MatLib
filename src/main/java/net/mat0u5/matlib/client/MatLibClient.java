@@ -18,6 +18,11 @@ import java.util.UUID;
 
 import static net.mat0u5.matlib.MatLib.*;
 
+//? if neoforge {
+/*import net.neoforged.neoforge.network.handling.IPayloadContext;
+import net.mat0u5.matlib.client.platform.neoforge.NeoForgeClientNetworkRegistration;
+*///?}
+
 public class MatLibClient implements ClientAccessor {
 	public static void onRegister() {
 		ServiceProvider.callListeners(RegistrableClient.class, RegistrableClient::onRegister);

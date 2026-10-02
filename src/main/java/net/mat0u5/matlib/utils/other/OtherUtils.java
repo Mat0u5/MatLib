@@ -45,10 +45,9 @@ public class OtherUtils {
 	}
 
 	public static void logIfClient(String string) {
-		//TODO
-		/*if (x.hasClient()) {
+		if (MatLib.hasClient()) {
 			MatLib.LOGGER.info(string);
-		}*/
+		}
 	}
 
 	protected static int parseInt(String value) {
