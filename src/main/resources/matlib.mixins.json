@@ -32,6 +32,7 @@
     "ServerPlayerMixin"
   ],
   "client": [
+    "client.AbstractSelectionListMixin",
     "client.BuiltInPackSourceMixin",
     "client.BuiltInRegistriesMixin",
     "client.ClientCommonPacketListenerImplMixin",
