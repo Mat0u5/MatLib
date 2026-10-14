@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.config.entry.ConfigurableValue;
 import net.mat0u5.matlib.events.server.ServerPlayerEvents;
+import net.mat0u5.matlib.events.server.ServerResourceEvents;
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
 
@@ -19,10 +20,13 @@ public class ConfigManager implements RegistrableServer {
 		ServerPlayerEvents.CONNECT.register((connection, player) -> {
 			getAll().forEach(config -> config.sendAllSyncedConfigs(List.of(player)));
 		});
+		ServerResourceEvents.RELOAD_START.register((server, resourceManager) -> {
+			getAll().forEach(SimpleConfig::reload);
+		});
 	}
 
-	private static final Map<String, Config> registeredConfigs = new ConcurrentHashMap<>();
-	public static void registerConfig(Config config) {
+	private static final Map<String, SimpleConfig> registeredConfigs = new ConcurrentHashMap<>();
+	public static void registerConfig(SimpleConfig config) {
 		String configId = config.getConfigId();
 		if (registeredConfigs.containsKey(configId)) {
 			MatLib.LOGGER.error("Tried to register duplicate config: {}", configId);
@@ -30,11 +34,11 @@ public class ConfigManager implements RegistrableServer {
 		}
 		registeredConfigs.put(configId, config);
 		// Instantiate all properties
-		config.load();
+		config.reload();
 		config.sendAllSyncedConfigs(PlayerUtils.getAllPlayers());
 	}
 
-	public static Collection<Config> getAll() {
+	public static Collection<SimpleConfig> getAll() {
 		return registeredConfigs.values();
 	}
 
@@ -42,12 +46,12 @@ public class ConfigManager implements RegistrableServer {
 		return registeredConfigs.containsKey(configId);
 	}
 
-	public static Config get(String configId) {
+	public static SimpleConfig get(String configId) {
 		return registeredConfigs.get(configId);
 	}
 
 	public static ConfigurableValue<?> getValue(String configId, String key) {
-		Config config = registeredConfigs.get(configId);
+		SimpleConfig config = registeredConfigs.get(configId);
 		return config == null ? null : config.getValue(key);
 	}
 

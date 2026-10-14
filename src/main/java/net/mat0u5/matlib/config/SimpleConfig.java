@@ -2,7 +2,6 @@ package net.mat0u5.matlib.config;
 
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.config.entry.ConfigurableValue;
-import net.mat0u5.matlib.network.MatLibSimplePackets;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -10,17 +9,26 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.*;
 
-public abstract class Config {
+public abstract class SimpleConfig {
 
-	private final Map<String, ConfigurableValue<?>> values = new LinkedHashMap<>();
+	protected final Map<String, ConfigurableValue<?>> values = new LinkedHashMap<>();
 	protected Properties properties = new Properties();
-	protected String folderPath;
-	protected String filePath;
+	protected final String configId;
+	protected final String folderPath;
+	protected final String filePath;
 
-	public abstract String getModId();
-	public abstract String getConfigId();
-	public abstract String getFolder();
-	public abstract String getFile();
+	protected SimpleConfig(String configId, String folderPath, String filePath) {
+		this.configId = configId;
+		this.folderPath = Paths.get("./config", folderPath).toString();
+		this.filePath = Paths.get(this.folderPath, filePath).toString();
+		createFileIfNotExists();
+		loadProperties();
+		renamedProperties();
+	}
+
+	public String getConfigId() {
+		return configId;
+	}
 
 	public Map<String, String> getRenamedProperties() {
 		return Map.of();
@@ -34,7 +42,7 @@ public abstract class Config {
 		return values.get(key);
 	}
 
-	public void load() {
+	public void reload() {
 		values.values().forEach(ConfigurableValue::reload);
 	}
 
@@ -47,13 +55,6 @@ public abstract class Config {
 		values.put(valueKey, value);
 	}
 
-	protected Config() {
-		this.folderPath = Paths.get("./config", getFolder()).toString();
-		this.filePath = Paths.get(folderPath, getFile()).toString();
-		createFileIfNotExists();
-		loadProperties();
-		renamedProperties();
-	}
 
 	//TODO check for doubled calls
 	public <T> void onValueChanged(ConfigurableValue<T> configurableValue, T oldValue, T newValue) {

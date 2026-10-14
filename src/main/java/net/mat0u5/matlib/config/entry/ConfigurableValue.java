@@ -1,7 +1,8 @@
 package net.mat0u5.matlib.config.entry;
 
 import net.mat0u5.matlib.MatLib;
-import net.mat0u5.matlib.config.Config;
+import net.mat0u5.matlib.config.GuiConfig;
+import net.mat0u5.matlib.config.SimpleConfig;
 import net.mat0u5.matlib.config.type.ConfigType;
 import net.mat0u5.matlib.config.type.ConfigTypes;
 import net.mat0u5.matlib.network.MatLibSimplePackets;
@@ -14,7 +15,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiConsumer;
 import java.util.function.BooleanSupplier;
 
-public class ConfigurableValue<T> {
+public class ConfigurableValue<T> implements ConfigEntry {
 	public enum Environment {
 		UNKNOWN,
 		SERVER,
@@ -25,11 +26,10 @@ public class ConfigurableValue<T> {
 		}
 	}
 
-	private final Config config;
+	private final SimpleConfig config;
 	private final String key;
-	private final T defaultValue;
-	private final String defaultValueString;
-	private final ConfigType<T> type;
+	private T defaultValue;
+	private ConfigType<T> type;
 	private volatile boolean loaded = false;
 	private volatile T cachedValue;
 	private volatile boolean syncedValueLoaded = false;
@@ -47,21 +47,25 @@ public class ConfigurableValue<T> {
 	private boolean requiresReload = false;
 	private BooleanSupplier visibleIf = () -> true;
 
-	private ConfigurableValue(Config config, String key, T defaultValue, ConfigType<T> type) {
+	private ConfigurableValue(SimpleConfig config, String key, T defaultValue, ConfigType<T> type) {
 		this.config = config;
 		this.key = key;
 		this.type = type;
 		this.defaultValue = defaultValue;
-		this.defaultValueString = getValueAsString(defaultValue);
 	}
 
-	public static <T> ConfigurableValue<T> register(Config config, String key, T defaultValue) {
+	public static <T> ConfigurableValue<T> register(SimpleConfig config, String key, T defaultValue) {
 		return register(config, key, defaultValue, ConfigTypes.detect(defaultValue));
 	}
 
-	public static <T> ConfigurableValue<T> register(Config config, String key, T defaultValue, ConfigType<T> type) {
+	public static <T> ConfigurableValue<T> register(SimpleConfig config, String key, T defaultValue, ConfigType<T> type) {
 		ConfigurableValue<T> value = new ConfigurableValue<>(config, key, defaultValue, type);
-		config.addConfigurableValue(value);
+		if (config instanceof GuiConfig guiConfig) {
+			guiConfig.addEntry(value);
+		}
+		else {
+			config.addConfigurableValue(value);
+		}
 		return value;
 	}
 
@@ -112,6 +116,14 @@ public class ConfigurableValue<T> {
 
 	public ConfigurableValue<T> visibleIf(BooleanSupplier supplier) {
 		this.visibleIf = supplier;
+		return this;
+	}
+	public ConfigurableValue<T> defaultValue(T v) {
+		if (!loaded) this.defaultValue = v;
+		return this;
+	}
+	public ConfigurableValue<T> type(ConfigType<T> t) {
+		if (!loaded) this.type = t;
 		return this;
 	}
 

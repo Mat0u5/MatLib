@@ -15,6 +15,18 @@ public final class ConfigTypes {
 	});
 	public static final ConfigType<Double> PERCENTAGE = withId("percentage", DOUBLE);
 
+	public static final ConfigType<Object> HEADER = new ConfigType<>() {
+		public Object parse(String string) throws Exception {
+			return null;
+		}
+		public String serialize(Object value) {
+			return null;
+		}
+		public String id() {
+			return "header";
+		}
+	};
+
 	public static <E extends Enum<E>> ConfigType<E> enumOf(Class<E> clazz) {
 		return new ConfigType<>() {
 			public E parse(String raw) {
