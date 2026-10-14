@@ -2,38 +2,75 @@ package net.mat0u5.matlib.config;
 
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.config.entry.ConfigurableValue;
+import net.mat0u5.matlib.network.MatLibSimplePackets;
+import net.mat0u5.matlib.utils.player.PlayerUtils;
+import net.minecraft.server.level.ServerPlayer;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.nio.file.Paths;
+import java.util.*;
 
 public abstract class Config {
 
-	protected final List<ConfigurableValue<?>> values = new ArrayList<>();
+	private final Map<String, ConfigurableValue<?>> values = new LinkedHashMap<>();
 	protected Properties properties = new Properties();
 	protected String folderPath;
 	protected String filePath;
+
+	public abstract String getModId();
+	public abstract String getConfigId();
+	public abstract String getFolder();
+	public abstract String getFile();
 
 	public Map<String, String> getRenamedProperties() {
 		return Map.of();
 	}
 
-	public List<ConfigurableValue<?>> getConfigurableValues() {
-		return values;
+	public Collection<ConfigurableValue<?>> getConfigurableValues() {
+		return values.values();
+	}
+
+	public ConfigurableValue<?> getValue(String key) {
+		return values.get(key);
+	}
+
+	public void load() {
+		values.values().forEach(ConfigurableValue::reload);
 	}
 
 	public void addConfigurableValue(ConfigurableValue<?> value) {
-		values.add(value);
+		String valueKey = value.getKey();
+		if (values.containsKey(valueKey)) {
+			MatLib.LOGGER.error("Tried to register duplicate configurable value: {}", valueKey);
+			return;
+		}
+		values.put(valueKey, value);
 	}
 
-	protected Config(String folderPath, String filePath) {
-		this.folderPath = folderPath;
-		this.filePath = folderPath + "/" + filePath;
+	protected Config() {
+		this.folderPath = Paths.get("./config", getFolder()).toString();
+		this.filePath = Paths.get(folderPath, getFile()).toString();
 		createFileIfNotExists();
 		loadProperties();
 		renamedProperties();
+	}
+
+	//TODO check for doubled calls
+	public <T> void onValueChanged(ConfigurableValue<T> configurableValue, T oldValue, T newValue) {
+		if (MatLib.isLogicalSide() && configurableValue.getEnv().isSynced()) {
+			configurableValue.sendSyncTo(PlayerUtils.getAllPlayers());
+		}
+		if (configurableValue.requiresReload()) {
+			//TODO queue reload
+		}
+	}
+
+	public void sendAllSyncedConfigs(List<ServerPlayer> targets) {
+		getConfigurableValues().forEach(configurableValue -> {
+			if (configurableValue.getEnv().isSynced()) {
+				configurableValue.sendSyncTo(targets);
+			}
+		});
 	}
 
 	private void createFileIfNotExists() {

@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.function.Function;
 
 public final class ConfigTypes {
-	public static final ConfigType<Integer> INTEGER = fromParser(Integer::parseInt);
-	public static final ConfigType<Double> DOUBLE = fromParser(Double::parseDouble);
-	public static final ConfigType<String> STRING = fromParser(str -> str);
-	public static final ConfigType<Boolean> BOOLEAN = fromParser(str -> {
+	public static final ConfigType<Integer> INTEGER = fromParser("integer", Integer::parseInt);
+	public static final ConfigType<Double> DOUBLE = fromParser("double", Double::parseDouble);
+	public static final ConfigType<String> STRING = fromParser("string", str -> str);
+	public static final ConfigType<Boolean> BOOLEAN = fromParser("boolean", str -> {
 		if (str.equalsIgnoreCase("true")) return true;
 		if (str.equalsIgnoreCase("false")) return false;
 		throw new IllegalArgumentException("Not a boolean: " + str);
@@ -23,16 +23,26 @@ public final class ConfigTypes {
 			public String serialize(E value) {
 				return value.name();
 			}
+			public String id() {
+				return "enum";
+			}
+			public List<String> options() {
+				return Arrays.stream(clazz.getEnumConstants()).map(Enum::name).toList();
+			}
 		};
 	}
 
 	public static final ConfigType<List<String>> STRING_LIST = new ConfigType<>() {
 		public List<String> parse(String raw) {
+			if (raw.startsWith("[") && raw.endsWith("]")) raw = raw.substring(1, raw.length()-1);
 			if (raw.isBlank()) return List.of();
 			return Arrays.stream(raw.split(",")).map(String::trim).toList();
 		}
 		public String serialize(List<String> value) {
-			return String.join(",", value);
+			return "[" + String.join(",", value) + "]";
+		}
+		public String id() {
+			return "string_list";
 		}
 	};
 
@@ -41,16 +51,20 @@ public final class ConfigTypes {
 			public T parse(String s) throws Exception { return base.parse(s); }
 			public String serialize(T v) { return base.serialize(v); }
 			public String id() { return id; }
+			public List<String> options() { return base.options(); }
 		};
 	}
 
-	private static <T> ConfigType<T> fromParser(Function<String, T> parser) {
+	private static <T> ConfigType<T> fromParser(String id, Function<String, T> parser) {
 		return new ConfigType<>() {
 			public T parse(String raw) {
 				return parser.apply(raw.trim());
 			}
 			public String serialize(T value) {
 				return String.valueOf(value);
+			}
+			public String id() {
+				return id;
 			}
 		};
 	}

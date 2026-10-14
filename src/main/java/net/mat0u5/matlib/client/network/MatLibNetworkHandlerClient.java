@@ -2,11 +2,13 @@ package net.mat0u5.matlib.client.network;
 
 import com.google.auto.service.AutoService;
 import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.client.config.ConfigManagerClient;
 import net.mat0u5.matlib.client.events.ClientNetworkEvents;
 import net.mat0u5.matlib.client.services.RegistrableClient;
 import net.mat0u5.matlib.client.utils.ClientUtils;
 import net.mat0u5.matlib.client.utils.SharedClientInfo;
 import net.mat0u5.matlib.network.MatLibNetworkHandlerCommon;
+import net.mat0u5.matlib.network.MatLibSimplePackets;
 import net.mat0u5.matlib.network.packets.HandshakePayload;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.mat0u5.matlib.utils.other.VersionCompatibility;
@@ -19,6 +21,11 @@ public class MatLibNetworkHandlerClient implements RegistrableClient {
 	@Override
 	public void onRegister() {
 		ClientNetworkEvents.RECEIVE_CUSTOM_PACKET.register(MatLibNetworkHandlerClient::onCustomPayload);
+		initializeSimplePacketReceivers();
+	}
+
+	public void initializeSimplePacketReceivers() {
+		MatLibSimplePackets.SYNCED_CONFIG.setClientReceive(payload -> ConfigManagerClient.onConfigSyncPacket(payload.value()));
 	}
 
 	public static boolean onCustomPayload(CustomPacketPayload customPacketPayload) {

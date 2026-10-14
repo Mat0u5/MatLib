@@ -3,6 +3,7 @@ package net.mat0u5.matlib.client.utils;
 import com.google.auto.service.AutoService;
 import net.mat0u5.matlib.client.events.ClientLocalPlayerEvents;
 import net.mat0u5.matlib.client.services.RegistrableClient;
+import net.mat0u5.matlib.config.ConfigManager;
 import net.mat0u5.matlib.utils.enums.HandshakeStatus;
 
 import java.util.List;
@@ -14,6 +15,7 @@ public class SharedClientInfo implements RegistrableClient {
 	@Override
 	public void onRegister() {
 		ClientLocalPlayerEvents.LEAVE.register(SharedClientInfo::resetClientData);
+		ClientLocalPlayerEvents.LEAVE.register(ConfigManager::clearSynced);
 		ClientLocalPlayerEvents.JOIN.register(packet -> {
 			DefaultClientTaskScheduler.schedulePriorityTask(20, () -> {
 				if (handshakeWithServer.isWaiting()) {
