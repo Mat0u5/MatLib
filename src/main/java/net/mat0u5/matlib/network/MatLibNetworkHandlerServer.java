@@ -3,6 +3,9 @@ package net.mat0u5.matlib.network;
 import com.google.auto.service.AutoService;
 import com.mojang.authlib.GameProfile;
 import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.config.ConfigManager;
+import net.mat0u5.matlib.config.SimpleConfig;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.events.server.ServerNetworkEvents;
 import net.mat0u5.matlib.events.server.ServerPlayerEvents;
@@ -14,6 +17,7 @@ import net.mat0u5.matlib.utils.other.DefaultTaskScheduler;
 import net.mat0u5.matlib.utils.other.OtherUtils;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.mat0u5.matlib.utils.other.VersionCompatibility;
+import net.mat0u5.matlib.utils.player.PermissionManager;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
@@ -72,6 +76,19 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		ServerNetworkEvents.RECEIVE_CUSTOM_PACKET.register(MatLibNetworkHandlerServer::onCustomPayload);
 		ServerPlayerEvents.CONNECT.register(MatLibNetworkHandlerServer::onPlayerJoin);
 		ServerPlayerEvents.DISCONNECT.register((details, player) -> MatLibNetworkHandlerServer.onPlayerLeave(player));
+		initializeSimplePacketReceivers();
+	}
+	public void initializeSimplePacketReceivers() {
+		MatLibSimplePackets.CONFIG_GUI_UPDATE.setServerReceive((serverPlayer, payload) -> {
+			try {
+				onConfigPayload(serverPlayer, payload);
+			}catch(Exception ignored) {}
+		});
+		MatLibSimplePackets.CONFIG_GUI_UPDATE_END.setServerReceive((serverPlayer, payload) -> {
+			try {
+				onConfigPayloadEnd(serverPlayer, payload);
+			}catch(Exception ignored) {}
+		});
 	}
 
 	public static void onPlayerLeave(ServerPlayer player) {
@@ -160,5 +177,17 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		List<String> loadedIDs = preLoginHandshakes.get(uuid);
 		if (loadedIDs == null) return false;
 		return loadedIDs.contains(modId);
+	}
+
+	public static void onConfigPayload(ServerPlayer player, StringListPayload payload) throws Exception {
+		if (!PermissionManager.isAdmin(player)) return;
+		ConfigGuiEntry entry = ConfigGuiEntry.decode(payload.value());
+		//TODO
+	}
+	public static void onConfigPayloadEnd(ServerPlayer player, StringListPayload payload) throws Exception {
+		if (!PermissionManager.isAdmin(player)) return;
+		List<String> reloadConfigs = new ArrayList<>(payload.value());
+		boolean reloadServer = Boolean.valueOf(reloadConfigs.remove(0)); //TODO logic
+		ConfigManager.reloadConfigs(reloadConfigs);
 	}
 }

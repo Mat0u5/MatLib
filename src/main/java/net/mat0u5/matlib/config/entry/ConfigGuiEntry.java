@@ -1,21 +1,49 @@
 package net.mat0u5.matlib.config.entry;
 
+import net.mat0u5.matlib.config.type.ConfigType;
+import net.mat0u5.matlib.config.type.ConfigTypes;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public record ConfigGuiEntry(
-		String configId,
-		String key,
-		String type,
-		String name,
-		String description,
-		String group,
-		boolean isNew,
-		boolean groupHeader,
-		boolean requiresReload,
-		List<String> args
-) {
+public class ConfigGuiEntry {
+	public String configId;
+	public String key;
+	public ConfigType<?> type;
+	public String name;
+	public String description;
+	public String group;
+	public boolean isNew;
+	public boolean groupHeader;
+	public boolean requiresReload;
+	public List<String> args;
+
+	public ConfigGuiEntry(
+			String configId,
+			String key,
+			ConfigType<?> type,
+			String name,
+			String description,
+			String group,
+			boolean isNew,
+			boolean groupHeader,
+			boolean requiresReload,
+			List<String> args
+	) {
+		this.configId = configId;
+		this.key = key;
+		this.type = type;
+		this.name = name;
+		this.description = description;
+		this.group = group;
+		this.isNew = isNew;
+		this.groupHeader = groupHeader;
+		this.requiresReload = requiresReload;
+		this.args = args;
+	}
+
+
 	public String value() {
 		return args.isEmpty() ? "" : args.get(0);
 	}
@@ -31,7 +59,7 @@ public record ConfigGuiEntry(
 		return new ConfigGuiEntry(
 				configId,
 				value.getKey(),
-				value.getType().id(),
+				value.getType(),
 				displayName(value),
 				value.getDescription(),
 				value.getGroup(),
@@ -46,7 +74,7 @@ public record ConfigGuiEntry(
 		return new ConfigGuiEntry(
 				configId,
 				header.getKey(),
-				"header",
+				ConfigTypes.HEADER,
 				displayName(header),
 				header.getDescription(),
 				header.getGroup(),
@@ -61,7 +89,7 @@ public record ConfigGuiEntry(
 		return new ConfigGuiEntry(
 				configId,
 				dynamic.key(),
-				dynamic.typeId(),
+				dynamic.type(),
 				dynamic.name(),
 				dynamic.description(),
 				dynamic.group(),
@@ -80,7 +108,7 @@ public record ConfigGuiEntry(
 		List<String> out = new ArrayList<>();
 		out.add(configId);
 		out.add(key);
-		out.add(type);
+		out.add(type.id());
 		out.add(name);
 		out.add(description);
 		out.add(group);
@@ -91,11 +119,11 @@ public record ConfigGuiEntry(
 		return out;
 	}
 
-	public static ConfigGuiEntry decode(List<String> data) {
+	public static ConfigGuiEntry decode(List<String> data) throws Exception {
 		Iterator<String> in = data.iterator();
 		String configId = in.next();
 		String key = in.next();
-		String type = in.next();
+		ConfigType<?> type = ConfigTypes.fromId(in.next());
 		String name = in.next();
 		String description = in.next();
 		String group = in.next();

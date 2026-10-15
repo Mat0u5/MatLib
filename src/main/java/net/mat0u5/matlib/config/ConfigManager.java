@@ -55,6 +55,15 @@ public class ConfigManager implements RegistrableServer {
 		return config == null ? null : config.getValue(key);
 	}
 
+	public static void reloadConfigs(Collection<String> configIds) {
+		for (String clientConfig : configIds) {
+			SimpleConfig config = get(clientConfig);
+			if (config != null) {
+				config.reload();
+			}
+		}
+	}
+
 	public static void clearSynced() {
 		registeredConfigs.values().forEach(config -> config.getConfigurableValues().forEach(ConfigurableValue::clearSynced));
 	}

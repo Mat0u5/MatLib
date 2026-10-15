@@ -2,9 +2,13 @@ package net.mat0u5.matlib.config.type;
 
 import java.util.List;
 
-public interface ConfigType<T> {
-	T parse(String string) throws Exception;
-	String serialize(T value);
-	String id();
-	default List<String> options() { return List.of(); }
+public abstract class ConfigType<T> {
+	public ConfigType() {
+		ConfigTypes.registerConfigType(this);
+	}
+
+	public abstract T parse(String string) throws Exception;
+	public abstract String serialize(T value);
+	public abstract String id();
+	public List<String> options() { return List.of(); }
 }

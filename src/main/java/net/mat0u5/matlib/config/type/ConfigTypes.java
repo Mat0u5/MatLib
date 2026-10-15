@@ -1,7 +1,6 @@
 package net.mat0u5.matlib.config.type;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.function.Function;
 
 public final class ConfigTypes {
@@ -14,6 +13,16 @@ public final class ConfigTypes {
 		throw new IllegalArgumentException("Not a boolean: " + str);
 	});
 	public static final ConfigType<Double> PERCENTAGE = withId("percentage", DOUBLE);
+	public static final ConfigType<Double> MINUTES = withId("minutes", DOUBLE);
+	public static final ConfigType<Integer> HEARTS = withId("hearts", INTEGER);
+	public static final ConfigType<Integer> SECONDS = withId("seconds", INTEGER);
+	public static final ConfigType<Integer> NULLABLE_INTEGER = fromParser("nullable_integer", str -> {
+		try {
+			return Integer.parseInt(str);
+		} catch(Exception e) {
+			return null;
+		}
+	});
 
 	public static final ConfigType<Object> HEADER = new ConfigType<>() {
 		public Object parse(String string) throws Exception {
@@ -26,6 +35,39 @@ public final class ConfigTypes {
 			return "header";
 		}
 	};
+
+	public static final ConfigType<List<String>> STRING_LIST = new ConfigType<>() {
+		public List<String> parse(String raw) {
+			if (raw.startsWith("[") && raw.endsWith("]")) raw = raw.substring(1, raw.length()-1);
+			if (raw.isBlank()) return List.of();
+			return Arrays.stream(raw.split(",")).map(String::trim).toList();
+		}
+		public String serialize(List<String> value) {
+			return "[" + String.join(",", value) + "]";
+		}
+		public String id() {
+			return "string_list";
+		}
+	};
+	public static final ConfigType<List<String>> ITEM_LIST = withId("item_list", STRING_LIST);
+	public static final ConfigType<List<String>> BLOCK_LIST = withId("block_list", STRING_LIST);
+	public static final ConfigType<List<String>> EFFECT_LIST = withId("effect_list", STRING_LIST);
+	public static final ConfigType<List<String>> ENCHANT_LIST = withId("enchant_list", STRING_LIST);
+	public static final ConfigType<List<String>> ENUM = withId("enum", STRING_LIST);
+
+	/*
+		Helpers
+	 */
+	private static final Map<String, ConfigType<?>> registeredConfigTypes = new HashMap<>();
+	public static void registerConfigType(ConfigType<?> configType) {
+		registeredConfigTypes.put(configType.id(), configType);
+	}
+
+	public static ConfigType<?> fromId(String id) throws Exception {
+		ConfigType<?> returnValue = registeredConfigTypes.get(id);
+		if (returnValue == null) throw new IllegalArgumentException("Invalid ConfigType id: " + id);
+		return returnValue;
+	}
 
 	public static <E extends Enum<E>> ConfigType<E> enumOf(Class<E> clazz) {
 		return new ConfigType<>() {
@@ -43,20 +85,6 @@ public final class ConfigTypes {
 			}
 		};
 	}
-
-	public static final ConfigType<List<String>> STRING_LIST = new ConfigType<>() {
-		public List<String> parse(String raw) {
-			if (raw.startsWith("[") && raw.endsWith("]")) raw = raw.substring(1, raw.length()-1);
-			if (raw.isBlank()) return List.of();
-			return Arrays.stream(raw.split(",")).map(String::trim).toList();
-		}
-		public String serialize(List<String> value) {
-			return "[" + String.join(",", value) + "]";
-		}
-		public String id() {
-			return "string_list";
-		}
-	};
 
 	public static <T> ConfigType<T> withId(String id, ConfigType<T> base) {
 		return new ConfigType<>() {

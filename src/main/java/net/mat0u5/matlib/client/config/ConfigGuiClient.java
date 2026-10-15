@@ -10,24 +10,27 @@ import java.util.List;
 
 @AutoService(RegistrableClient.class)
 public class ConfigGuiClient implements RegistrableClient {
-	private static final List<ConfigGuiEntry> pending = new ArrayList<>();
+	private static final List<ConfigGuiEntry> pendingEntries = new ArrayList<>();
 
 	@Override
 	public void onRegister() {
-		MatLibSimplePackets.CLEAR_CONFIG.setClientReceive(empty -> pending.clear());
+		MatLibSimplePackets.CLEAR_CONFIG.setClientReceive(empty -> pendingEntries.clear());
 		MatLibSimplePackets.OPEN_CONFIG.setClientReceive(empty -> {
-			List<ConfigGuiEntry> entries = List.copyOf(pending);
-			pending.clear();
+			List<ConfigGuiEntry> entries = List.copyOf(pendingEntries);
+			pendingEntries.clear();
 			//Open GUI
 		});
-		MatLibSimplePackets.LOAD_CLIENT_CONFIG.setClientReceive(stringPayload -> {
-			String clientConfigId = stringPayload.value();
+		MatLibSimplePackets.CONFIG_GUI_ENTRY.setClientReceive(payload -> ConfigGuiClient.onEntry(payload.value()));
+		MatLibSimplePackets.LOAD_CLIENT_CONFIG.setClientReceive(payload -> {
+			String clientConfigId = payload.value();
 			//TODO
 		});
 	}
 
 	public static void onEntry(List<String> payload) {
-		ConfigGuiEntry entry = ConfigGuiEntry.decode(payload);
-		pending.add(entry);
+		try {
+			ConfigGuiEntry entry = ConfigGuiEntry.decode(payload);
+			pendingEntries.add(entry);
+		}catch(Exception e) {}
 	}
 }
