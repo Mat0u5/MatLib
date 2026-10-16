@@ -6,6 +6,7 @@ import net.mat0u5.matlib.utils.player.PlayerUtils;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 
@@ -18,9 +19,13 @@ public abstract class SimpleConfig {
 	protected final String filePath;
 
 	protected SimpleConfig(String configId, String folderPath, String filePath) {
+		this(configId, folderPath == null ? null : Paths.get("./config", folderPath), filePath);
+	}
+
+	protected SimpleConfig(String configId, Path folder, String filePath) {
 		this.configId = configId;
-		this.folderPath = Paths.get("./config", folderPath).toString();
-		this.filePath = Paths.get(this.folderPath, filePath).toString();
+		this.folderPath = (folder == null || filePath == null) ? null : folder.toString();
+		this.filePath = this.folderPath == null ? null : Paths.get(this.folderPath, filePath).toString();
 		createFileIfNotExists();
 		loadProperties();
 		renamedProperties();
@@ -170,6 +175,7 @@ public abstract class SimpleConfig {
 
 	public void resetProperties(String comment) {
 		properties.clear();
+		if (folderPath == null || filePath == null) return;
 		try (OutputStream output = new FileOutputStream(filePath)) {
 			properties.store(output, comment);
 		} catch (IOException e) {
@@ -192,8 +198,8 @@ public abstract class SimpleConfig {
 	}
 
 	public String getOrCreateProperty(String key, String defaultValue) {
-		if (folderPath == null || filePath == null) return "";
-		if (properties == null) return "";
+		if (folderPath == null || filePath == null) return defaultValue;
+		if (properties == null) return defaultValue;
 
 		if (properties.containsKey(key)) {
 			return properties.getProperty(key);

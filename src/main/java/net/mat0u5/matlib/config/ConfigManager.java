@@ -38,6 +38,10 @@ public class ConfigManager implements RegistrableServer {
 		config.sendAllSyncedConfigs(PlayerUtils.getAllPlayers());
 	}
 
+	public static void unregisterConfig(String configId) {
+		registeredConfigs.remove(configId);
+	}
+
 	public static Collection<SimpleConfig> getAll() {
 		return registeredConfigs.values();
 	}

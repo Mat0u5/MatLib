@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.mixin.client;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
+import net.mat0u5.matlib.client.gui.config.ConfigListWidget;
 import net.minecraft.client.gui.components.AbstractSelectionList;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -18,9 +19,9 @@ public class AbstractSelectionListMixin {
     @Inject(method = "setSelected", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/components/AbstractSelectionList;getY()I"), cancellable = true)
     public void changeSelected(CallbackInfo ci) {
         AbstractSelectionList listWidget = (AbstractSelectionList) (Object) this;
-        /*if (listWidget instanceof ConfigListWidget) {
+        if (listWidget instanceof ConfigListWidget) {
             ci.cancel();
-        }*///TODO re-enable
+        }
     }
     //?}
 }

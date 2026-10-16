@@ -12,6 +12,7 @@ public class ConfigHeader implements ConfigEntry {
 	private boolean isGroupHeader = false;
 	private boolean groupShowSidebar = true;
 	private boolean groupOpenByDefault = false;
+	private boolean isNew = false;
 	private BooleanSupplier visibleIf = () -> true;
 
 	private ConfigHeader(String key, String name) {
@@ -23,6 +24,11 @@ public class ConfigHeader implements ConfigEntry {
 		ConfigHeader header = new ConfigHeader(key, name);
 		config.addEntry(header);
 		return header;
+	}
+
+	public ConfigHeader name(String name) {
+		this.name = name;
+		return this;
 	}
 
 	public ConfigHeader group(String group) {
@@ -42,6 +48,11 @@ public class ConfigHeader implements ConfigEntry {
 
 	public ConfigHeader groupOpenByDefault(boolean groupOpenByDefault) {
 		this.groupOpenByDefault = groupOpenByDefault;
+		return this;
+	}
+
+	public ConfigHeader setNew(boolean isNew) {
+		this.isNew = isNew;
 		return this;
 	}
 
@@ -73,6 +84,11 @@ public class ConfigHeader implements ConfigEntry {
 	@Override
 	public String getGroup() {
 		return this.group;
+	}
+
+	@Override
+	public boolean isNew() {
+		return this.isNew;
 	}
 
 	@Override

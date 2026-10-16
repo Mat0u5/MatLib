@@ -90,7 +90,7 @@ public class ConfigGuiEntry {
 				displayName(header),
 				header.getDescription(),
 				header.getGroup(),
-				false,
+				header.isNew(),
 				header.isGroupHeader(),
 				header.groupShowSidebar(),
 				header.groupOpenByDefault(),

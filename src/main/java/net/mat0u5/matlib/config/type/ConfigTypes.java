@@ -2,6 +2,7 @@ package net.mat0u5.matlib.config.type;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 public final class ConfigTypes {
 	private static final Map<String, ConfigType<?>> registeredConfigTypes = new HashMap<>();
@@ -82,6 +83,23 @@ public final class ConfigTypes {
 			}
 			public List<String> options() {
 				return Arrays.stream(clazz.getEnumConstants()).map(Enum::name).toList();
+			}
+		};
+	}
+
+	public static ConfigType<List<String>> stringListOf(Supplier<List<String>> options) {
+		return new ConfigType<>(false) {
+			public List<String> parse(String raw) throws Exception {
+				return STRING_LIST.parse(raw);
+			}
+			public String serialize(List<String> value) {
+				return STRING_LIST.serialize(value);
+			}
+			public String id() {
+				return STRING_LIST.id();
+			}
+			public List<String> options() {
+				return options.get();
 			}
 		};
 	}
