@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra.time;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.ConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IPopup;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.ITextFieldAddonPopup;
@@ -13,8 +14,8 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
 public class SecondsConfigEntry extends IntegerConfigEntry implements ITextFieldAddonPopup {
-    public SecondsConfigEntry(String fieldName, String displayName, String description, int value, int defaultValue) {
-        super(fieldName, displayName, description, value, defaultValue);
+    public SecondsConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue) {
+        super(guiEntry, value, defaultValue);
     }
 
     @Override

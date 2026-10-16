@@ -49,12 +49,15 @@ public abstract class GuiConfig extends SimpleConfig {
 				MatLibSimplePackets.CONFIG_GUI_ENTRY.sendToClient(entry.encode(), List.of(player));
 			}
 		}
-		MatLibSimplePackets.LOAD_CLIENT_CONFIG.sendToClient(getClientCounterpartId(), player); //Client
+		String clientConfigId = getClientCounterpartId();
+		if (clientConfigId != null) {
+			MatLibSimplePackets.LOAD_CLIENT_CONFIG.sendToClient(clientConfigId, player); //Client
+		}
 
 		MatLibSimplePackets.OPEN_CONFIG.sendToClient(player);
 	}
 
-	private List<ConfigGuiEntry> buildGuiEntries() {
+	public List<ConfigGuiEntry> buildGuiEntries() {
 		List<ConfigGuiEntry> list = new ArrayList<>();
 		for (ConfigEntry entry : entries) {
 			if (!entry.isVisible()) continue;

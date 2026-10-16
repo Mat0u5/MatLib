@@ -1,16 +1,17 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.NumberConfigEntry;
 import net.mat0u5.matlib.config.type.*;
 
 public class IntegerConfigEntry extends NumberConfigEntry<Integer> {
 
-    public IntegerConfigEntry(String fieldName, String displayName, String description, int value, int defaultValue) {
-        super(fieldName, displayName, description, value, defaultValue);
+    public IntegerConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue) {
+        super(guiEntry, value, defaultValue);
     }
 
-    public IntegerConfigEntry(String fieldName, String displayName, String description, int value, int defaultValue, Integer minValue, Integer maxValue) {
-        super(fieldName, displayName, description, value, defaultValue, minValue, maxValue);
+    public IntegerConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue, Integer minValue, Integer maxValue) {
+        super(guiEntry, value, defaultValue, minValue, maxValue);
     }
 
     @Override

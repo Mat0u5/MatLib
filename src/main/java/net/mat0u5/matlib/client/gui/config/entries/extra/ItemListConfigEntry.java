@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.StringListPopupConfigEntry;
 import net.mat0u5.matlib.config.type.*;
 import net.mat0u5.matlib.utils.other.RegistryUtils;
@@ -12,8 +13,8 @@ import java.util.List;
 
 public class ItemListConfigEntry extends StringListPopupConfigEntry<Item> {
 
-    public ItemListConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue) {
-        super(fieldName, displayName, description, value, defaultValue);
+    public ItemListConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue) {
+        super(guiEntry, value, defaultValue);
         reloadEntriesRaw(value);
     }
 

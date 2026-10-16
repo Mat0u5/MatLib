@@ -1,16 +1,17 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.NumberConfigEntry;
 import net.mat0u5.matlib.config.type.*;
 
 public class NullableIntegerConfigEntry extends NumberConfigEntry<Integer> {
 
-    public NullableIntegerConfigEntry(String fieldName, String displayName, String description, Integer value, Integer defaultValue) {
-        super(fieldName, displayName, description, value, defaultValue);
+    public NullableIntegerConfigEntry(ConfigGuiEntry guiEntry, Integer value, Integer defaultValue) {
+        super(guiEntry, value, defaultValue);
     }
 
-    public NullableIntegerConfigEntry(String fieldName, String displayName, String description, Integer value, Integer defaultValue, Integer minValue, Integer maxValue) {
-        super(fieldName, displayName, description, value, defaultValue, minValue, maxValue);
+    public NullableIntegerConfigEntry(ConfigGuiEntry guiEntry, Integer value, Integer defaultValue, Integer minValue, Integer maxValue) {
+        super(guiEntry, value, defaultValue, minValue, maxValue);
     }
 
     @Override

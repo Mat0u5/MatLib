@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.config.type.*;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -15,12 +16,8 @@ public abstract class ModifiableListEntry extends EmptyConfigEntry {
     public final Button deleteEntryButton;
     public final Button addEntryButton;
 
-    public ModifiableListEntry(String fieldName) {
-        this(fieldName, "", "");
-    }
-
-    public ModifiableListEntry(String fieldName, String displayName, String description) {
-        super(fieldName, displayName, description);
+    public ModifiableListEntry(ConfigGuiEntry guiEntry) {
+        super(guiEntry);
         deleteEntryButton = Button.builder(Component.nullToEmpty("\uD83D\uDDD1"), this::deleteEntry)
                 .bounds(0, 0, 16, 16)
                 .build();

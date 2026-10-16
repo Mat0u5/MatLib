@@ -1,13 +1,14 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 //? if >= 1.21.9
 import net.minecraft.client.input.*;
 
 public abstract class EmptyConfigEntry extends ConfigEntry {
-    public EmptyConfigEntry(String fieldName, String displayName, String description) {
-        super(fieldName, displayName, description);
+    public EmptyConfigEntry(ConfigGuiEntry guiEntry) {
+        super(guiEntry);
     }
 
     @Override

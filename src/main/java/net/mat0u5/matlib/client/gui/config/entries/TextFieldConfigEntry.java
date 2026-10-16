@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.utils.TextColors;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
@@ -18,16 +19,16 @@ public abstract class TextFieldConfigEntry extends ConfigEntry {
     private int maxTextFieldLength = 8192;
     protected boolean clicked = false;
 
-    public TextFieldConfigEntry(String fieldName, String displayName, String description) {
-        this(fieldName, displayName, description, DEFAULT_TEXT_FIELD_WIDTH, DEFAULT_TEXT_FIELD_HEIGHT);
+    public TextFieldConfigEntry(ConfigGuiEntry guiEntry) {
+        this(guiEntry, DEFAULT_TEXT_FIELD_WIDTH, DEFAULT_TEXT_FIELD_HEIGHT);
     }
 
-    public TextFieldConfigEntry(String fieldName, String displayName, String description, int textFieldWidth) {
-        this(fieldName, displayName, description, textFieldWidth, DEFAULT_TEXT_FIELD_HEIGHT);
+    public TextFieldConfigEntry(ConfigGuiEntry guiEntry, int textFieldWidth) {
+        this(guiEntry, textFieldWidth, DEFAULT_TEXT_FIELD_HEIGHT);
     }
 
-    public TextFieldConfigEntry(String fieldName, String displayName, String description, int textFieldWidth, int textFieldHeight) {
-        super(fieldName, displayName, description);
+    public TextFieldConfigEntry(ConfigGuiEntry guiEntry, int textFieldWidth, int textFieldHeight) {
+        super(guiEntry);
         textField = new EditBox(textRenderer, 0, 0, textFieldWidth, textFieldHeight, Component.empty());
         textField.setResponder(this::onChanged);
         textField.setMaxLength(maxTextFieldLength);

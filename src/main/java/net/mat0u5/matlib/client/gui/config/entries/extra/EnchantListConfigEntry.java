@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.main.StringConfigEntry;
 import net.mat0u5.matlib.config.type.*;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
@@ -14,8 +15,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public class EnchantListConfigEntry extends StringConfigEntry {
-    public EnchantListConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue) {
-        super(fieldName, displayName, description, value, defaultValue);
+    public EnchantListConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue) {
+        super(guiEntry, value, defaultValue);
     }
 
     @Override

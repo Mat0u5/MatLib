@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.ButtonConfigEntry;
 import net.mat0u5.matlib.config.type.ConfigType;
 import net.mat0u5.matlib.config.type.*;
@@ -20,12 +21,12 @@ public class EnumConfigEntry extends ButtonConfigEntry {
 	int currentIndex;
 	int defaultIndex;
 
-	public EnumConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue, List<String> possibleValues) {
-		this(fieldName, displayName, description, value, defaultValue, possibleValues, getMaxLength(possibleValues), BUTTON_HEIGHT);
+	public EnumConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue, List<String> possibleValues) {
+		this(guiEntry, value, defaultValue, possibleValues, getMaxLength(possibleValues), BUTTON_HEIGHT);
 	}
 
-	public EnumConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue, List<String> possibleValues, int buttonWidth, int buttonHeight) {
-		super(fieldName, displayName, description, buttonWidth, buttonHeight);
+	public EnumConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue, List<String> possibleValues, int buttonWidth, int buttonHeight) {
+		super(guiEntry, buttonWidth, buttonHeight);
 
 		assert possibleValues.contains(value);
 		assert possibleValues.contains(defaultValue);

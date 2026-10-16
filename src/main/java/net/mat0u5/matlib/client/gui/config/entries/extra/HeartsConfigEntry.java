@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.ConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IPopup;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.ITextFieldAddonPopup;
@@ -22,12 +23,12 @@ public class HeartsConfigEntry extends IntegerConfigEntry implements ITextFieldA
     private static final String HEART_ROW = "♥♥♥♥♥♥♥♥♥♥";
     private static final String HALF_HEART_SYMBOL = "♡";
 
-    public HeartsConfigEntry(String fieldName, String displayName, String description, int value, int defaultValue) {
-        super(fieldName, displayName, description, value, defaultValue);
+    public HeartsConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue) {
+        super(guiEntry, value, defaultValue);
     }
 
-    public HeartsConfigEntry(String fieldName, String displayName, String description, int value, int defaultValue, Integer minValue, Integer maxValue) {
-        super(fieldName, displayName, description, value, defaultValue, minValue, maxValue);
+    public HeartsConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue, Integer minValue, Integer maxValue) {
+        super(guiEntry, value, defaultValue, minValue, maxValue);
     }
 
     @Override

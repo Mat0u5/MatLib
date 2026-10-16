@@ -3,6 +3,7 @@ package net.mat0u5.matlib.client.gui.config.entries;
 import net.mat0u5.matlib.client.gui.config.ConfigListWidget;
 import net.mat0u5.matlib.client.gui.config.ConfigScreen;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IEntryGroupHeader;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.config.type.*;
 import net.mat0u5.matlib.client.render.RenderUtils;
 import net.mat0u5.matlib.client.utils.TextColors;
@@ -34,7 +35,7 @@ public class GroupConfigEntry<T extends ConfigEntry & IEntryGroupHeader> extends
     private int y;
 
     public GroupConfigEntry(T mainEntry, List<ConfigEntry> childEntries, boolean showSidebar, boolean openByDefault) {
-        super("", "","");
+        super(new ConfigGuiEntry(mainEntry.getInboundGuiEntry().configId, "", ConfigTypes.HEADER, "", "", "", false, false, false, "", List.of()));
         this.mainEntry = mainEntry;
         this.currentHeight = mainEntry.getPreferredHeight();
         this.childEntries = new ArrayList<>(childEntries);
@@ -296,7 +297,7 @@ public class GroupConfigEntry<T extends ConfigEntry & IEntryGroupHeader> extends
 
     @Override
     public ConfigType<?> getValueType() {
-        return ConfigTypes.GROUP;
+        return mainEntry.getValueType();
     }
 
     @Override

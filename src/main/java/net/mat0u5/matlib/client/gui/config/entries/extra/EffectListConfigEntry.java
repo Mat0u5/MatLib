@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.StringListPopupConfigEntry;
 import net.mat0u5.matlib.config.type.*;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
@@ -46,8 +47,8 @@ public class EffectListConfigEntry extends StringListPopupConfigEntry<Holder<Mob
     private static final Identifier EFFECT_BACKGROUND_TEXTURE = IdentifierHelper.vanilla("hud/effect_background");
     //?}
 
-    public EffectListConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue) {
-        super(fieldName, displayName, description, value, defaultValue, 5, 24, 2);
+    public EffectListConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue) {
+        super(guiEntry, value, defaultValue, 5, 24, 2);
         reloadEntriesRaw(value);
     }
 

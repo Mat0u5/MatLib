@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 
 public final class ConfigTypes {
+	private static final Map<String, ConfigType<?>> registeredConfigTypes = new HashMap<>();
 	public static final ConfigType<Integer> INTEGER = fromParser("integer", Integer::parseInt);
 	public static final ConfigType<Double> DOUBLE = fromParser("double", Double::parseDouble);
 	public static final ConfigType<String> STRING = fromParser("string", str -> str);
@@ -58,7 +59,6 @@ public final class ConfigTypes {
 	/*
 		Helpers
 	 */
-	private static final Map<String, ConfigType<?>> registeredConfigTypes = new HashMap<>();
 	public static void registerConfigType(ConfigType<?> configType) {
 		registeredConfigTypes.put(configType.id(), configType);
 	}

@@ -131,6 +131,10 @@ public class ConfigurableValue<T> implements ConfigEntry {
 		return this.defaultValue;
 	}
 
+	public String getDefaultAsString() {
+		return getValueAsString(this.defaultValue);
+	}
+
 	public String getName() {
 		return this.name;
 	}

@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IEntryGroupHeader;
 import net.mat0u5.matlib.client.utils.TextColors;
 import net.mat0u5.matlib.utils.other.TextUtils;
@@ -16,12 +17,12 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
     protected T value;
     protected T startingValue;
 
-    public NumberConfigEntry(String fieldName, String displayName, String description, T value, T defaultValue) {
-        this(fieldName, displayName, description, value, defaultValue, null, null);
+    public NumberConfigEntry(ConfigGuiEntry guiEntry, T value, T defaultValue) {
+        this(guiEntry, value, defaultValue, null, null);
     }
 
-    public NumberConfigEntry(String fieldName, String displayName, String description, T value, T defaultValue, T minValue, T maxValue) {
-        super(fieldName, displayName, description, TEXT_FIELD_WIDTH);
+    public NumberConfigEntry(ConfigGuiEntry guiEntry, T value, T defaultValue, T minValue, T maxValue) {
+        super(guiEntry, TEXT_FIELD_WIDTH);
         this.defaultValue = defaultValue;
         this.minValue = minValue;
         this.maxValue = maxValue;

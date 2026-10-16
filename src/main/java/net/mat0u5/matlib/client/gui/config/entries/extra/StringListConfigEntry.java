@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.StringListPopupConfigEntry;
 import net.mat0u5.matlib.config.type.*;
 import net.mat0u5.matlib.utils.other.TextUtils;
@@ -13,8 +14,8 @@ public class StringListConfigEntry extends StringListPopupConfigEntry<String> {
 
     private List<String> allowedValues;
 
-    public StringListConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue, List<String> allowedValues) {
-        super(fieldName, displayName, description, value, defaultValue);
+    public StringListConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue, List<String> allowedValues) {
+        super(guiEntry, value, defaultValue);
         this.allowedValues = allowedValues;
     }
 

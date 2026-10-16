@@ -2,7 +2,7 @@ package net.mat0u5.matlib.client.network;
 
 import com.google.auto.service.AutoService;
 import net.mat0u5.matlib.MatLib;
-import net.mat0u5.matlib.client.config.ConfigManagerClient;
+import net.mat0u5.matlib.client.config.ClientConfigManager;
 import net.mat0u5.matlib.client.events.ClientNetworkEvents;
 import net.mat0u5.matlib.client.services.RegistrableClient;
 import net.mat0u5.matlib.client.utils.ClientUtils;
@@ -25,7 +25,7 @@ public class MatLibNetworkHandlerClient implements RegistrableClient {
 	}
 
 	public void initializeSimplePacketReceivers() {
-		MatLibSimplePackets.SYNCED_CONFIG.setClientReceive(payload -> ConfigManagerClient.onConfigSyncPacket(payload.value()));
+		MatLibSimplePackets.SYNCED_CONFIG.setClientReceive(payload -> ClientConfigManager.onConfigSyncPacket(payload.value()));
 	}
 
 	public static boolean onCustomPayload(CustomPacketPayload customPacketPayload) {

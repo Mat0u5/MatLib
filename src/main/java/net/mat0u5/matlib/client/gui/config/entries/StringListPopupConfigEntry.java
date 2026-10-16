@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IPopup;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.ITextFieldAddonPopup;
 import net.mat0u5.matlib.client.gui.config.entries.main.StringConfigEntry;
@@ -20,13 +21,13 @@ public abstract class StringListPopupConfigEntry<T> extends StringConfigEntry im
     protected List<T> entries = null;
     private String lastEntryStr = "";
 
-    public StringListPopupConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue) {
-        this(fieldName,displayName, description, value, defaultValue, 10, 16, 2);
+    public StringListPopupConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue) {
+        this(guiEntry, value, defaultValue, 10, 16, 2);
     }
 
-    public StringListPopupConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue,
+    public StringListPopupConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue,
                                       int maxLineEntries, int entrySize, int entryPadding) {
-        super(fieldName, displayName, description, value, defaultValue);
+        super(guiEntry, value, defaultValue);
         this.MAX_LINE_ENTRIES = maxLineEntries;
         this.ENTRY_SIZE = entrySize;
         this.ENTRY_PADDING = entryPadding;

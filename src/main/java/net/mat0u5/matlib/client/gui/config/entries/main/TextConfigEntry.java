@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.mat0u5.matlib.client.gui.config.entries.EmptyConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IEntryGroupHeader;
@@ -12,12 +13,12 @@ public class TextConfigEntry extends EmptyConfigEntry implements IEntryGroupHead
     private final boolean clickable;
     public boolean clicked;
 
-    public TextConfigEntry(String fieldName, String displayName, String description) {
-        this(fieldName, displayName, description, true);
+    public TextConfigEntry(ConfigGuiEntry guiEntry) {
+        this(guiEntry, true);
     }
 
-    public TextConfigEntry(String fieldName, String displayName, String description, boolean clickable) {
-        super(fieldName, displayName, description);
+    public TextConfigEntry(ConfigGuiEntry guiEntry, boolean clickable) {
+        super(guiEntry);
         this.clickable = clickable;
     }
 
@@ -36,7 +37,7 @@ public class TextConfigEntry extends EmptyConfigEntry implements IEntryGroupHead
 
     @Override
     public ConfigType<?> getValueType() {
-        return ConfigTypes.TEXT;
+        return ConfigTypes.HEADER;
     }
 
     @Override

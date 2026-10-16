@@ -3,6 +3,7 @@ package net.mat0u5.matlib.client.gui.config;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.platform.InputConstants;
+import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.client.MatLibClient;
 import net.mat0u5.matlib.client.config.ClientConfigManager;
 import net.mat0u5.matlib.client.gui.config.entries.ConfigEntry;
@@ -15,6 +16,7 @@ import net.mat0u5.matlib.client.utils.TextColors;
 import net.mat0u5.matlib.config.ConfigManager;
 import net.mat0u5.matlib.config.SimpleConfig;
 import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.entry.ConfigurableValue;
 import net.mat0u5.matlib.network.MatLibSimplePackets;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
@@ -364,7 +366,15 @@ public class ConfigScreen extends Screen {
             // Client
             if (!entry.isModified() && !entry.changedForever) continue;
             if (entry instanceof GroupConfigEntry) continue;
-            clientConfigs.add(entry.getInboundGuiEntry().configId);
+            ConfigGuiEntry guiEntry = entry.getInboundGuiEntry();
+            clientConfigs.add(guiEntry.configId);
+            ConfigurableValue<?> value = ClientConfigManager.getValue(guiEntry.configId, guiEntry.key);
+            if (value == null) continue;
+            try {
+                value.setFromString(entry.getValueAsString());
+            } catch (Exception e) {
+                MatLib.LOGGER.error("Failed to save client config value {}:{}", guiEntry.configId, guiEntry.key, e);
+            }
         }
         ClientConfigManager.reloadConfigs(clientConfigs);
 

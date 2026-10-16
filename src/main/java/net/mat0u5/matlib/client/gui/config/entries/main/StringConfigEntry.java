@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.TextFieldConfigEntry;
 import net.mat0u5.matlib.config.type.*;
 import net.mat0u5.matlib.utils.other.OtherUtils;
@@ -18,11 +19,11 @@ public class StringConfigEntry extends TextFieldConfigEntry {
     private float targetWidth;
     private int x = -1;
 
-    public StringConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue) {
-        this(fieldName, displayName, description, value, defaultValue, 150, DEFAULT_TEXT_FIELD_HEIGHT);
+    public StringConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue) {
+        this(guiEntry, value, defaultValue, 150, DEFAULT_TEXT_FIELD_HEIGHT);
     }
-    public StringConfigEntry(String fieldName, String displayName, String description, String value, String defaultValue, int textFieldWidth, int textFieldHeight) {
-        super(fieldName, displayName, description, textFieldWidth, textFieldHeight);
+    public StringConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue, int textFieldWidth, int textFieldHeight) {
+        super(guiEntry, textFieldWidth, textFieldHeight);
         this.minFieldWidth = textFieldWidth;
         this.defaultValue = defaultValue;
         this.value = value;

@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.ButtonConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IEntryGroupHeader;
 import net.mat0u5.matlib.config.type.*;
@@ -17,12 +18,12 @@ public class BooleanConfigEntry extends ButtonConfigEntry implements IEntryGroup
     private boolean startingValue;
     private boolean reverseHeaderOpen;
 
-    public BooleanConfigEntry(String fieldName, String displayName, String description, boolean value, boolean defaultValue) {
-        this(fieldName, displayName, description, value, defaultValue, false);
+    public BooleanConfigEntry(ConfigGuiEntry guiEntry, boolean value, boolean defaultValue) {
+        this(guiEntry, value, defaultValue, false);
     }
 
-    public BooleanConfigEntry(String fieldName, String displayName, String description, boolean value, boolean defaultValue, boolean reverseHeader) {
-        super(fieldName, displayName, description, BUTTON_WIDTH, BUTTON_HEIGHT);
+    public BooleanConfigEntry(ConfigGuiEntry guiEntry, boolean value, boolean defaultValue, boolean reverseHeader) {
+        super(guiEntry, BUTTON_WIDTH, BUTTON_HEIGHT);
         this.defaultValue = defaultValue;
         this.value = value;
         this.startingValue = value;

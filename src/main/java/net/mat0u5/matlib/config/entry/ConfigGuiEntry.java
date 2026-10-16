@@ -17,6 +17,7 @@ public class ConfigGuiEntry {
 	public boolean isNew;
 	public boolean groupHeader;
 	public boolean requiresReload;
+	public String defaultValue;
 	public List<String> args;
 
 	public ConfigGuiEntry(
@@ -29,6 +30,7 @@ public class ConfigGuiEntry {
 			boolean isNew,
 			boolean groupHeader,
 			boolean requiresReload,
+			String defaultValue,
 			List<String> args
 	) {
 		this.configId = configId;
@@ -40,6 +42,7 @@ public class ConfigGuiEntry {
 		this.isNew = isNew;
 		this.groupHeader = groupHeader;
 		this.requiresReload = requiresReload;
+		this.defaultValue = defaultValue;
 		this.args = args;
 	}
 
@@ -66,6 +69,7 @@ public class ConfigGuiEntry {
 				value.isNew(),
 				value.isGroupHeader(),
 				value.requiresReload(),
+				value.getDefaultAsString(),
 				args
 		);
 	}
@@ -79,8 +83,9 @@ public class ConfigGuiEntry {
 				header.getDescription(),
 				header.getGroup(),
 				false,
+				header instanceof ConfigHeader configHeader && configHeader.isGroupHeader(),
 				false,
-				false,
+				"",
 				List.of()
 		);
 	}
@@ -96,6 +101,7 @@ public class ConfigGuiEntry {
 				false,
 				false,
 				false,
+				"",
 				dynamic.args()
 		);
 	}
@@ -115,6 +121,7 @@ public class ConfigGuiEntry {
 		out.add(String.valueOf(isNew));
 		out.add(String.valueOf(groupHeader));
 		out.add(String.valueOf(requiresReload));
+		out.add(defaultValue);
 		out.addAll(args);
 		return out;
 	}
@@ -130,6 +137,7 @@ public class ConfigGuiEntry {
 		boolean isNew = Boolean.parseBoolean(in.next());
 		boolean groupHeader = Boolean.parseBoolean(in.next());
 		boolean requiresReload = Boolean.parseBoolean(in.next());
+		String defaultValue = in.next();
 		List<String> args = new ArrayList<>();
 		in.forEachRemaining(args::add);
 		return new ConfigGuiEntry(
@@ -142,6 +150,7 @@ public class ConfigGuiEntry {
 				isNew,
 				groupHeader,
 				requiresReload,
+				defaultValue,
 				args
 		);
 	}

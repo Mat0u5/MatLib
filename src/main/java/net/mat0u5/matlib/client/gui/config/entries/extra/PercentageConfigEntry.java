@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 
 import net.mat0u5.matlib.client.gui.config.entries.ConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IPopup;
@@ -14,12 +15,12 @@ import net.minecraft.network.chat.Component;
 
 public class PercentageConfigEntry extends DoubleConfigEntry implements ITextFieldAddonPopup {
 
-    public PercentageConfigEntry(String fieldName, String displayName, String description, double value, double defaultValue) {
-        super(fieldName, displayName, description, value, defaultValue, 0.0, 1.0);
+    public PercentageConfigEntry(ConfigGuiEntry guiEntry, double value, double defaultValue) {
+        super(guiEntry, value, defaultValue, 0.0, 1.0);
     }
 
-    public PercentageConfigEntry(String fieldName, String displayName, String description, double value, double defaultValue, Double minValue, Double maxValue) {
-        super(fieldName, displayName, description, value, defaultValue, minValue, maxValue);
+    public PercentageConfigEntry(ConfigGuiEntry guiEntry, double value, double defaultValue, Double minValue, Double maxValue) {
+        super(guiEntry, value, defaultValue, minValue, maxValue);
     }
 
     @Override

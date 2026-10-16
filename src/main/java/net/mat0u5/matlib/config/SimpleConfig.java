@@ -43,6 +43,7 @@ public abstract class SimpleConfig {
 	}
 
 	public void reload() {
+		loadProperties();
 		values.values().forEach(ConfigurableValue::reload);
 	}
 

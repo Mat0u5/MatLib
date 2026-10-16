@@ -1,5 +1,6 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
@@ -11,8 +12,8 @@ public abstract class ButtonConfigEntry extends ConfigEntry {
     protected final Button button;
     protected boolean clicked = false;
 
-    public ButtonConfigEntry(String fieldName, String displayName, String description, int buttonWidth, int buttonHeight) {
-        super(fieldName, displayName, description);
+    public ButtonConfigEntry(ConfigGuiEntry guiEntry, int buttonWidth, int buttonHeight) {
+        super(guiEntry);
         button = createButton(buttonWidth, buttonHeight);
     }
 

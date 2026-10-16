@@ -9,6 +9,7 @@ public class ConfigHeader implements ConfigEntry {
 	private String name;
 	private String description = "";
 	private String group = "";
+	private boolean isGroupHeader = false;
 	private BooleanSupplier visibleIf = () -> true;
 
 	private ConfigHeader(String key, String name) {
@@ -24,6 +25,11 @@ public class ConfigHeader implements ConfigEntry {
 
 	public ConfigHeader group(String group) {
 		this.group = group;
+		return this;
+	}
+
+	public ConfigHeader groupHeader(boolean isGroupHeader) {
+		this.isGroupHeader = isGroupHeader;
 		return this;
 	}
 
@@ -55,6 +61,10 @@ public class ConfigHeader implements ConfigEntry {
 	@Override
 	public String getGroup() {
 		return this.group;
+	}
+
+	public boolean isGroupHeader() {
+		return this.isGroupHeader;
 	}
 
 	@Override

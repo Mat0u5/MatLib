@@ -62,9 +62,9 @@ public abstract class ConfigEntry {
 
     public ConfigEntry(ConfigGuiEntry inboundGuiEntry) {
         this.inboundGuiEntry = inboundGuiEntry;
-        this.fieldName = inboundGuiEntry.key();
-        this.displayName = inboundGuiEntry.name();
-        this.description = inboundGuiEntry.description();
+        this.fieldName = inboundGuiEntry.key;
+        this.displayName = inboundGuiEntry.name;
+        this.description = inboundGuiEntry.description;
         this.textRenderer = Minecraft.getInstance().font;
         initializeResetButton();
     }
