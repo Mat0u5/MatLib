@@ -13,17 +13,26 @@ import java.util.List;
 public abstract class GuiConfig extends SimpleConfig {
 
 	protected final List<ConfigEntry> entries = new ArrayList<>();
+	protected final String guiTitle;
 
-	protected GuiConfig(String configId, String folderPath, String filePath) {
+	protected GuiConfig(String configId, String guiTitle, String folderPath, String filePath) {
 		super(configId, folderPath, filePath);
+		this.guiTitle = guiTitle;
+	}
+
+	public String getGuiTitle() {
+		return guiTitle;
 	}
 
 	public List<DynamicEntry> getDynamicEntries() {
 		return List.of();
 	}
-	protected abstract boolean hasPermissionsToOpen(ServerPlayer player);
+	public abstract boolean hasPermissionsToOpen(ServerPlayer player);
 	public String getClientCounterpartId() {
 		return null;
+	}
+
+	public void onDynamicEntryUpdate(ServerPlayer player, ConfigGuiEntry entry) {
 	}
 
 	public void addEntry(ConfigEntry entry) {
@@ -54,7 +63,7 @@ public abstract class GuiConfig extends SimpleConfig {
 			MatLibSimplePackets.LOAD_CLIENT_CONFIG.sendToClient(clientConfigId, player); //Client
 		}
 
-		MatLibSimplePackets.OPEN_CONFIG.sendToClient(player);
+		MatLibSimplePackets.OPEN_CONFIG.sendToClient(getGuiTitle(), player);
 	}
 
 	public List<ConfigGuiEntry> buildGuiEntries() {

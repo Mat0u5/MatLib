@@ -4,8 +4,10 @@ import com.google.auto.service.AutoService;
 import com.mojang.authlib.GameProfile;
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.config.ConfigManager;
+import net.mat0u5.matlib.config.GuiConfig;
 import net.mat0u5.matlib.config.SimpleConfig;
 import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.entry.ConfigurableValue;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.events.server.ServerNetworkEvents;
 import net.mat0u5.matlib.events.server.ServerPlayerEvents;
@@ -180,14 +182,32 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 	}
 
 	public static void onConfigPayload(ServerPlayer player, StringListPayload payload) throws Exception {
-		if (!PermissionManager.isAdmin(player)) return;
 		ConfigGuiEntry entry = ConfigGuiEntry.decode(payload.value());
-		//TODO
+		if (!(ConfigManager.get(entry.configId) instanceof GuiConfig config)) return;
+		if (!config.hasPermissionsToOpen(player)) return;
+		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER] Received config update from {}: {{}, {}, {}}", player, entry.configId, entry.key, entry.args));
+
+		ConfigurableValue<?> value = config.getValue(entry.key);
+		if (value == null) {
+			config.onDynamicEntryUpdate(player, entry);
+			return;
+		}
+		try {
+			value.setFromString(entry.value());
+		} catch (Exception e) {
+			MatLib.LOGGER.error("Invalid config value '{}' for {}:{} from {}", entry.value(), entry.configId, entry.key, player, e);
+		}
 	}
 	public static void onConfigPayloadEnd(ServerPlayer player, StringListPayload payload) throws Exception {
-		if (!PermissionManager.isAdmin(player)) return;
-		List<String> reloadConfigs = new ArrayList<>(payload.value());
-		boolean reloadServer = Boolean.valueOf(reloadConfigs.remove(0)); //TODO logic
-		ConfigManager.reloadConfigs(reloadConfigs);
+		List<String> configIds = new ArrayList<>(payload.value());
+		boolean reloadServer = Boolean.parseBoolean(configIds.remove(0));
+		configIds.removeIf(configId -> !(ConfigManager.get(configId) instanceof GuiConfig config) || !config.hasPermissionsToOpen(player));
+		if (configIds.isEmpty()) return;
+		if (reloadServer) {
+			OtherUtils.reloadServer();
+		}
+		else {
+			ConfigManager.reloadConfigs(configIds);
+		}
 	}
 }

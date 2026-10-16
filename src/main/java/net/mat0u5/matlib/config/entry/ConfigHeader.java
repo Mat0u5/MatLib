@@ -10,6 +10,8 @@ public class ConfigHeader implements ConfigEntry {
 	private String description = "";
 	private String group = "";
 	private boolean isGroupHeader = false;
+	private boolean groupShowSidebar = true;
+	private boolean groupOpenByDefault = false;
 	private BooleanSupplier visibleIf = () -> true;
 
 	private ConfigHeader(String key, String name) {
@@ -30,6 +32,16 @@ public class ConfigHeader implements ConfigEntry {
 
 	public ConfigHeader groupHeader(boolean isGroupHeader) {
 		this.isGroupHeader = isGroupHeader;
+		return this;
+	}
+
+	public ConfigHeader groupShowSidebar(boolean groupShowSidebar) {
+		this.groupShowSidebar = groupShowSidebar;
+		return this;
+	}
+
+	public ConfigHeader groupOpenByDefault(boolean groupOpenByDefault) {
+		this.groupOpenByDefault = groupOpenByDefault;
 		return this;
 	}
 
@@ -63,8 +75,19 @@ public class ConfigHeader implements ConfigEntry {
 		return this.group;
 	}
 
+	@Override
 	public boolean isGroupHeader() {
 		return this.isGroupHeader;
+	}
+
+	@Override
+	public boolean groupShowSidebar() {
+		return this.groupShowSidebar;
+	}
+
+	@Override
+	public boolean groupOpenByDefault() {
+		return this.groupOpenByDefault;
 	}
 
 	@Override

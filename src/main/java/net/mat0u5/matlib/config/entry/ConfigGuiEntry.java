@@ -16,6 +16,8 @@ public class ConfigGuiEntry {
 	public String group;
 	public boolean isNew;
 	public boolean groupHeader;
+	public boolean groupShowSidebar;
+	public boolean groupOpenByDefault;
 	public boolean requiresReload;
 	public String defaultValue;
 	public List<String> args;
@@ -29,6 +31,8 @@ public class ConfigGuiEntry {
 			String group,
 			boolean isNew,
 			boolean groupHeader,
+			boolean groupShowSidebar,
+			boolean groupOpenByDefault,
 			boolean requiresReload,
 			String defaultValue,
 			List<String> args
@@ -41,6 +45,8 @@ public class ConfigGuiEntry {
 		this.group = group;
 		this.isNew = isNew;
 		this.groupHeader = groupHeader;
+		this.groupShowSidebar = groupShowSidebar;
+		this.groupOpenByDefault = groupOpenByDefault;
 		this.requiresReload = requiresReload;
 		this.defaultValue = defaultValue;
 		this.args = args;
@@ -68,6 +74,8 @@ public class ConfigGuiEntry {
 				value.getGroup(),
 				value.isNew(),
 				value.isGroupHeader(),
+				value.groupShowSidebar(),
+				value.groupOpenByDefault(),
 				value.requiresReload(),
 				value.getDefaultAsString(),
 				args
@@ -83,7 +91,9 @@ public class ConfigGuiEntry {
 				header.getDescription(),
 				header.getGroup(),
 				false,
-				header instanceof ConfigHeader configHeader && configHeader.isGroupHeader(),
+				header.isGroupHeader(),
+				header.groupShowSidebar(),
+				header.groupOpenByDefault(),
 				false,
 				"",
 				List.of()
@@ -99,6 +109,8 @@ public class ConfigGuiEntry {
 				dynamic.description(),
 				dynamic.group(),
 				false,
+				false,
+				true,
 				false,
 				false,
 				"",
@@ -120,6 +132,8 @@ public class ConfigGuiEntry {
 		out.add(group);
 		out.add(String.valueOf(isNew));
 		out.add(String.valueOf(groupHeader));
+		out.add(String.valueOf(groupShowSidebar));
+		out.add(String.valueOf(groupOpenByDefault));
 		out.add(String.valueOf(requiresReload));
 		out.add(defaultValue);
 		out.addAll(args);
@@ -136,6 +150,8 @@ public class ConfigGuiEntry {
 		String group = in.next();
 		boolean isNew = Boolean.parseBoolean(in.next());
 		boolean groupHeader = Boolean.parseBoolean(in.next());
+		boolean groupShowSidebar = Boolean.parseBoolean(in.next());
+		boolean groupOpenByDefault = Boolean.parseBoolean(in.next());
 		boolean requiresReload = Boolean.parseBoolean(in.next());
 		String defaultValue = in.next();
 		List<String> args = new ArrayList<>();
@@ -149,6 +165,8 @@ public class ConfigGuiEntry {
 				group,
 				isNew,
 				groupHeader,
+				groupShowSidebar,
+				groupOpenByDefault,
 				requiresReload,
 				defaultValue,
 				args

@@ -35,7 +35,7 @@ public class GroupConfigEntry<T extends ConfigEntry & IEntryGroupHeader> extends
     private int y;
 
     public GroupConfigEntry(T mainEntry, List<ConfigEntry> childEntries, boolean showSidebar, boolean openByDefault) {
-        super(new ConfigGuiEntry(mainEntry.getInboundGuiEntry().configId, "", ConfigTypes.HEADER, "", "", "", false, false, false, "", List.of()));
+        super(new ConfigGuiEntry(mainEntry.getInboundGuiEntry().configId, "", ConfigTypes.HEADER, "", "", "", false, false, true, false, false, "", List.of()));
         this.mainEntry = mainEntry;
         this.currentHeight = mainEntry.getPreferredHeight();
         this.childEntries = new ArrayList<>(childEntries);

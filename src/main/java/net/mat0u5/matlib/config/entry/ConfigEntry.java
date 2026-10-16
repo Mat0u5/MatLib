@@ -5,5 +5,8 @@ public interface ConfigEntry {
 	String getName();
 	String getDescription();
 	String getGroup();
+	boolean isGroupHeader();
+	boolean groupShowSidebar();
+	boolean groupOpenByDefault();
 	boolean isVisible();
 }

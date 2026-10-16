@@ -43,6 +43,8 @@ public class ConfigurableValue<T> implements ConfigEntry {
 	private String description = "";
 	private String group = "";
 	private boolean isGroupHeader = false;
+	private boolean groupShowSidebar = true;
+	private boolean groupOpenByDefault = false;
 	private boolean isNew = false;
 	private boolean requiresReload = false;
 	private BooleanSupplier visibleIf = () -> true;
@@ -104,6 +106,16 @@ public class ConfigurableValue<T> implements ConfigEntry {
 		return this;
 	}
 
+	public ConfigurableValue<T> groupShowSidebar(boolean groupShowSidebar) {
+		this.groupShowSidebar = groupShowSidebar;
+		return this;
+	}
+
+	public ConfigurableValue<T> groupOpenByDefault(boolean groupOpenByDefault) {
+		this.groupOpenByDefault = groupOpenByDefault;
+		return this;
+	}
+
 	public ConfigurableValue<T> setNew(boolean isNew) {
 		this.isNew = isNew;
 		return this;
@@ -157,6 +169,14 @@ public class ConfigurableValue<T> implements ConfigEntry {
 
 	public boolean isGroupHeader() {
 		return this.isGroupHeader;
+	}
+
+	public boolean groupShowSidebar() {
+		return this.groupShowSidebar;
+	}
+
+	public boolean groupOpenByDefault() {
+		return this.groupOpenByDefault;
 	}
 
 	public boolean isVisible() {

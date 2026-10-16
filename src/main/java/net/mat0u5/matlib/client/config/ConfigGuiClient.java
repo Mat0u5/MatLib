@@ -65,10 +65,10 @@ public class ConfigGuiClient implements RegistrableClient {
 	public void onRegister() {
 		registerEventFactories();
 		MatLibSimplePackets.CLEAR_CONFIG.setClientReceive(empty -> pendingEntries.clear());
-		MatLibSimplePackets.OPEN_CONFIG.setClientReceive(empty -> {
+		MatLibSimplePackets.OPEN_CONFIG.setClientReceive(payload -> {
 			List<ConfigGuiEntry> entries = List.copyOf(pendingEntries);
 			pendingEntries.clear();
-			openConfig(entries);
+			openConfig(payload.value(), entries);
 		});
 		MatLibSimplePackets.CONFIG_GUI_ENTRY.setClientReceive(payload -> ConfigGuiClient.onEntry(payload.value()));
 		MatLibSimplePackets.LOAD_CLIENT_CONFIG.setClientReceive(payload -> {
@@ -92,7 +92,7 @@ public class ConfigGuiClient implements RegistrableClient {
 		}
 	}
 
-	public static void openConfig(List<ConfigGuiEntry> entries) {
+	public static void openConfig(String title, List<ConfigGuiEntry> entries) {
 		List<ConfigGuiEntry> serverEntries = new ArrayList<>();
 		List<ConfigGuiEntry> clientEntries = new ArrayList<>();
 		for (ConfigGuiEntry entry : entries) {
@@ -105,7 +105,7 @@ public class ConfigGuiClient implements RegistrableClient {
 		}
 		if (serverEntries.isEmpty() && clientEntries.isEmpty() && !MatLib.DEBUG) return;
 
-		ConfigScreen.Builder builder = new ConfigScreen.Builder(RenderUtils.getScreen(), Component.nullToEmpty("Config"));
+		ConfigScreen.Builder builder = new ConfigScreen.Builder(RenderUtils.getScreen(), Component.nullToEmpty(title));
 		if (!serverEntries.isEmpty()) {
 			addConfig(builder.addCategory("Server"), serverEntries);
 		}
@@ -131,7 +131,7 @@ public class ConfigGuiClient implements RegistrableClient {
 			}
 
 			if (guiEntry.groupHeader && !guiEntry.group.isEmpty()) {
-				GroupConfigEntry<?> groupEntry = createGroupEntry(configEntry);
+				GroupConfigEntry<?> groupEntry = createGroupEntry(guiEntry, configEntry);
 				if (groupEntry != null) {
 					groupEntries.put(groupKey(guiEntry, guiEntry.group), groupEntry);
 					addToParentOrCategory(guiEntry, groupEntry, groupEntries, category);
@@ -181,14 +181,14 @@ public class ConfigGuiClient implements RegistrableClient {
 		}
 	}
 
-	private static GroupConfigEntry<?> createGroupEntry(ConfigEntry configEntry) {
+	private static GroupConfigEntry<?> createGroupEntry(ConfigGuiEntry guiEntry, ConfigEntry configEntry) {
 		if (!(configEntry instanceof IEntryGroupHeader)) {
 			MatLib.LOGGER.error("Group entry {} does not implement IEntryGroupHeader", configEntry.getFieldName());
 			return null;
 		}
 
-		boolean showSidebar = true;
-		boolean openByDefault = false;
+		boolean showSidebar = guiEntry.groupShowSidebar;
+		boolean openByDefault = guiEntry.groupOpenByDefault;
 
 		if (configEntry instanceof TextConfigEntry textConfigEntry) {
 			return new GroupConfigEntry<>(textConfigEntry, new ArrayList<>(), showSidebar, openByDefault);
@@ -218,7 +218,7 @@ public class ConfigGuiClient implements RegistrableClient {
 	}
 
 	private static ConfigGuiEntry testEntry(String key, String name, String description, ConfigType<?> type, String value) {
-		return new ConfigGuiEntry("matlib:testing", key, type, name, description, "", false, false, false, value, new ArrayList<>(List.of(value)));
+		return new ConfigGuiEntry("matlib:testing", key, type, name, description, "", false, false, true, false, false, value, new ArrayList<>(List.of(value)));
 	}
 
 	public static void addTestingCategory(ConfigScreen.Builder builder) {

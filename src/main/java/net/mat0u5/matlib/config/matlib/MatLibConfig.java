@@ -18,7 +18,7 @@ public class MatLibConfig extends GuiConfig implements RegistrableServer {
 
 
 	public MatLibConfig() {
-		super("matlib:main", "matlib", MatLib.MOD_ID+".properties");
+		super("matlib:main", "MatLib Config", "matlib", MatLib.MOD_ID+".properties");
 		instance = this;
 	}
 
@@ -33,7 +33,7 @@ public class MatLibConfig extends GuiConfig implements RegistrableServer {
 	}
 
 	@Override
-	protected boolean hasPermissionsToOpen(ServerPlayer player) {
+	public boolean hasPermissionsToOpen(ServerPlayer player) {
 		return PermissionManager.isAdmin(player);
 	}
 }

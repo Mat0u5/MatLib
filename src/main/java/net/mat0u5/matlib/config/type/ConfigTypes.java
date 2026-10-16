@@ -13,6 +13,7 @@ public final class ConfigTypes {
 		if (str.equalsIgnoreCase("false")) return false;
 		throw new IllegalArgumentException("Not a boolean: " + str);
 	});
+	public static final ConfigType<String> ENUM = withId("enum", STRING);
 	public static final ConfigType<Double> PERCENTAGE = withId("percentage", DOUBLE);
 	public static final ConfigType<Double> MINUTES = withId("minutes", DOUBLE);
 	public static final ConfigType<Integer> HEARTS = withId("hearts", INTEGER);
@@ -54,7 +55,6 @@ public final class ConfigTypes {
 	public static final ConfigType<List<String>> BLOCK_LIST = withId("block_list", STRING_LIST);
 	public static final ConfigType<List<String>> EFFECT_LIST = withId("effect_list", STRING_LIST);
 	public static final ConfigType<List<String>> ENCHANT_LIST = withId("enchant_list", STRING_LIST);
-	public static final ConfigType<List<String>> ENUM = withId("enum", STRING_LIST);
 
 	/*
 		Helpers
@@ -70,7 +70,7 @@ public final class ConfigTypes {
 	}
 
 	public static <E extends Enum<E>> ConfigType<E> enumOf(Class<E> clazz) {
-		return new ConfigType<>() {
+		return new ConfigType<>(false) {
 			public E parse(String raw) {
 				return Enum.valueOf(clazz, raw.trim());
 			}
@@ -78,7 +78,7 @@ public final class ConfigTypes {
 				return value.name();
 			}
 			public String id() {
-				return "enum";
+				return ENUM.id();
 			}
 			public List<String> options() {
 				return Arrays.stream(clazz.getEnumConstants()).map(Enum::name).toList();

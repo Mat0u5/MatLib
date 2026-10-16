@@ -14,6 +14,8 @@ import net.minecraft.world.phys.Vec3;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static net.mat0u5.matlib.MatLib.server;
@@ -180,5 +182,27 @@ public class OtherUtils {
 		 *///?} else {
 		return Vec3.atCenterOf(pos);
 		//?}
+	}
+
+	private static List<Long> reloads = new ArrayList<>();
+	public static void reloadServer() {
+		try {
+			int inInterval = 0;
+			if (reloads.size() >= 3) {
+				int size = reloads.size();
+				if (System.currentTimeMillis() - reloads.get(size-1) < 5000) inInterval++;
+				if (System.currentTimeMillis() - reloads.get(size-2) < 5000) inInterval++;
+				if (System.currentTimeMillis() - reloads.get(size-3) < 5000) inInterval++;
+			}
+
+			if (inInterval >= 3) {
+				MatLib.LOGGER.error("Detected and prevented possible reload loop!");
+				return;
+			}
+			reloads.add(System.currentTimeMillis());
+			executeCommand("reload");
+		} catch (Exception e) {
+			MatLib.LOGGER.error("Error reloading server", e);
+		}
 	}
 }

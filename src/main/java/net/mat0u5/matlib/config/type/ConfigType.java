@@ -4,7 +4,13 @@ import java.util.List;
 
 public abstract class ConfigType<T> {
 	public ConfigType() {
-		ConfigTypes.registerConfigType(this);
+		this(true);
+	}
+
+	protected ConfigType(boolean register) {
+		if (register) {
+			ConfigTypes.registerConfigType(this);
+		}
 	}
 
 	public abstract T parse(String string) throws Exception;
