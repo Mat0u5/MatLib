@@ -30,6 +30,7 @@
     "ServerLoginPacketListenerImplMixin",
     "ServerPlayerGameModeMixin",
     "ServerPlayerMixin"
+    "compat.fabricapi.RegistrySyncManagerMixin"
   ],
   "client": [
     "client.AbstractSelectionListMixin",

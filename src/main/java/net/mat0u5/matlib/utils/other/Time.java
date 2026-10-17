@@ -6,42 +6,42 @@ public class Time {
     public static long CONVERT_SECONDS = 1_000_000L;
     public static long CONVERT_MINUTES = 60_000_000L;
     public static long CONVERT_HOURS = 3_600_000_000L;
-    private Long nanos;
+    private Long micros;
 
-    public Time(Long nanos) {
-        this.nanos = nanos;
+    public Time(Long micros) {
+        this.micros = micros;
     }
 
-    public Time(int nanos) {
-        this.nanos = (long) nanos;
+    public Time(int micros) {
+        this.micros = (long) micros;
     }
 
     public boolean isInfinite() {
         return this instanceof TimeInf;
     }
 
-    public long getNanos() {
-        return nanos;
+    public long getMicros() {
+        return micros;
     }
 
     public long getMillis() {
-        return nanos / CONVERT_MILLIS;
+        return micros / CONVERT_MILLIS;
     }
 
     public int getTicks() {
-        return (int) (nanos / CONVERT_TICKS);
+        return (int) (micros / CONVERT_TICKS);
     }
 
     public int getSeconds() {
-        return (int) (nanos / CONVERT_SECONDS);
+        return (int) (micros / CONVERT_SECONDS);
     }
 
     public int getMinutes() {
-        return (int) (nanos / CONVERT_MINUTES);
+        return (int) (micros / CONVERT_MINUTES);
     }
 
     public int getHours() {
-        return (int) (nanos / CONVERT_HOURS);
+        return (int) (micros / CONVERT_HOURS);
     }
 
     /**
@@ -59,18 +59,18 @@ public class Time {
      */
     public Time add(Time time) {
         if (time.isInfinite()) return Time.infinite();
-        if (nanos == null) nanos = 0L;
-        nanos += time.getNanos();
+        if (micros == null) micros = 0L;
+        micros += time.getMicros();
         return this;
     }
 
     /**
-     * @param time Nanos to be added.
+     * @param time Micros to be added.
      * <p>In-place modification.
      */
     public Time add(long time) {
-        if (nanos == null) nanos = 0L;
-        nanos += time;
+        if (micros == null) micros = 0L;
+        micros += time;
         return this;
     }
 
@@ -79,8 +79,8 @@ public class Time {
      * <p>In-place modification.
      */
     public Time multiply(long scale) {
-        if (nanos == null) nanos = 0L;
-        nanos *= scale;
+        if (micros == null) micros = 0L;
+        micros *= scale;
         return this;
     }
 
@@ -88,15 +88,15 @@ public class Time {
      * @return {@code true} if the current time is non-null.
      */
     public boolean isPresent() {
-        return nanos != null;
+        return micros != null;
     }
 
     /**
-     * @return {@code true} if {@code nanos % interval.nanos == 0}
+     * @return {@code true} if {@code micros % interval.micros == 0}
      */
     public boolean isMultipleOf(Time interval) {
         if (interval.isInfinite()) return false;
-        return nanos % interval.getNanos() == 0;
+        return micros % interval.getMicros() == 0;
     }
 
     /**
@@ -104,7 +104,7 @@ public class Time {
      * <p>Out-of-place modification.
      */
     public Time diff(Time time2) {
-        return new Time(this.getNanos() - time2.getNanos());
+        return new Time(this.getMicros() - time2.getMicros());
     }
 
     /**
@@ -112,7 +112,7 @@ public class Time {
      */
     public boolean isLargerThan(Time time) {
         if (time.isInfinite()) return false;
-        return this.getNanos() >= time.getNanos();
+        return this.getMicros() >= time.getMicros();
     }
 
      /**
@@ -120,11 +120,11 @@ public class Time {
      */
     public boolean isSmallerThan(Time time) {
         if (time.isInfinite()) return true;
-        return this.getNanos() <= time.getNanos();
+        return this.getMicros() <= time.getMicros();
     }
 
     public Time copy() {
-        return new Time(this.nanos);
+        return new Time(this.micros);
     }
 
     /**
@@ -155,7 +155,7 @@ public class Time {
      * @return Formatted time, example: 0:43:20
      */
     public String formatLong() {
-        long totalSeconds = (long) Math.ceil(nanos / 1_000_000.0);
+        long totalSeconds = (long) Math.ceil(micros / 1_000_000.0);
         long hours = totalSeconds / 3600;
         long minutes = (totalSeconds % 3600) / 60;
         long seconds = (totalSeconds % 60);
@@ -167,7 +167,7 @@ public class Time {
      * @return Formatted time, example: 43:20
      */
     public String format() {
-        long totalSeconds = (long) Math.ceil(nanos / 1_000_000.0);
+        long totalSeconds = (long) Math.ceil(micros / 1_000_000.0);
         long hours = totalSeconds / 3600;
         long minutes = (totalSeconds % 3600) / 60;
         long seconds = (totalSeconds % 60);
@@ -209,8 +209,8 @@ public class Time {
         return new Time(millis * CONVERT_MILLIS);
     }
 
-    public static Time nanos(long nanos) {
-        return new Time(nanos);
+    public static Time micros(long micros) {
+        return new Time(micros);
     }
 
     public static Time now() {
@@ -236,7 +236,7 @@ public class Time {
         }
 
         @Override
-        public long getNanos() {
+        public long getMicros() {
             return -1;
         }
 

@@ -17,6 +17,19 @@ import net.mat0u5.matlib.network.NetworkHandlerServer;
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 //?}
 
+//? if <= 1.21.6 {
+/*import net.mat0u5.matlib.entity.fakeplayer.FakeServerPlayer;
+import net.mat0u5.matlib.utils.player.PlayerUtils;
+import net.minecraft.server.level.ServerLevel;
+import java.util.Set;
+*///?}
+//? if <= 1.21
+//import net.minecraft.world.entity.RelativeMovement;
+//? if >= 1.21.2 && <= 1.21.6 {
+/*import net.minecraft.world.entity.Relative;
+import net.minecraft.world.entity.PositionMoveRotation;
+*///?}
+
 //? if <= 1.20.5 {
 /*import net.minecraft.network.chat.Component;
  *///?} else {
@@ -70,6 +83,24 @@ public class ServerGamePacketListenerImplMixin {
 			CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(handler.player, handler.player.getInventory());
 		}
 	}
+
+	//? if <= 1.21.6 {
+	/*//? if <= 1.21 {
+	/^@Inject(method = "teleport(DDDFFLjava/util/Set;)V", at = @At("TAIL"))
+	private void requestTeleport(double x, double y, double z, float yaw, float pitch, Set<RelativeMovement> flags, CallbackInfo ci) {
+	^///?} else {
+	@Inject(method = "teleport(Lnet/minecraft/world/entity/PositionMoveRotation;Ljava/util/Set;)V", at = @At("TAIL"))
+	private void requestTeleport(PositionMoveRotation pos, Set<Relative> flags, CallbackInfo ci) {
+	//?}
+		if (player instanceof FakeServerPlayer) {
+			ServerLevel level = PlayerUtils.getPlayerServerLevel(player);
+			if (level.getPlayerByUUID(player.getUUID()) != null) {
+				((ServerGamePacketListenerImpl) (Object) this).resetPosition();
+				level.getChunkSource().move(player);
+			}
+		}
+	}
+	*///?}
 
 	//? if >= 1.20.5 {
 	@Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)

@@ -16,6 +16,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.OptionalInt;
 
+//? if <= 1.21.6 {
+/*import net.mat0u5.matlib.entity.fakeplayer.FakeServerPlayer;
+import net.minecraft.network.chat.Component;
+*///?}
+
 @Mixin(value = ServerPlayer.class, priority = 1)
 @MixinEnvironment(type = MixinEnvironment.Env.MAIN)
 public class ServerPlayerMixin {
@@ -48,4 +53,27 @@ public class ServerPlayerMixin {
 	private void onTick(CallbackInfo ci) {
 		ServerPlayerEvents.TICK.invoker().onTickStart((ServerPlayer) (Object) this);
 	}
+
+	//? if <= 1.21.6 {
+	/*@Inject(method = "sendSystemMessage(Lnet/minecraft/network/chat/Component;Z)V", at = @At("HEAD"), cancellable = true)
+	private void ignoreFakePlayerMessages(Component message, boolean overlay, CallbackInfo ci) {
+		if ((Object) this instanceof FakeServerPlayer) {
+			ci.cancel();
+		}
+	}
+
+	@Inject(method = "acceptsSystemMessages", at = @At("HEAD"), cancellable = true)
+	private void fakePlayerAcceptsSystemMessages(boolean overlay, CallbackInfoReturnable<Boolean> cir) {
+		if ((Object) this instanceof FakeServerPlayer) {
+			cir.setReturnValue(false);
+		}
+	}
+
+	@Inject(method = "acceptsChatMessages", at = @At("HEAD"), cancellable = true)
+	private void fakePlayerAcceptsChatMessages(CallbackInfoReturnable<Boolean> cir) {
+		if ((Object) this instanceof FakeServerPlayer) {
+			cir.setReturnValue(false);
+		}
+	}
+	*///?}
 }

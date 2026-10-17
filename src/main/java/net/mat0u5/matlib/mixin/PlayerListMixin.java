@@ -13,6 +13,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //? if >= 1.20.2
 import net.minecraft.server.network.CommonListenerCookie;
+//? if = 1.21.6 {
+/*import net.minecraft.util.ProblemReporter;
+import net.minecraft.world.level.storage.ValueInput;
+*///?}
 
 @Mixin(value = PlayerList.class, priority = 1)
 @MixinEnvironment(type = MixinEnvironment.Env.MAIN)
@@ -28,3 +32,15 @@ public class PlayerListMixin {
 	}
 }
 
+	//? if <= 1.21.6 {
+	/*@Inject(method = "load", at = @At(value = "RETURN", shift = At.Shift.BEFORE))
+	//? if <= 1.21.5 {
+	/^private void fixFakePlayerPosition(ServerPlayer player, CallbackInfoReturnable<Optional<CompoundTag>> cir) {
+	^///?} else {
+	private void fixFakePlayerPosition(ServerPlayer player, ProblemReporter errorReporter, CallbackInfoReturnable<Optional<ValueInput>> cir) {
+	//?}
+		if (player instanceof FakeServerPlayer fakePlayer) {
+			fakePlayer.fixStartingPosition.run();
+		}
+	}
+	*///?}
