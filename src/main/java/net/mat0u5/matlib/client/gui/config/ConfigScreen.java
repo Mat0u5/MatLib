@@ -507,14 +507,16 @@ public class ConfigScreen extends Screen {
     /*@Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (this.searchField.isFocused()) {
-            return this.searchField.keyPressed(keyCode, scanCode, modifiers);
+            if (this.searchField.keyPressed(keyCode, scanCode, modifiers)) return true;
+            if (keyCode != InputConstants.KEY_ESCAPE) return false;
     *///?} else {
     @Override
     public boolean keyPressed(KeyEvent keyInput) {
         int keyCode = keyInput.input();
         int modifiers = keyInput.modifiers();
         if (this.searchField.isFocused()) {
-            return this.searchField.keyPressed(keyInput);
+            if (this.searchField.keyPressed(keyInput)) return true;
+            if (keyCode != InputConstants.KEY_ESCAPE) return false;
     //?}
         }
 

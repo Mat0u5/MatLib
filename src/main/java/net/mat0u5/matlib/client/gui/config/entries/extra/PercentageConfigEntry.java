@@ -13,6 +13,8 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 
+import java.math.BigDecimal;
+
 public class PercentageConfigEntry extends DoubleConfigEntry implements ITextFieldAddonPopup {
 
     public PercentageConfigEntry(ConfigGuiEntry guiEntry, double value, double defaultValue) {
@@ -41,7 +43,10 @@ public class PercentageConfigEntry extends DoubleConfigEntry implements ITextFie
 
     @Override
     public Component getPopupText() {
-        return TextUtils.formatLoosely("§7{}%", (value*100));
+        if (value == null) return Component.empty();
+        if (value.isNaN() || value.isInfinite()) return TextUtils.formatLoosely("§7{}%", value * 100);
+        String percentage = BigDecimal.valueOf(value).movePointRight(2).stripTrailingZeros().toPlainString();
+        return TextUtils.formatLoosely("§7{}%", percentage);
     }
 
     @Override

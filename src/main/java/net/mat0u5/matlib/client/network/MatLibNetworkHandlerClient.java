@@ -12,6 +12,7 @@ import net.mat0u5.matlib.network.MatLibSimplePackets;
 import net.mat0u5.matlib.network.packets.HandshakePayload;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.mat0u5.matlib.utils.other.VersionCompatibility;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
@@ -30,7 +31,7 @@ public class MatLibNetworkHandlerClient implements RegistrableClient {
 
 	public static boolean onCustomPayload(CustomPacketPayload customPacketPayload) {
 		if (customPacketPayload instanceof HandshakePayload payload) {
-			handleHandshake(payload);
+			Minecraft.getInstance().execute(() -> handleHandshake(payload));
 		}
 		else {
 			return false;

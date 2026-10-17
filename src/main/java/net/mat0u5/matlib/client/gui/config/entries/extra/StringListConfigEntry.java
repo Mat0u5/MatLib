@@ -31,7 +31,7 @@ public class StringListConfigEntry extends StringListPopupConfigEntry<String> {
 
         for (String entry : items) {
             if (entry.isEmpty()) continue;
-            if (allowedValues != null && !allowedValues.contains(entry.toLowerCase(Locale.ROOT))) {
+            if (allowedValues != null && allowedValues.stream().noneMatch(entry::equalsIgnoreCase)) {
                 setError(TextUtils.formatString("Invalid entry: '{}'", entry));
                 errors = true;
                 continue;

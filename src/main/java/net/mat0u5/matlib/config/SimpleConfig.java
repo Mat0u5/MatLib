@@ -63,7 +63,6 @@ public abstract class SimpleConfig {
 	}
 
 
-	//TODO check for doubled calls
 	public <T> void onValueChanged(ConfigurableValue<T> configurableValue, T oldValue, T newValue) {
 		if (MatLib.isLogicalSide() && configurableValue.getEnv().isSynced()) {
 			configurableValue.sendSyncTo(PlayerUtils.getAllPlayers());
@@ -119,7 +118,9 @@ public abstract class SimpleConfig {
 	}
 
 	protected void renamedProperties() {
-		getRenamedProperties().forEach(this::renamedProperty);
+		Map<String, String> renamed = getRenamedProperties();
+		if (renamed == null) return;
+		renamed.forEach(this::renamedProperty);
 	}
 
 	private void renamedProperty(String from, String to) {

@@ -81,7 +81,7 @@ public class NetworkHandlerServer {
 	//? if neoforge {
         /*//? if <= 1.20.3 {
 		/^String packetModId = id.getNamespace();
-		if (!packetModId.equals("minecraft") && id != HandshakePayload.ID) { //TODO test
+		if (!packetModId.equals("minecraft") && id != HandshakePayload.ID) {
            if (!wasHandshakeSuccessful(player, packetModId)) {
                return;
            }

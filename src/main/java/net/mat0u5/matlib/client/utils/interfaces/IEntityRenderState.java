@@ -5,7 +5,6 @@ import net.minecraft.world.entity.Entity;
 /**
  * Stores information in {@link net.minecraft.world.entity.Display.RenderState}
  */
-//TODO perhaps change this.
 public interface IEntityRenderState {
     Entity ml$getEntity();
     float ml$getTickProgress();

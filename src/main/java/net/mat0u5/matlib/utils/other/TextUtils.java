@@ -44,7 +44,8 @@ public class TextUtils {
     public static String getColorCode(TextColor color) {
         //? if <= 26.1 {
         /*for (ChatFormatting formatting : ChatFormatting.values()) {
-            if (formatting.getColor() == color.getValue()) {
+            Integer formattingColor = formatting.getColor();
+            if (formattingColor != null && formattingColor == color.getValue()) {
                 return "§" + formatting.getChar();
             }
         }

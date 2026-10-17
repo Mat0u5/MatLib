@@ -32,7 +32,7 @@ public class BlockListConfigEntry extends StringListPopupConfigEntry<Block> {
             try {
                 newList.add(RegistryUtils.resolveRegistryEntry(BuiltInRegistries.BLOCK, blockId));
             } catch (Exception e) {
-                setError(TextUtils.formatString("Invalid item or tag: '{}'", blockId));
+                setError(TextUtils.formatString("Invalid block: '{}'", blockId));
                 errors = true;
             }
         }

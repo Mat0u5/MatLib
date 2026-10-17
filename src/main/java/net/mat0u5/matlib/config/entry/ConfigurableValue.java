@@ -36,7 +36,6 @@ public class ConfigurableValue<T> implements ConfigEntry {
 	private volatile T syncedValue;
 	private volatile String cachedStringValue;
 
-	//TODO check for doubled calls
 	private final List<BiConsumer<T, T>> listeners = new CopyOnWriteArrayList<>();
 	private Environment env = Environment.UNKNOWN;
 	private String name = "";
@@ -209,7 +208,6 @@ public class ConfigurableValue<T> implements ConfigEntry {
 		syncedValue = null;
 	}
 
-	//TODO check for doubled calls
 	public void sendSyncTo(List<ServerPlayer> targets) {
 		if (MatLib.isLogicalSide() && env.isSynced()) {
 			MatLibSimplePackets.SYNCED_CONFIG.sendToClient(List.of(config.getConfigId(), getKey(), getAsString()), targets);

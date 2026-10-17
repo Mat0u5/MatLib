@@ -22,6 +22,7 @@ public class MatLibCommand extends Command {
 
 	@Override
 	public void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+		if (!MatLib.DEBUG) return;
 		dispatcher.register(
 				literal("matlib")
 						.then(literal("config")

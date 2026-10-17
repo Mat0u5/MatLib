@@ -12,9 +12,10 @@ import net.minecraft.server.level.ServerPlayer;
 @AutoService(RegistrableServer.class)
 public class MatLibConfig extends GuiConfig implements RegistrableServer {
 
-	public ConfigurableValue<Integer> LIVES = ConfigurableValue.register(this, "default_lives", 6)
-			.name("Default Lives")
-			.description("Lives each player starts with");
+	public ConfigurableValue<Integer> TEST = ConfigurableValue.register(this, "test", 1)
+			.name("Test value")
+			.description("Test value description")
+			.serverShared();
 
 
 	public MatLibConfig() {
@@ -29,7 +30,7 @@ public class MatLibConfig extends GuiConfig implements RegistrableServer {
 
 	@Override
 	public void onRegister() {
-		ConfigManager.registerConfig(this);
+		if (MatLib.DEBUG) ConfigManager.registerConfig(this);
 	}
 
 	@Override
