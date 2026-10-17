@@ -9,6 +9,7 @@ import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
 import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
 import net.mat0u5.matlib.utils.other.ModBuiltInPacks;
+import net.mat0u5.matlib.utils.other.UpdateChecker;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
@@ -34,7 +35,7 @@ public class MatLib {
 
 	public static final boolean DEBUG = false; //TODO debug options for logging specific events
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.5.7";
+	public static final String MOD_VERSION = "0.6.0";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
@@ -68,6 +69,7 @@ public class MatLib {
 		LOGGER.info("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
 		oldRegister();
 		ServiceProvider.callListeners(MultiplatformModInitializer.class, MultiplatformModInitializer::onInitialize);
+		UpdateChecker.checkAll();
 	}
 
 	public static void oldRegister() {

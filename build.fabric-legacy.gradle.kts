@@ -49,6 +49,7 @@ dependencies {
 			officialMojangMappings()
 		})
 	modImplementation(libs.fabric.loader)
+	modCompileOnly("net.fabricmc.fabric-api:fabric-api:${prop("deps.fabric-api")}")
 
 	modCompileOnly("com.google.auto.service:auto-service-annotations:1.1.1")
 	annotationProcessor("com.google.auto.service:auto-service:1.1.1")

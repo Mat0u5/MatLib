@@ -46,6 +46,7 @@ dependencies {
 	minecraft("com.mojang:minecraft:${prop("deps.minecraft")}")
 
 	implementation(libs.fabric.loader)
+	compileOnly("net.fabricmc.fabric-api:fabric-api:${prop("deps.fabric-api")}")
 
 	compileOnly("com.google.auto.service:auto-service-annotations:1.1.1")
 	annotationProcessor("com.google.auto.service:auto-service:1.1.1")
