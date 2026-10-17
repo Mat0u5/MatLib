@@ -55,10 +55,10 @@ public class NetworkHandlerClient {
 	}
 
 	private static void send(CustomPacketPayload payload, boolean resent) {
+		Objects.requireNonNull(payload, "Payload cannot be null");
 		//~ if > 1.20.3 'payload.id()' -> 'payload.type().id()' {
 		Identifier id = payload.type().id();
 		//~}
-		Objects.requireNonNull(payload, "Payload cannot be null");
 
 		var connection = Minecraft.getInstance().getConnection();
 		if (connection != null) {

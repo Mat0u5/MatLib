@@ -61,7 +61,6 @@ public class LivingEntityMixin {
 	private void onPreDamage(ServerLevel level, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 		//?}
 		EventResult result = ServerEntityEvents.PRE_DAMAGE.invoker().onPreDamage((LivingEntity) (Object) this, source, amount);
-		if (result.isAllow()) cir.setReturnValue(true);
 		if (result.isDeny()) cir.setReturnValue(false);
 	}
 

@@ -43,6 +43,7 @@ public class EntityRenderStateMixin implements IEntityRenderState {
     @Override
     public void ml$update(Entity entity, float tickProgress) {
         ml$entity = entity;
+        ml$tickProgress = tickProgress;
     }
 }
 //?}

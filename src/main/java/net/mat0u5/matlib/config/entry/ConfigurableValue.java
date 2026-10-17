@@ -246,6 +246,7 @@ public class ConfigurableValue<T> implements ConfigEntry {
 	}
 
 	public void set(T value) {
+		if (!loaded) reload();
 		T old = cachedValue;
 		cachedValue = value;
 		cachedStringValue = getValueAsString(value);

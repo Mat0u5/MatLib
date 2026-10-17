@@ -74,7 +74,7 @@ public abstract class MinecraftServerMixin {
         ServerTickEvents.END_TICK.invoker().onTickEnd(server);
     }
 
-    @Inject(method = "getServerResourcePack", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "getServerResourcePack", at = @At("RETURN"), cancellable = true)
     public void getServerResourcePack(CallbackInfoReturnable<Optional<MinecraftServer.ServerResourcePackInfo>> cir) {
         var originalPack = cir.getReturnValue();
         var newPack = ServerResourceEvents.GET_SERVER_PACK.invoker().onGetServerPack(originalPack);

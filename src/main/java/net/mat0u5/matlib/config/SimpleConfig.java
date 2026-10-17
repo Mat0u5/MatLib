@@ -2,6 +2,7 @@ package net.mat0u5.matlib.config;
 
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.config.entry.ConfigurableValue;
+import net.mat0u5.matlib.utils.other.OtherUtils;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
 import net.minecraft.server.level.ServerPlayer;
 
@@ -68,7 +69,7 @@ public abstract class SimpleConfig {
 			configurableValue.sendSyncTo(PlayerUtils.getAllPlayers());
 		}
 		if (configurableValue.requiresReload()) {
-			//TODO queue reload
+			OtherUtils.queueServerReload();
 		}
 	}
 

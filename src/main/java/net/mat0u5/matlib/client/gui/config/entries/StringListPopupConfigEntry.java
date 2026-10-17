@@ -56,6 +56,11 @@ public abstract class StringListPopupConfigEntry<T> extends StringConfigEntry im
         lastEntryStr = text;
     }
 
+    protected void forceReloadEntries() {
+        lastEntryStr = null;
+        reloadEntriesRaw(textField.getValue());
+    }
+
     @Override
     public EditBox getTextField() {
         return textField;

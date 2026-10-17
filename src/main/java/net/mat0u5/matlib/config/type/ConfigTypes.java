@@ -41,6 +41,7 @@ public final class ConfigTypes {
 
 	public static final ConfigType<List<String>> STRING_LIST = new ConfigType<>() {
 		public List<String> parse(String raw) {
+			raw = raw.trim();
 			if (raw.startsWith("[") && raw.endsWith("]")) raw = raw.substring(1, raw.length()-1);
 			if (raw.isBlank()) return List.of();
 			return Arrays.stream(raw.split(",")).map(String::trim).toList();

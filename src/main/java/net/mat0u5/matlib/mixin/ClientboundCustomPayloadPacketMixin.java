@@ -25,8 +25,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import net.minecraft.resources.Identifier;
 *///?} else {
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import java.util.ArrayList;
-import java.util.List;
 //?}
 
 @Mixin(ClientboundCustomPayloadPacket.class)
@@ -41,18 +39,9 @@ public class ClientboundCustomPayloadPacketMixin {
         }
     }
     *///?} else {
-    @ModifyArg(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/common/custom/CustomPacketPayload;codec(Lnet/minecraft/network/protocol/common/custom/CustomPacketPayload$FallbackProvider;Ljava/util/List;)Lnet/minecraft/network/codec/StreamCodec;",  ordinal = 0), index = 1)
-    private static List<CustomPacketPayload.TypeAndCodec<?, ? extends CustomPacketPayload>> injectPayloads(List<CustomPacketPayload.TypeAndCodec<?, ? extends CustomPacketPayload>> original) {
-        List<CustomPacketPayload.TypeAndCodec<?, ? extends CustomPacketPayload>> list = new ArrayList<>(original);
-
-        for (var packet : NetworkHandlerCommon.getPayloads()) {
-            boolean exists = list.stream().anyMatch(existing -> existing.type().id().equals(packet.type().id()));
-
-            if (!exists) {
-                list.add((CustomPacketPayload.TypeAndCodec<?, ? extends CustomPacketPayload>)(Object) packet);
-            }
-        }
-        return list;
+    @ModifyArg(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/common/custom/CustomPacketPayload;codec(Lnet/minecraft/network/protocol/common/custom/CustomPacketPayload$FallbackProvider;Ljava/util/List;)Lnet/minecraft/network/codec/StreamCodec;",  ordinal = 0), index = 0)
+    private static CustomPacketPayload.FallbackProvider<?> injectPayloads(CustomPacketPayload.FallbackProvider<?> original) {
+        return NetworkHandlerCommon.wrapFallbackProvider(original);
     }
     //?}
 }

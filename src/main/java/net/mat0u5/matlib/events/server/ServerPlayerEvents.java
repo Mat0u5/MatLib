@@ -72,7 +72,7 @@ public class ServerPlayerEvents extends CommonPlayerEvents {
 	);
 
 	/**
-	 * Fires when a player dies.
+	 * Fires when a player uses an item.
 	 */
 	public static final Event<ItemUse> ITEM_USE = EventFactory.createServer(ItemUse.class,
 			listeners -> (player, level, stack, hand) -> EventFactory.dispatchReturn(listeners, InteractionResult.PASS, listener -> listener.onItemUse(player, level, stack, hand))

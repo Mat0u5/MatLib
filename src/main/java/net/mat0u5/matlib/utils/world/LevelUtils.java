@@ -20,7 +20,7 @@ public class LevelUtils {
      * Finds the top-most block with a safe block below it.
      */
     public static int findTopSafeY(Level level, Vec3 pos) {
-        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos(pos.x(), level.getHeight(), pos.z());
+        BlockPos.MutableBlockPos mutablePos = new BlockPos.MutableBlockPos(pos.x(), level.getMinY() + level.getHeight(), pos.z());
         Zombie sampleEntity = new Zombie(level);
         // Check upwards or downwards for the first safe position
         while (mutablePos.getY() >= level.getMinY()) {

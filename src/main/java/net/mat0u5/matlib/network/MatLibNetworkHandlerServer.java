@@ -136,6 +136,7 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 			 *///?} else {
 			player.connection.disconnect(new DisconnectionDetails(Component.literal(result.getError())));
 			//?}
+			return;
 		}
 
 		MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER] Received handshake from {} with {}", player, payload.modIds()));

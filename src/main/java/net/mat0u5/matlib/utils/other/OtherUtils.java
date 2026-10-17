@@ -1,8 +1,11 @@
 package net.mat0u5.matlib.utils.other;
 
+import com.google.auto.service.AutoService;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.PropertyMap;
 import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.events.server.ServerTickEvents;
+import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
@@ -25,7 +28,8 @@ import static net.mat0u5.matlib.MatLib.server;
 //? if > 1.21.9
 import net.minecraft.world.level.gamerules.GameRule;
 
-public class OtherUtils {
+@AutoService(RegistrableServer.class)
+public class OtherUtils implements RegistrableServer {
 
 	public static void log(Component message) {
 		for (ServerPlayer player : PlayerUtils.getAllPlayers()) {
@@ -185,6 +189,21 @@ public class OtherUtils {
 	}
 
 	private static List<Long> reloads = new ArrayList<>();
+	private static boolean isReloadQueued = false;
+	public static void queueServerReload() {
+		isReloadQueued = true;
+	}
+
+	@Override
+	public void onRegister() {
+		ServerTickEvents.END_TICK.register(server -> {
+			if (isReloadQueued) {
+				isReloadQueued = false;
+				reloadServer();
+			}
+		});
+	}
+
 	public static void reloadServer() {
 		try {
 			int inInterval = 0;

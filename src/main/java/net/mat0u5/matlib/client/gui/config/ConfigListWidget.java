@@ -128,9 +128,10 @@ public class ConfigListWidget extends ObjectSelectionList<ConfigListWidget.Confi
 
         int highlightedCount = highlightedEntries.size();
         if (highlightedCount > MAX_HIGHLIGHTED_ENTRIES) {
+            int toClear = highlightedCount - MAX_HIGHLIGHTED_ENTRIES;
             int pos = 0;
             for (ConfigEntry entry : highlightedEntries.values()) {
-                if (pos >= MAX_HIGHLIGHTED_ENTRIES) {
+                if (pos >= toClear) {
                     break;
                 }
                 entry.highlightAlpha = 0.0f;

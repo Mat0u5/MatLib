@@ -13,8 +13,13 @@ public class ClientNetworkEvents {
 	public static final Event<ReceiveCustomPacket> RECEIVE_CUSTOM_PACKET = EventFactory.createClient(ReceiveCustomPacket.class,
 			listeners -> customPacketPayload -> {
 				for (ReceiveCustomPacket listener : listeners) {
-					if (listener.onReceivePacket(customPacketPayload)) {
-						return true;
+					try {
+						if (listener.onReceivePacket(customPacketPayload)) {
+							return true;
+						}
+					}
+					catch (Exception e) {
+						EventFactory.logListenerError(listener, e);
 					}
 				}
 				return false;

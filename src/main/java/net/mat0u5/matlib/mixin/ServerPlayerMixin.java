@@ -24,6 +24,7 @@ public class ServerPlayerMixin {
 		EventResult result1 = ServerPlayerEvents.PRE_DEATH.invoker().onPreDeath((ServerPlayer) (Object) this, source);
 		if (result1.isDeny()) {
 			ci.cancel();
+			return;
 		}
 		EventResult result2 = ServerEntityEvents.PRE_DEATH.invoker().onPreDeath((ServerPlayer) (Object) this, source);
 		if (result2.isDeny()) {

@@ -17,6 +17,7 @@ public class StringListConfigEntry extends StringListPopupConfigEntry<String> {
     public StringListConfigEntry(ConfigGuiEntry guiEntry, String value, String defaultValue, List<String> allowedValues) {
         super(guiEntry, value, defaultValue);
         this.allowedValues = allowedValues;
+        forceReloadEntries();
     }
 
     @Override

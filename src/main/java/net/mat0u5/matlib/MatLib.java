@@ -40,8 +40,13 @@ public class MatLib {
 	private static final Platform PLATFORM = createPlatformInstance();
 	public static MinecraftServer server;
 	private static ClientAccessor clientAccessor;
+	private static volatile boolean registered = false;
+	private static boolean registerStarted = false;
 
-	public static void onRegister() {
+	public static synchronized void onRegister() {
+		if (registerStarted) return;
+		registerStarted = true;
+
 		ServiceProvider.callListeners(RegistrableServer.class, RegistrableServer::onRegister);
 		ServiceProvider.callListeners(MultiplatformModInitializer.class, MultiplatformModInitializer::onRegister);
 
@@ -51,6 +56,11 @@ public class MatLib {
 		});
 
 		ServerPackSourceEvents.LOAD_PACK.register(consumer -> ModBuiltInPacks.loadPacks(consumer, PackType.SERVER_DATA, ServerPackSourceEvents.GATHER_PACKS.invoker().getDataPacks()));
+		registered = true;
+	}
+
+	public static boolean isRegistered() {
+		return registered;
 	}
 
 	public static void onInitialize() {
@@ -61,15 +71,12 @@ public class MatLib {
 	}
 
 	public static void oldRegister() {
-		//? fabric && <= 1.20.5 {
-		/*onRegister();
-		*///?}
+		onRegister();
 
 		//? fabric || (forge && > 1.21) {
 		MobRegistry.registerAttributes();
 		//?}
 	}
-	
 
 	public static Platform platform() {
 		return PLATFORM;

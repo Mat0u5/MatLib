@@ -115,8 +115,7 @@ public class ItemStackUtils {
         if (lore == null) return new ArrayList<>();
         List<Component> lines = lore.lines();
         if (lines == null) return new ArrayList<>();
-        if (lines.isEmpty()) return new ArrayList<>();
-        return lines;
+        return new ArrayList<>(lines);
     }
 
     public static void setCustomComponentInt(ItemStack itemStack, String componentKey, int value) {

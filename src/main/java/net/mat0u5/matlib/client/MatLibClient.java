@@ -24,7 +24,12 @@ import net.mat0u5.matlib.client.platform.neoforge.NeoForgeClientNetworkRegistrat
 *///?}
 
 public class MatLibClient implements ClientAccessor {
-	public static void onRegister() {
+	private static boolean registerStarted = false;
+
+	public static synchronized void onRegister() {
+		if (registerStarted) return;
+		registerStarted = true;
+
 		ServiceProvider.callListeners(RegistrableClient.class, RegistrableClient::onRegister);
 		ServiceProvider.callListeners(MultiplatformClientModInitializer.class, MultiplatformClientModInitializer::onRegister);
 		MatLib.setClientAccessor(new MatLibClient());
@@ -40,9 +45,7 @@ public class MatLibClient implements ClientAccessor {
 	}
 
 	public static void oldRegister() {
-		//? fabric && <= 1.20.5 {
-		/*onRegister();
-		 *///?}
+		onRegister();
 	}
 
 	public static boolean isClientPlayer(UUID uuid) {

@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -24,8 +25,23 @@ public class OptionsMixin {
     @Mutable
     public KeyMapping[] keyMappings;
 
+    @Unique
+    private boolean ml$keysAdded;
+
     @Inject(method = "<init>", at = @At("TAIL"))
     private void initKeysInConstructor(CallbackInfo ci) {
+        ml$addModKeyMappings();
+    }
+
+    @Inject(method = "load", at = @At("HEAD"))
+    private void ensureKeysBeforeLoad(CallbackInfo ci) {
+        ml$addModKeyMappings();
+    }
+
+    @Unique
+    private void ml$addModKeyMappings() {
+        if (ml$keysAdded) return;
+        ml$keysAdded = true;
 
         List<KeyMapping> allKeys = new ArrayList<>(Arrays.asList(this.keyMappings));
         ClientRegistryEvents.KEYBIND.invoker().modifyKeymappings(allKeys);
@@ -40,13 +56,6 @@ public class OptionsMixin {
         }
         *///?}
 
-        this.keyMappings = allKeys.toArray(new KeyMapping[0]);
-    }
-
-    @Inject(method = "load", at = @At("HEAD"))
-    private void ensureKeysBeforeLoad(CallbackInfo ci) {
-        List<KeyMapping> allKeys = new ArrayList<>(Arrays.asList(this.keyMappings));
-        ClientRegistryEvents.KEYBIND.invoker().modifyKeymappings(allKeys);
         this.keyMappings = allKeys.toArray(new KeyMapping[0]);
     }
 }

@@ -138,15 +138,21 @@ public class ConfigScreen extends Screen {
         this.updateButtonStates();
     }
 
+    private List<ConfigEntry> getSelectedCategoryEntries() {
+        if (this.selectedCategory >= this.categoryNames.size()) return List.of();
+        List<ConfigEntry> entries = this.categories.get(this.categoryNames.get(this.selectedCategory));
+        return entries == null ? List.of() : entries;
+    }
+
     private void resetAll() {
-        for (ConfigEntry entry : getAllEntries(this.categories.get(this.categoryNames.get(selectedCategory)))) {
+        for (ConfigEntry entry : getAllEntries(getSelectedCategoryEntries())) {
             entry.resetToDefault();
             entry.markChanged();
         }
     }
 
     private boolean canResetAll() {
-        for (ConfigEntry entry : getAllEntries(this.categories.get(this.categoryNames.get(selectedCategory)))) {
+        for (ConfigEntry entry : getAllEntries(getSelectedCategoryEntries())) {
             if (entry.canReset() && entry.hasResetButton()) {
                 return true;
             }

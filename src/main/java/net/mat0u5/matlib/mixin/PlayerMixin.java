@@ -43,7 +43,6 @@ public class PlayerMixin {
 	private void onPreDamage(ServerLevel level, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 	//?}
 		EventResult result = ServerPlayerEvents.PRE_DAMAGE.invoker().onPreDamage((Player) (Object) this, source, amount);
-		if (result.isAllow()) cir.setReturnValue(true);
 		if (result.isDeny()) cir.setReturnValue(false);
 	}
 

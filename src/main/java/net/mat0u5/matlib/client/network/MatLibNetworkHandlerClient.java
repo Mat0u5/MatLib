@@ -44,6 +44,7 @@ public class MatLibNetworkHandlerClient implements RegistrableClient {
 
 		if (!result.passes()) {
 			ClientUtils.disconnect(Component.literal(result.getError()));
+			return;
 		}
 
 		ClientNetworkEvents.RECEIVE_HANDSHAKE.invoker().onReceiveHandshake();

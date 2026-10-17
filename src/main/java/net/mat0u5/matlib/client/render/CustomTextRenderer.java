@@ -98,7 +98,7 @@ public class CustomTextRenderer {
 
         //~ renames_26_1_volatile
         if (this.orderedText != null) {
-            if (wrapLines) {
+            if (wrapLines && this.text != null) {
                 List<FormattedCharSequence> wrappedText = textRenderer.split(text, wrapMaxWidth);
                 int offsetY = 0;
                 for (FormattedCharSequence line : wrappedText) {

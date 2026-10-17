@@ -25,6 +25,6 @@ public class ClientLevelMixin {
 
 	@Inject(method = "tickPassenger", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;rideTick()V", shift = At.Shift.AFTER))
 	private void tickPassengerEntity(Entity vehicle, Entity passenger, CallbackInfo ci) {
-		ClientEntityEvents.TICK_ENTITY.invoker().onTick(vehicle);
+		ClientEntityEvents.TICK_ENTITY.invoker().onTick(passenger);
 	}
 }
