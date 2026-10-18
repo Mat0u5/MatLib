@@ -9,6 +9,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if >= 1.20.3 {
+import net.mat0u5.matlib.client.events.ClientTickRateEvents;
+import net.mat0u5.matlib.events.OptionalEventReturn;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+//?}
+
 @Mixin(value = Minecraft.class, priority = 1)
 @MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
 public class MinecraftMixin {
@@ -26,4 +32,14 @@ public class MinecraftMixin {
 	private void onStart(CallbackInfo ci) {
 		ClientLifecycleEvents.CLIENT_STARTED.invoker().onStarted((Minecraft) (Object) this);
 	}
+
+	//? if >= 1.20.3 {
+	@Inject(method = "getTickTargetMillis", at = @At("HEAD"), cancellable = true)
+	private void modifyTickTargetMillis(float defaultMillis, CallbackInfoReturnable<Float> cir) {
+		OptionalEventReturn<Float> result = ClientTickRateEvents.MODIFY_TARGET_MSPT.invoker().onModifyTargetMspt(defaultMillis);
+		if (!result.isPass() && result.get() != null) {
+			cir.setReturnValue(result.get());
+		}
+	}
+	//?}
 }

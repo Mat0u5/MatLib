@@ -29,7 +29,8 @@
     "ServerLoginPacketListenerImplAccessor",
     "ServerLoginPacketListenerImplMixin",
     "ServerPlayerGameModeMixin",
-    "ServerPlayerMixin"
+    "ServerPlayerMixin",
+    "SkullBlockEntityAccessor",
     "compat.fabricapi.RegistrySyncManagerMixin"
   ],
   "client": [
@@ -56,6 +57,7 @@
     "client.PlayerInfoMixin",
     "client.PlayerMixin",
     "client.ScreenMixin",
+    "client.SoundEngineMixin",
     "client.SoundManagerMixin"
   ]
 }
