@@ -31,8 +31,8 @@ import java.util.concurrent.TimeUnit;
 
 @AutoService(RegistrableServer.class)
 public class UpdateChecker implements RegistrableServer {
-	public static final boolean TEST_UPDATE_FAKE = false;
-	public static final boolean TEST_UPDATE_LAST = false;
+	public static boolean TEST_UPDATE_FAKE = false;
+	public static boolean TEST_UPDATE_LAST = false;
 
 	private static final ExecutorService executor = Executors.newSingleThreadExecutor(runnable -> {
 		Thread thread = new Thread(runnable, "MatLib Update Checker");

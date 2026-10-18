@@ -58,6 +58,7 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
         SIMPLE_PACKET_PAYLOADS.put(BooleanPayload.ID, BooleanPayload::read);
         SIMPLE_PACKET_PAYLOADS.put(IntPayload.ID, IntPayload::read);
         SIMPLE_PACKET_PAYLOADS.put(HandshakePayload.ID, HandshakePayload::read);
+        SIMPLE_PACKET_PAYLOADS.put(TexturePayload.ID, TexturePayload::read);
     }
     *///?} else {
 	private static final List<CustomPacketPayload.TypeAndCodec<? super RegistryFriendlyByteBuf, ? extends CustomPacketPayload>> SIMPLE_PACKET_PAYLOADS = List.of(
@@ -69,6 +70,7 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 			, new CustomPacketPayload.TypeAndCodec<>(BooleanPayload.ID, BooleanPayload.CODEC)
 			, new CustomPacketPayload.TypeAndCodec<>(IntPayload.ID, IntPayload.CODEC)
 			, new CustomPacketPayload.TypeAndCodec<>(HandshakePayload.ID, HandshakePayload.CODEC)
+			, new CustomPacketPayload.TypeAndCodec<>(TexturePayload.ID, TexturePayload.CODEC)
 	);
 	//?}
 
