@@ -85,9 +85,33 @@ public class ServerPlayerEvents extends CommonPlayerEvents {
 			listeners -> (player, level, hand, entity, hitResult) -> EventFactory.dispatchReturn(listeners, InteractionResult.PASS, listener -> listener.onClickEntity(player, level, hand, entity, hitResult))
 	);
 
+	/**
+	 * Fires once a player has finished loading into a world, detected by player moving or rotating.
+	 */
+	public static final Event<FinishJoining> FINISH_JOINING = EventFactory.createServer(FinishJoining.class,
+			listeners -> player -> EventFactory.dispatch(listeners, listener -> listener.onFinishJoining(player))
+	);
+
+	/**
+	 * Fires when a player respawns after dying.
+	 */
+	public static final Event<Respawn> RESPAWN = EventFactory.createServer(Respawn.class,
+			listeners -> newPlayer -> EventFactory.dispatch(listeners, listener -> listener.onRespawn(newPlayer))
+	);
+
 	@FunctionalInterface
 	public interface Connect {
 		void onConnect(Connection connection, ServerPlayer player);
+	}
+
+	@FunctionalInterface
+	public interface FinishJoining {
+		void onFinishJoining(ServerPlayer player);
+	}
+
+	@FunctionalInterface
+	public interface Respawn {
+		void onRespawn(ServerPlayer newPlayer);
 	}
 
 	@FunctionalInterface
