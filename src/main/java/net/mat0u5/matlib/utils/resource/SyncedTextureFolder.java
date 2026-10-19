@@ -17,6 +17,7 @@ import java.util.function.Consumer;
 
 public class SyncedTextureFolder {
 	private static final Map<String, SyncedTextureFolder> FOLDERS = new ConcurrentHashMap<>();
+	public static final int MAX_TEXTURE_BYTES = 1_000_000;
 
 	private final Identifier id;
 	private final List<Path> folders = new ArrayList<>();
@@ -138,7 +139,12 @@ public class SyncedTextureFolder {
 		for (File file : getFiles()) {
 			try {
 				String name = getTextureName(file);
-				TexturePayload payload = new TexturePayload(id.toString(), name, Files.readAllBytes(file.toPath()));
+				byte[] textureData = Files.readAllBytes(file.toPath());
+				if (textureData.length > MAX_TEXTURE_BYTES) {
+					MatLib.LOGGER.error("Synced texture {} from {} is too large ({} bytes, max {}), skipping.", file, id, textureData.length, MAX_TEXTURE_BYTES);
+					continue;
+				}
+				TexturePayload payload = new TexturePayload(id.toString(), name, textureData);
 				for (ServerPlayer player : players) {
 					if (MatLib.DEBUG) MatLib.LOGGER.info("Sending texture '{}' from {} to {}", name, id, player);
 					NetworkHandlerServer.sendPacket(player, payload);

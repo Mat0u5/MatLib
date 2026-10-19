@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 public interface SkullBlockEntityAccessor {
 	//? if > 1.20 && <= 1.20.3 {
     /*@Invoker("fetchGameProfile")
-    static CompletableFuture<Optional<GameProfile>> ls$fetchGameProfile(String string) {
+    static CompletableFuture<Optional<GameProfile>> ml$fetchGameProfile(String string) {
         throw new AssertionError();
     }
     *///?}
