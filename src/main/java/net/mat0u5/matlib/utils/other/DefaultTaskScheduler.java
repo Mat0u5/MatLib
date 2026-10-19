@@ -2,6 +2,7 @@ package net.mat0u5.matlib.utils.other;
 
 
 import com.google.auto.service.AutoService;
+import net.mat0u5.matlib.events.server.ServerLifecycleEvents;
 import net.mat0u5.matlib.events.server.ServerTickEvents;
 import net.mat0u5.matlib.services.RegistrableServer;
 
@@ -44,5 +45,6 @@ public class DefaultTaskScheduler implements RegistrableServer {
             //?}
             DefaultTaskScheduler.onTick(gameFrozen);
         });
+        ServerLifecycleEvents.SERVER_STOPPING.register(server -> DefaultTaskScheduler.clearTasks());
     }
 }

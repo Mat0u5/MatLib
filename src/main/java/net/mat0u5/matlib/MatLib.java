@@ -1,5 +1,6 @@
 package net.mat0u5.matlib;
 
+import net.mat0u5.matlib.config.matlib.MatLibConfig;
 import net.mat0u5.matlib.events.server.ServerPackSourceEvents;
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.services.ServiceProvider;
@@ -35,11 +36,11 @@ public class MatLib {
 
 	public static final boolean DEBUG = false; //TODO debug options for logging specific events
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.6.3";
+	public static final String MOD_VERSION = "0.6.4";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
-	public static MinecraftServer server;
+	public static volatile MinecraftServer server;
 	private static ClientAccessor clientAccessor;
 	private static volatile boolean registered = false;
 	private static boolean registerStarted = false;
@@ -50,6 +51,7 @@ public class MatLib {
 
 		ServiceProvider.callListeners(RegistrableServer.class, RegistrableServer::onRegister);
 		ServiceProvider.callListeners(MultiplatformModInitializer.class, MultiplatformModInitializer::onRegister);
+		MatLibConfig.register();
 
 		CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
 		CommonRegistryEvents.PARTICLE.invoker().getIdentifiedParticles().forEach(particle -> {

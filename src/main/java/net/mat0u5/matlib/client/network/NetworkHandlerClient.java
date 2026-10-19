@@ -35,12 +35,12 @@ public class NetworkHandlerClient {
 			//String modId = simplePacketPayload.modId();
 			String packetName = simplePacketPayload.name();
 			SimplePacket<?, ?> packet = SimplePacket.registeredPackets.get(packetName);
+			received = true;
 			if (packet != null) {
-				received = true;
 				client.execute(() -> packet.receiveClient(customPacketPayload));
 			}
-			else {
-				MatLib.LOGGER.error("Received unregistered SimplePacketPayload: {}", packetName);
+			else if (MatLib.DEBUG) {
+				MatLib.LOGGER.warn("Received unregistered SimplePacketPayload: {}", packetName);
 			}
 		}
 		else {

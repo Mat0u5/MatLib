@@ -422,11 +422,11 @@ public class PlayerUtils implements RegistrableServer {
 
 	private static HashMap<Component, Integer> broadcastCooldown = new HashMap<>();
 	public static void broadcastMessage(Component message) {
-		broadcastMessage(message, 0);
+		broadcastMessage(message, 1);
 	}
 
 	public static void broadcastMessageToAdmins(Component message) {
-		broadcastMessageToAdmins(message, 0);
+		broadcastMessageToAdmins(message, 1);
 	}
 
 	public static void broadcastMessage(List<ServerPlayer> players, Component message) {

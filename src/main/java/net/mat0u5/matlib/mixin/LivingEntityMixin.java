@@ -5,11 +5,10 @@ import net.mat0u5.matlib.events.EventResult;
 import net.mat0u5.matlib.events.common.CommonEntityEvents;
 import net.mat0u5.matlib.events.server.ServerEntityEvents;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -20,6 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LivingEntityMixin {
 	@Inject(method = "die", at = @At("HEAD"), cancellable = true)
 	private void preDeath(DamageSource source, CallbackInfo ci) {
+		if (ml$isClientSide()) return;
 		EventResult result = ServerEntityEvents.PRE_DEATH.invoker().onPreDeath((LivingEntity) (Object) this, source);
 		if (result.isDeny()) {
 			ci.cancel();
@@ -28,6 +28,7 @@ public class LivingEntityMixin {
 
 	@Inject(method = "die", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;broadcastEntityEvent(Lnet/minecraft/world/entity/Entity;B)V"))
 	private void notifyDeath(DamageSource source, CallbackInfo ci) {
+		if (ml$isClientSide()) return;
 		ServerEntityEvents.DEATH.invoker().onDeath((LivingEntity) (Object) this, source);
 	}
 
@@ -60,6 +61,7 @@ public class LivingEntityMixin {
 	@Inject(method = "hurtServer", at = @At("HEAD"), cancellable = true)
 	private void onPreDamage(ServerLevel level, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 		//?}
+		if (ml$isClientSide()) return;
 		EventResult result = ServerEntityEvents.PRE_DAMAGE.invoker().onPreDamage((LivingEntity) (Object) this, source, amount);
 		if (result.isDeny()) cir.setReturnValue(false);
 	}
@@ -76,6 +78,7 @@ public class LivingEntityMixin {
 
 	@Inject(method = "heal", at = @At("HEAD"), cancellable = true)
 	private void onPreHeal(float amount, CallbackInfo ci) {
+		if (ml$isClientSide()) return;
 		EventResult result = ServerEntityEvents.PRE_HEAL.invoker().onPreHeal((LivingEntity) (Object) this, amount);
 		if (result.isDeny()) {
 			ci.cancel();
@@ -84,6 +87,12 @@ public class LivingEntityMixin {
 
 	@Inject(method = "heal", at = @At("TAIL"))
 	private void onHeal(float amount, CallbackInfo ci) {
+		if (ml$isClientSide()) return;
 		ServerEntityEvents.HEAL.invoker().onHeal((LivingEntity) (Object) this, amount);
+	}
+
+	@Unique
+	private boolean ml$isClientSide() {
+		return ((LivingEntity) (Object) this).level().isClientSide();
 	}
 }

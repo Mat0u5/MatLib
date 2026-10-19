@@ -11,6 +11,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -42,6 +43,7 @@ public class PlayerMixin {
 	@Inject(method = "hurtServer", at = @At("HEAD"), cancellable = true)
 	private void onPreDamage(ServerLevel level, DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
 	//?}
+		if (ml$isPlayerClientSide()) return;
 		EventResult result = ServerPlayerEvents.PRE_DAMAGE.invoker().onPreDamage((Player) (Object) this, source, amount);
 		if (result.isDeny()) cir.setReturnValue(false);
 	}
@@ -52,7 +54,13 @@ public class PlayerMixin {
 	*///?} else {
 	private void onDamage(ServerLevel level, DamageSource source, float amount, CallbackInfo ci) {
 	//?}
+		if (ml$isPlayerClientSide()) return;
 		ServerPlayerEvents.DAMAGE.invoker().onDamage((Player) (Object) this, source, amount);
 		ServerEntityEvents.DAMAGE.invoker().onDamage((Player) (Object) this, source, amount);
+	}
+
+	@Unique
+	private boolean ml$isPlayerClientSide() {
+		return ((Player) (Object) this).level().isClientSide();
 	}
 }

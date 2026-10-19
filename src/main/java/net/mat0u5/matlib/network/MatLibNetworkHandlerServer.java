@@ -154,7 +154,7 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		GameProfile profile = ((ServerLoginPacketListenerImplAccessor) handler).getGameProfile();
 		UUID uuid = OtherUtils.profileId(profile);
 		String username = OtherUtils.profileName(profile);
-		preLoginHandshakes.put(uuid, modIds);
+		if (uuid != null) preLoginHandshakes.put(uuid, modIds);
 
 		if (understood) {
 			MatLib.LOGGER.info("Received pre-login packet from " + username + " with: " + modIds);

@@ -45,7 +45,14 @@ public abstract class MinecraftServerMixin {
 
     @Inject(at = @At("TAIL"), method = "stopServer")
     private void afterShutdownServer(CallbackInfo info) {
-        ServerLifecycleEvents.SERVER_STOPPED.invoker().onStopped((MinecraftServer) (Object) this);
+        MinecraftServer server = (MinecraftServer) (Object) this;
+        try {
+            ServerLifecycleEvents.SERVER_STOPPED.invoker().onStopped(server);
+        } finally {
+            if (MatLib.server() == server) {
+                MatLib.setServer(null);
+            }
+        }
     }
 
     @Inject(method = "reloadResources", at = @At("HEAD"))

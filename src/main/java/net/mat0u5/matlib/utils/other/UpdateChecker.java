@@ -259,8 +259,8 @@ public class UpdateChecker implements RegistrableServer {
 	private static void onPlayerFinishJoining(ServerPlayer player) {
 		for (UpdateInfo info : updates.values()) {
 			VersionTrackedMod mod = info.mod;
+			if (!info.hasUpdate()) continue;
 			if (!mod.isUnstableVersion()) {
-				if (!info.hasUpdate()) continue;
 				if (!PermissionManager.isAdmin(player)) continue;
 
 				MutableComponent updateText = TextUtils.formatLoosely("A new version of the {} mod is available ({}) §nserver-side§f. \n", mod.modReadableName(), info.versionName)

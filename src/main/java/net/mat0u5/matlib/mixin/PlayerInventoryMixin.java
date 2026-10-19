@@ -68,8 +68,12 @@ public abstract class PlayerInventoryMixin {
             return;
         }
         ml$processing = true;
-        Inventory inventory = (Inventory) (Object) this;
-        CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(inventory.player, inventory);
-        ml$processing = false;
+        try {
+            Inventory inventory = (Inventory) (Object) this;
+            CommonPlayerEvents.UPDATE_INVENTORY.invoker().onUpdateInventory(inventory.player, inventory);
+        }
+        finally {
+            ml$processing = false;
+        }
     }
 }

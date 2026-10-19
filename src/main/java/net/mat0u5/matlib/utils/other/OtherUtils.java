@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.properties.PropertyMap;
 import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.events.server.ServerLifecycleEvents;
 import net.mat0u5.matlib.events.server.ServerTickEvents;
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
@@ -202,6 +203,7 @@ public class OtherUtils implements RegistrableServer {
 				reloadServer();
 			}
 		});
+		ServerLifecycleEvents.SERVER_STOPPING.register(server -> isReloadQueued = false);
 	}
 
 	public static void reloadServer() {
