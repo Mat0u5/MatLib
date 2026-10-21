@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public abstract class GuiConfig extends SimpleConfig {
@@ -49,9 +50,10 @@ public abstract class GuiConfig extends SimpleConfig {
 
 	public void removeEntry(ConfigEntry e) {
 		entries.remove(e);
-		if (e instanceof ConfigurableValue<?> v) {
-			values.remove(v.getKey());
-		}
+	}
+
+	public List<ConfigEntry> getEntries() {
+		return Collections.unmodifiableList(entries);
 	}
 
 	public GuiOpenResult openGuiFor(ServerPlayer player) {

@@ -2,6 +2,7 @@ package net.mat0u5.matlib.mixin;
 
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.events.server.ServerLanguageEvents;
+import net.mat0u5.matlib.utils.resource.ResourceHandler;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.FormattedText;
 import net.minecraft.util.FormattedCharSequence;
@@ -22,32 +23,44 @@ public class LanguageMixin {
 	private static void onServerLanguageLoad(CallbackInfoReturnable<Language> cir) {
 		if (MatLib.hasClient()) return;
 		Language vanilla = cir.getReturnValue();
-		Map<String, String> customTranslations = new HashMap<>();
-
-		List<String> fileNames = ServerLanguageEvents.LOAD_LANG_FILES.invoker().getPaths();
-		for (String fileName : fileNames) {
-			try (InputStream is = LanguageMixin.class.getResourceAsStream(fileName)) {
-				if (is != null) {
-					Language.loadFromJson(is, customTranslations::put);
-				}
-			} catch (Exception e) {
-				MatLib.LOGGER.error("Failed to load server-side translation: {}", fileName);
-				e.printStackTrace();
-			}
-		}
 
 		cir.setReturnValue(new Language() {
+			private volatile Map<String, String> customTranslations = null;
+
+			private Map<String, String> getCustomTranslations() {
+				Map<String, String> translations = customTranslations;
+				if (translations != null) return translations;
+				if (!MatLib.isRegistered()) return Map.of();
+				translations = new HashMap<>();
+				List<String> fileNames = ServerLanguageEvents.LOAD_LANG_FILES.invoker().getPaths();
+				for (String fileName : fileNames) {
+					try (InputStream is = ResourceHandler.openBundledResource(fileName)) {
+						if (is != null) {
+							Language.loadFromJson(is, translations::put);
+						}
+						else {
+							MatLib.LOGGER.error("Server-side translation file not found: {}", fileName);
+						}
+					} catch (Exception e) {
+						MatLib.LOGGER.error("Failed to load server-side translation: {}", fileName, e);
+					}
+				}
+				customTranslations = translations;
+				return translations;
+			}
+
 			@Override
 			public String getOrDefault(String key, String fallback) {
-				if (customTranslations.containsKey(key)) {
-					return customTranslations.get(key);
+				Map<String, String> translations = getCustomTranslations();
+				if (translations.containsKey(key)) {
+					return translations.get(key);
 				}
 				return vanilla.getOrDefault(key, fallback);
 			}
 
 			@Override
 			public boolean has(String key) {
-				return customTranslations.containsKey(key) || vanilla.has(key);
+				return getCustomTranslations().containsKey(key) || vanilla.has(key);
 			}
 
 			@Override

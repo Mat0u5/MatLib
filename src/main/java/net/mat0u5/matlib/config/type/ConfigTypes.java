@@ -129,6 +129,7 @@ public final class ConfigTypes {
 	}
 
 	public static <T> ConfigType<T> detect(T defaultValue) {
+		if (defaultValue == null) throw new IllegalArgumentException("Failed to detect Config Type for a null default value. Set one directly.");
 		if (defaultValue instanceof Integer) return (ConfigType<T>) INTEGER;
 		if (defaultValue instanceof Double) return (ConfigType<T>) DOUBLE;
 		if (defaultValue instanceof Boolean) return (ConfigType<T>) BOOLEAN;

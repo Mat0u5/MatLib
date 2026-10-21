@@ -108,7 +108,7 @@ public final class DebugOptions {
 	}
 
 	public static final class EventOptions extends Category {
-		/** Logs every invoker call of events not marked loud (ticks, rendering...). */
+		/** Logs every invoker call of events not marked loud. */
 		public final Flag invocations = flag("invocations");
 		/** Logs every invoker call of events marked loud (ticks, rendering...). Not advised to turn on. */
 		public final Flag loudInvocations = flag("loudInvocations");

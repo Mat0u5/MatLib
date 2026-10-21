@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class BuiltInRegistriesMixin {
     /**
-     * fabric && <= 1.20.5 has this logic in {@link MatLibClient#onInitializeClient()} ()}
+     * fabric && <= 1.20.5 has this logic in {@link MatLibClient#onInitializeClient()}
      */
     @Inject(method = "freeze", at = @At("HEAD"))
     private static void registerPreFreeze(CallbackInfo ci) {

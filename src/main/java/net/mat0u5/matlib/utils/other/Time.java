@@ -100,7 +100,7 @@ public class Time {
     }
 
     /**
-     * @return {@code true} if this time is larger or equal to the parameter time.
+     * @return A new time containing {@code this - time2}.
      * <p>Out-of-place modification.
      */
     public Time diff(Time time2) {

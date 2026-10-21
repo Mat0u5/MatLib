@@ -21,7 +21,7 @@ public class CommonPlayerEvents {
 	 */
 	public static final Event<UpdateInventory> UPDATE_INVENTORY = EventFactory.createCommon(UpdateInventory.class,
 			listeners -> (player, inventory) -> EventFactory.dispatch(listeners, listener -> listener.onUpdateInventory(player, inventory))
-	);
+	).markLoud();
 
 	@FunctionalInterface
 	public interface AttackEntity {
