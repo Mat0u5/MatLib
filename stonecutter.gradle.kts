@@ -75,14 +75,12 @@ gradle.projectsEvaluated {
 		}
 	}
 
-	tasks.findByName("publishDiscordBody") ?.dependsOn(tasks.named("publishDiscordHeader"))
-
 	val shouldWaitForModrinth = findProperty("publish.modrinth")?.toString() == "true"
 	val shouldAnnounceDiscord = findProperty("publish.discord")?.toString() == "true"
 
 	if (shouldAnnounceDiscord && shouldWaitForModrinth) {
 		val allModrinthTasks = subprojects.mapNotNull { it.tasks.findByName("publishModrinth") }
-		tasks.findByName("publishDiscordHeader")?.dependsOn(allModrinthTasks)
+		tasks.findByName("publishDiscordBody")?.dependsOn(allModrinthTasks)
 	}
 }
 
@@ -159,39 +157,20 @@ publishMods {
 		val version = versionPrefix+versionName+versionSuffix
 		val webhook = if (isDev) env("DISCORD_WEBHOOK_DEV") else env("DISCORD_WEBHOOK")
 
-		discord("publishDiscordHeader") {
-			username = "Mat0u5"
-			avatarUrl = "https://github.com/Mat0u5.png"
-			webhookUrl = webhook
-			if (!isDev) {
-				content = "<@&1312808018483613726>";
-			}
-			else {
-				content = "<@&1312808018483613726>";
-			}
-			setPlatformsAllFrom()
-		}
 		discord("publishDiscordBody") {
 			username = "Mat0u5"
 			avatarUrl = "https://github.com/Mat0u5.png"
 			changelog = rootProject.file("CHANGELOG.md").readText()
 			webhookUrl = webhook
 
-			if (!isDev) {
-				content = changelog.map { "# [MatLib version `$version` is out!](https://modrinth.com/mod/matlib/versions)\n" +
+			content = changelog.map { "# [MatLib version `$version` is out!](https://modrinth.com/mod/matlib/versions)\n" +
 					"### Changelog:\n" +
 					"```\n$it```\n"  }
-			}
-			else {
-				content = changelog.map { "# [MatLib version `$version` is out!](https://modrinth.com/mod/matlib-dev/versions)\n" +
-					"### Changelog:\n" +
-					"```\n$it```\n" }
-			}
 
 			setPlatformsAllFrom()
 			style {
-				thumbnailUrl = if (isDev) "https://img2.webp" else "https://img1.webp"
-				color = if (isDev) "#B24691" else "#511A82"
+				thumbnailUrl = "https://cdn.modrinth.com/data/gnefBeV1/40eec0af467c516e804a9a22de72e00cbe004584_96.webp"
+				color = "#044504"
 				look = "MODERN"
 				//link = "BUTTON"
 			}
