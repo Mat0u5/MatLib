@@ -210,6 +210,7 @@ public class ConfigurableValue<T> implements ConfigEntry {
 
 	public void sendSyncTo(List<ServerPlayer> targets) {
 		if (MatLib.isLogicalSide() && env.isSynced()) {
+			if (!targets.isEmpty()) MatLib.DEBUG.config.syncs.log("Sending synced config value {}:{} = {} to {}", config.getConfigId(), getKey(), getAsString(), targets);
 			MatLibSimplePackets.SYNCED_CONFIG.sendToClient(List.of(config.getConfigId(), getKey(), getAsString()), targets);
 		}
 	}

@@ -15,6 +15,7 @@ public class TaskScheduler {
         if (isDisabled()) return;
         Task task = new Task(ticks, goal);
         newTasks.add(task);
+        MatLib.DEBUG.scheduler.taskScheduled.log("Scheduled task {} in {} ticks", task, ticks);
     }
 
     public void scheduleTask(Time time, Runnable goal) {
@@ -25,6 +26,7 @@ public class TaskScheduler {
         Task task = new Task(ticks, goal);
         task.priority = true;
         newTasks.add(task);
+        MatLib.DEBUG.scheduler.taskScheduled.log("Scheduled priority task {} in {} ticks", task, ticks);
     }
 
     public void schedulePriorityTask(Time time, Runnable goal) {
@@ -32,6 +34,7 @@ public class TaskScheduler {
     }
 
     public void clearTasks() {
+        MatLib.DEBUG.scheduler.taskClears.log("Clearing {} tasks", tasks.size() + newTasks.size());
         clearTasks = true;
         newTasks.clear();
     }
@@ -55,6 +58,7 @@ public class TaskScheduler {
                         try {
                             //Inner try-catch to prevent errors from preventing the task from being removed
                             if (!isDisabled() || task.priority) {
+                                MatLib.DEBUG.scheduler.taskRuns.log("Running task {}", task);
                                 task.goal.run();
                             }
                         }catch(Exception e) {
@@ -85,6 +89,11 @@ public class TaskScheduler {
         public Task(int tickCount, Runnable goal) {
             this.tickCount = tickCount;
             this.goal = goal;
+        }
+
+        @Override
+        public String toString() {
+            return goal.getClass().getName() + (priority ? " (priority)" : "");
         }
     }
 }

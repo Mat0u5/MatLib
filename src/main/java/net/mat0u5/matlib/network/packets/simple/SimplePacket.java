@@ -43,22 +43,28 @@ public abstract class SimplePacket<U extends CustomPacketPayload, V> {
     }
 
     public void receiveClient(CustomPacketPayload payload) {
-        if (clientReceive == null) return;
+        if (clientReceive == null) {
+            MatLib.DEBUG.network.unhandledPackets.warn("Simple packet {} has no client receiver", name);
+            return;
+        }
         try {
             U uPayload = (U) payload;
             clientReceive.accept(uPayload);
         }catch(Exception e) {
-            e.printStackTrace();
+            MatLib.LOGGER.error("Error while handling simple packet {} on the client", name, e);
         }
     }
 
     public void receiveServer(ServerPlayer context, CustomPacketPayload payload) {
-        if (serverReceive == null) return;
+        if (serverReceive == null) {
+            MatLib.DEBUG.network.unhandledPackets.warn("Simple packet {} from {} has no server receiver", name, context);
+            return;
+        }
         try {
             U uPayload = (U) payload;
             serverReceive.accept(context, uPayload);
         }catch(Exception e) {
-            e.printStackTrace();
+            MatLib.LOGGER.error("Error while handling simple packet {} from {}", name, context, e);
         }
     }
 

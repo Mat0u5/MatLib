@@ -26,6 +26,7 @@ public class ClientConfigManager implements RegistrableClient {
 			return;
 		}
 		registeredConfigs.put(configId, config);
+		MatLib.DEBUG.config.registrations.log("Registered {} config {}", "client ", configId);
 		// Instantiate all properties
 		config.reload();
 	}
@@ -64,7 +65,11 @@ public class ClientConfigManager implements RegistrableClient {
 		String valueString = payload.get(2);
 		ConfigurableValue<?> value = ConfigManager.getValue(configId, key);
 		if (value != null && value.getEnv().isSynced()) {
+			MatLib.DEBUG.config.syncs.log("Received synced config value {}:{} = {}", configId, key, valueString);
 			value.setSyncedValue(valueString);
+		}
+		else {
+			MatLib.DEBUG.config.syncs.warn("Received synced config value for unknown or unsynced entry {}:{}", configId, key);
 		}
 	}
 }

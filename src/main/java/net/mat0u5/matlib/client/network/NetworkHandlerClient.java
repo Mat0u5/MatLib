@@ -5,7 +5,6 @@ import net.mat0u5.matlib.client.events.ClientNetworkEvents;
 import net.mat0u5.matlib.network.packets.*;
 import net.mat0u5.matlib.network.packets.simple.SimplePacket;
 import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
-import net.mat0u5.matlib.utils.other.TextUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
@@ -27,7 +26,7 @@ public class NetworkHandlerClient {
 		//~ if > 1.20.3 'customPacketPayload.id()' -> 'customPacketPayload.type().id()' {
 		Identifier id = customPacketPayload.type().id();
 		//~}
-		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[SERVER -> CLIENT] Received {}", id.toString()));
+		MatLib.DEBUG.network.packetsReceived.log("[SERVER -> CLIENT] Received {}", id);
 
 		Minecraft client = Minecraft.getInstance();
 		boolean received = false;
@@ -39,8 +38,8 @@ public class NetworkHandlerClient {
 			if (packet != null) {
 				client.execute(() -> packet.receiveClient(customPacketPayload));
 			}
-			else if (MatLib.DEBUG) {
-				MatLib.LOGGER.warn("Received unregistered SimplePacketPayload: {}", packetName);
+			else {
+				MatLib.DEBUG.network.unhandledPackets.warn("[SERVER -> CLIENT] Received unregistered SimplePacketPayload: {}", packetName);
 			}
 		}
 		else {
@@ -62,7 +61,7 @@ public class NetworkHandlerClient {
 
 		var connection = Minecraft.getInstance().getConnection();
 		if (connection != null) {
-			if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[CLIENT -> SERVER] Sending {}", id.toString()));
+			MatLib.DEBUG.network.packetsSent.log("[CLIENT -> SERVER] Sending {}", id);
 			//? if <= 1.20 {
             /*FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
             payload.write(buf);
@@ -73,6 +72,9 @@ public class NetworkHandlerClient {
 		}
 		else if (!resent) {
 			Minecraft.getInstance().execute(() -> send(payload, true));
+		}
+		else {
+			MatLib.DEBUG.network.droppedPackets.warn("[CLIENT -> SERVER] Dropped {}, no connection", id);
 		}
 	}
 }

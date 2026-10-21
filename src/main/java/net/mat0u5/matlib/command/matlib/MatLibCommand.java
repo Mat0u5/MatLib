@@ -3,6 +3,7 @@ package net.mat0u5.matlib.command.matlib;
 import com.mojang.brigadier.CommandDispatcher;
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.command.Command;
+import net.mat0u5.matlib.config.GuiConfig;
 import net.mat0u5.matlib.config.matlib.MatLibConfig;
 import net.mat0u5.matlib.network.MatLibNetworkHandlerServer;
 import net.minecraft.commands.CommandSourceStack;
@@ -22,7 +23,6 @@ public class MatLibCommand extends Command {
 
 	@Override
 	public void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-		if (!MatLib.DEBUG) return;
 		dispatcher.register(
 				literal("matlib")
 						.then(literal("config")
@@ -40,8 +40,8 @@ public class MatLibCommand extends Command {
 			sendCommandFailure(source, Component.nullToEmpty("Either install the mod on the client or modify the config folder."));
 			return -1;
 		}
-		MatLibConfig.get().openGuiFor(self);
-		sendCommandFeedback(source, Component.literal("§7Opening Config GUI..."));
+		GuiConfig.GuiOpenResult openResult = MatLibConfig.get().openGuiFor(self);
+		sendCommandFeedback(source, openResult.getText());
 		return 1;
 	}
 }

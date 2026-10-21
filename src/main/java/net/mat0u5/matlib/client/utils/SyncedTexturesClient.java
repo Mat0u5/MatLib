@@ -37,7 +37,7 @@ public class SyncedTexturesClient implements RegistrableClient {
 
 	public static void handleTexture(String folderId, String name, byte[] textureData) {
 		try {
-			if (MatLib.DEBUG) MatLib.LOGGER.info("Received texture '{}' for {}", name, folderId);
+			MatLib.DEBUG.network.syncedTextures.log("Received texture '{}' for {} ({} bytes)", name, folderId, textureData.length);
 			Identifier folder = IdentifierHelper.parse(folderId);
 			Identifier textureId = IdentifierHelper.of(folder.getNamespace(), "dynamic/" + folder.getPath() + "/" + name);
 

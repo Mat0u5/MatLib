@@ -4,7 +4,6 @@ import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.events.server.ServerNetworkEvents;
 import net.mat0u5.matlib.network.packets.simple.SimplePacket;
 import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
-import net.mat0u5.matlib.utils.other.TextUtils;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
@@ -44,7 +43,7 @@ public class NetworkHandlerServer {
 		//~ if > 1.20.3 'customPacketPayload.id()' -> 'customPacketPayload.type().id()' {
 		Identifier id = customPacketPayload.type().id();
 		//~}
-		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[{} -> PACKET_SERVER] Received {}", player, id.toString()));
+		MatLib.DEBUG.network.packetsReceived.log("[{} -> PACKET_SERVER] Received {}", player, id);
 
 		if (server != null) {
 			server.execute(() -> onCustomPayloadSync(customPacketPayload, player, id));
@@ -62,6 +61,9 @@ public class NetworkHandlerServer {
 			SimplePacket<?, ?> packet = SimplePacket.registeredPackets.get(packetName);
 			if (packet != null) {
 				packet.receiveServer(player, customPacketPayload);
+			}
+			else {
+				MatLib.DEBUG.network.unhandledPackets.warn("[{} -> PACKET_SERVER] Received unregistered SimplePacketPayload: {}", player, packetName);
 			}
 		}
 		else {
@@ -83,11 +85,13 @@ public class NetworkHandlerServer {
 		/^String packetModId = id.getNamespace();
 		if (!packetModId.equals("minecraft") && id != HandshakePayload.ID) {
            if (!wasHandshakeSuccessful(player, packetModId)) {
+               MatLib.DEBUG.network.droppedPackets.log("[PACKET_SERVER -> {}] Dropped {}, client has no handshake for {}", player, id, packetModId);
                return;
            }
        }
 		^///?} else {
 		if (!NetworkRegistry.hasChannel(player.connection, id)) {
+			MatLib.DEBUG.network.droppedPackets.log("[PACKET_SERVER -> {}] Dropped {}, client has no channel for it", player, id);
 			return;
 		}
 		//?}
@@ -100,7 +104,7 @@ public class NetworkHandlerServer {
         *///?} else {
 		player.connection.send(new ClientboundCustomPayloadPacket(payload));
 		//?}
-		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER -> {}] Sending {}", player, id.toString()));
+		MatLib.DEBUG.network.packetsSent.log("[PACKET_SERVER -> {}] Sending {}", player, id);
 	}
 
 	public static boolean wasHandshakeSuccessful(ServerPlayer player, String modId) {

@@ -146,7 +146,7 @@ public class SyncedTextureFolder {
 				}
 				TexturePayload payload = new TexturePayload(id.toString(), name, textureData);
 				for (ServerPlayer player : players) {
-					if (MatLib.DEBUG) MatLib.LOGGER.info("Sending texture '{}' from {} to {}", name, id, player);
+					MatLib.DEBUG.network.syncedTextures.log("Sending texture '{}' from {} to {}", name, id, player);
 					NetworkHandlerServer.sendPacket(player, payload);
 				}
 			} catch (Exception e) {

@@ -9,6 +9,7 @@ import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
 import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
+import net.mat0u5.matlib.utils.other.DebugOptions;
 import net.mat0u5.matlib.utils.other.ModBuiltInPacks;
 import net.mat0u5.matlib.utils.other.UpdateChecker;
 import net.minecraft.core.Registry;
@@ -34,9 +35,9 @@ import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 
 public class MatLib {
 
-	public static final boolean DEBUG = false; //TODO debug options for logging specific events
+	public static final DebugOptions DEBUG = DebugOptions.DEV;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.6.4";
+	public static final String MOD_VERSION = "0.6.5";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
@@ -51,7 +52,6 @@ public class MatLib {
 
 		ServiceProvider.callListeners(RegistrableServer.class, RegistrableServer::onRegister);
 		ServiceProvider.callListeners(MultiplatformModInitializer.class, MultiplatformModInitializer::onRegister);
-		MatLibConfig.register();
 
 		CommonRegistryEvents.PRE_FREEZE.invoker().onPreFreeze();
 		CommonRegistryEvents.PARTICLE.invoker().getIdentifiedParticles().forEach(particle -> {
@@ -69,6 +69,7 @@ public class MatLib {
 	public static void onInitialize() {
 		LOGGER.info("Initializing {} on {}", MOD_ID, platform().loader());
 		LOGGER.info("{}: { version: {}; friendly_name: {} }", MOD_ID, MOD_VERSION, MOD_FRIENDLY_NAME);
+		if (DEBUG.anyEnabled()) LOGGER.info("{} debug options enabled: {}", MOD_ID, DEBUG.enabledFlagNames());
 		oldRegister();
 		ServiceProvider.callListeners(MultiplatformModInitializer.class, MultiplatformModInitializer::onInitialize);
 		UpdateChecker.checkAll();

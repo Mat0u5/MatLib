@@ -126,7 +126,7 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		});
 		HandshakePayload payload = MatLibNetworkHandlerCommon.getHandshakePayload();
 		NetworkHandlerServer.sendPacket(player, payload);
-		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER] Sending handshake to {}", player));
+		MatLib.DEBUG.network.handshakes.log("[PACKET_SERVER] Sending handshake to {}", player);
 	}
 
 	public static void handleHandshakeResponse(ServerPlayer player, HandshakePayload payload) {
@@ -188,7 +188,7 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		ConfigGuiEntry entry = ConfigGuiEntry.decode(payload.value());
 		if (!(ConfigManager.get(entry.configId) instanceof GuiConfig config)) return;
 		if (!config.hasPermissionsToOpen(player)) return;
-		if (MatLib.DEBUG) MatLib.LOGGER.info(TextUtils.formatString("[PACKET_SERVER] Received config update from {}: {{}, {}, {}}", player, entry.configId, entry.key, entry.args));
+		MatLib.DEBUG.network.configUpdates.log("[PACKET_SERVER] Received config update from {}: {{}, {}, {}}", player, entry.configId, entry.key, entry.args);
 
 		ConfigurableValue<?> value = config.getValue(entry.key);
 		if (value == null) {

@@ -56,6 +56,6 @@ public class MatLibNetworkHandlerClient implements RegistrableClient {
 	public static void sendHandshake() {
 		HandshakePayload payload = MatLibNetworkHandlerCommon.getHandshakePayload();
 		NetworkHandlerClient.send(payload);
-		if (MatLib.DEBUG) MatLib.LOGGER.info("[PACKET_CLIENT] Sending handshake");
+		MatLib.DEBUG.network.handshakes.log("[PACKET_CLIENT] Sending handshake");
 	}
 }

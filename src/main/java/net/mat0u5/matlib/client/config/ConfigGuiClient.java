@@ -103,7 +103,7 @@ public class ConfigGuiClient implements RegistrableClient {
 				serverEntries.add(entry);
 			}
 		}
-		if (serverEntries.isEmpty() && clientEntries.isEmpty() && !MatLib.DEBUG) return;
+		if (serverEntries.isEmpty() && clientEntries.isEmpty() && !MatLib.DEBUG.features.configTestingCategory.enabled()) return;
 
 		ConfigScreen.Builder builder = new ConfigScreen.Builder(RenderUtils.getScreen(), Component.nullToEmpty(title));
 		if (!serverEntries.isEmpty()) {
@@ -113,7 +113,7 @@ public class ConfigGuiClient implements RegistrableClient {
 			addConfig(builder.addCategory("Client"), clientEntries);
 		}
 
-		if (MatLib.DEBUG) {
+		if (MatLib.DEBUG.features.configTestingCategory.enabled()) {
 			addTestingCategory(builder);
 		}
 

@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.events;
 
 import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.utils.other.DebugOptions;
 
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -25,14 +26,17 @@ public class Event<T> {
 	}
 
 	private void invokerTests() {
-		if (environment == Environment.CLIENT && !MatLib.platform().isClient()) {
-			MatLib.LOGGER.error("Event {} marked client triggered on server.", type.getName());
+		DebugOptions.EventOptions debug = MatLib.DEBUG.events;
+		if (debug.environmentMismatch.enabled()) {
+			if (environment == Environment.CLIENT && !MatLib.platform().isClient()) {
+				MatLib.LOGGER.error("Event {} marked client triggered on server.", type.getName());
+			}
+			if (environment == Environment.SERVER && (MatLib.platform().isClient() && MatLib.hasClient() && !MatLib.getClientAccessor().isRunningIntegratedServer())) {
+				MatLib.LOGGER.warn("Event {} marked server triggered on client.", type.getName());
+			}
 		}
-		if (environment == Environment.SERVER && (MatLib.platform().isClient() && MatLib.hasClient() && !MatLib.getClientAccessor().isRunningIntegratedServer())) {
-			MatLib.LOGGER.warn("Event {} marked server triggered on client.", type.getName());
-		}
-		if (MatLib.DEBUG && !loud) {
-			MatLib.LOGGER.info("Event {} invoker called.", type.getName());
+		if (loud ? debug.loudInvocations.enabled() : debug.invocations.enabled()) {
+			MatLib.LOGGER.info("Event {} invoker called ({} listeners).", type.getName(), listeners.length);
 		}
 	}
 
@@ -65,6 +69,9 @@ public class Event<T> {
 		synchronized (lock) {
 			addListener(listener);
 			update();
+		}
+		if (MatLib.DEBUG.events.registrations.enabled()) {
+			MatLib.LOGGER.info("Registered listener {} for event {}.", listener.getClass().getName(), type.getName());
 		}
 	}
 

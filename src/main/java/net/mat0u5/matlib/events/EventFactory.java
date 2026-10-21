@@ -161,6 +161,7 @@ public final class EventFactory {
 	}
 
 	public static void logListenerError(Object listener, Throwable error) {
+		if (!MatLib.DEBUG.events.listenerErrors.enabled()) return;
 		MatLib.LOGGER.error("Event listener {} threw an exception", listener.getClass().getName(), error);
 	}
 }
