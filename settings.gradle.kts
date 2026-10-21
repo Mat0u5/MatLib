@@ -26,6 +26,16 @@ val settingsRootDir = rootDir
 
 stonecutter {
 	create(rootProject) {
+		val currentBranch = runCatching {
+			ProcessBuilder("git", "rev-parse", "--abbrev-ref", "HEAD")
+				.directory(settingsRootDir)
+				.start()
+				.inputStream
+				.bufferedReader()
+				.readText()
+				.trim()
+		}.getOrNull()
+
 		fun match(version: String, vararg loaders: String) {
 			loaders.forEach { loader ->
 				val buildscriptName = when {
@@ -40,6 +50,8 @@ stonecutter {
 		fun env(variable: String): String? {
 			val value = System.getenv(variable)
 			if (value != null) return value
+			if (variable == "GRADLE_ONLY_SNAPSHOT" && currentBranch == "snapshot") return "true"
+			//if (variable.startsWith("GRADLE_ONLY_") && currentBranch == "main") return "false"
 
 			val envFile = java.io.File(settingsRootDir, ".env")
 			if (envFile.exists()) {
@@ -54,7 +66,7 @@ stonecutter {
 
 		if (env("GRADLE_ONLY_SNAPSHOT") == "true") {
 			// Only the snapshot
-			match("26.3", "fabric", "forge", "neoforge")
+			match("26.4", "fabric")
 		}
 		else if (env("GRADLE_ONLY_26_3") == "true") {
 			// 26.3 all platform
@@ -70,6 +82,7 @@ stonecutter {
 		}
 		else if (env("GRADLE_ONLY_IMPORTANT_FABRIC") == "true") {
 			// Main Fabric versions, this is the recommended setting for development
+			match("26.4", "fabric")
 			match("26.3", "fabric")
 			match("26.1", "fabric")
 			match("1.21.11", "fabric")
@@ -78,6 +91,7 @@ stonecutter {
 		}
 		else if (env("GRADLE_ONLY_FABRIC") == "true") {
 			// All Fabric versions
+			match("26.4", "fabric")
 			match("26.3", "fabric")
 			match("26.2", "fabric")
 			match("26.1", "fabric")
@@ -130,6 +144,7 @@ stonecutter {
 		}
 		else {
 			// All versions
+			match("26.4", "fabric")
 			match("26.3", "fabric", "forge", "neoforge")
 			match("26.2", "fabric", "forge", "neoforge")
 			match("26.1", "fabric", "forge", "neoforge")
@@ -149,7 +164,7 @@ stonecutter {
 		}
 
 		if (env("GRADLE_ONLY_SNAPSHOT") == "true") {
-			vcsVersion = "26.3-fabric"
+			vcsVersion = "26.4-fabric"
 		}
 		else if (env("GRADLE_ONLY_FORGE") == "true") {
 			vcsVersion = "26.3-forge"
