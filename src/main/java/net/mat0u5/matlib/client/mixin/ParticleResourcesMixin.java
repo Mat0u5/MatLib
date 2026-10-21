@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.client.events.ClientRegistryEvents;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.particle.ParticleResources;
 @Mixin(value = ParticleResources.class)
 //?}
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class ParticleResourcesMixin {
     @Inject(method = "registerProviders", at = @At("TAIL"))
     private void registerParticles(CallbackInfo ci) {

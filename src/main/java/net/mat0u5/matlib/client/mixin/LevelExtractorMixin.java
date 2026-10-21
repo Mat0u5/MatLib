@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.client.events.ClientEntityRenderEvents;
@@ -18,7 +18,7 @@ import java.util.List;
 import net.minecraft.client.renderer.extract.LevelExtractor;
 @Mixin(value = LevelExtractor.class, priority = 1)
 //?}
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class LevelExtractorMixin {
     //? if <= 1.21 {
     /*@Redirect(method = "renderLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel;entitiesForRendering()Ljava/lang/Iterable;"))

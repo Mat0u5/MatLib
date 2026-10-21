@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.minecraft.client.renderer.entity.EntityRenderer;
@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //?}
 
 @Mixin(value = EntityRenderer.class, priority = 1)
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 //? if <= 1.21 {
 /*public class EntityRendererMixin<T extends Entity> {
 *///?} else {

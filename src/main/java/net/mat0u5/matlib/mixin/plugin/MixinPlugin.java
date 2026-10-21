@@ -9,10 +9,8 @@ import java.util.List;
 import java.util.Set;
 
 public class MixinPlugin implements IMixinConfigPlugin {
-    //TODO maybe move all client mixins to .client.
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        boolean isClient = MatLib.platform().isClient();
         //? if fabric {
         if (mixinClassName.contains("compat.fabricapi")) {
             boolean fabricApiLoaded = MatLib.platform().isModLoaded("fabric-api") || MatLib.platform().isModLoaded("fabric-registry-sync-v0");
@@ -20,9 +18,6 @@ public class MixinPlugin implements IMixinConfigPlugin {
             return fabricApiLoaded;
         }
         //?}
-        if (mixinClassName.contains(".client.") || mixinClassName.startsWith("client.")) {
-            return isClient;
-        }
         return true;
     }
 

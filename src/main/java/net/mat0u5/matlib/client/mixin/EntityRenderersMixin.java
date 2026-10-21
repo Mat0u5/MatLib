@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.client.events.ClientRegistryEvents;
@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderers.class)
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class EntityRenderersMixin {
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void registerRenderers(CallbackInfo ci) {

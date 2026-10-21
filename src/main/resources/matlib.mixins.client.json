@@ -1,0 +1,38 @@
+{
+  "package": "net.mat0u5.matlib.client.mixin",
+  "required": true,
+  "minVersion": "0.8",
+  "refmap": "${id}.mixins.refmap.json",
+  "compatibilityLevel": "${java}",
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "plugin": "net.mat0u5.matlib.client.mixin.plugin.ClientMixinPlugin",
+  "client": [
+    "AbstractSelectionListMixin",
+    "BuiltInPackSourceMixin",
+    "BuiltInRegistriesMixin",
+    "ClientCommonPacketListenerImplMixin",
+    "ClientHandshakePacketListenerImplMixin",
+    "ClientLevelMixin",
+    "ClientPacketListenerMixin",
+    "ConnectionMixin",
+    "EntityRenderDispatcherMixin",
+    "EntityRendererMixin",
+    "EntityRenderersMixin",
+    "EntityRenderStateMixin",
+    "HudMixin",
+    "LayerDefinitionsMixin",
+    "LevelExtractorMixin",
+    "LivingEntityMixin",
+    "LocalPlayerMixin",
+    "MinecraftMixin",
+    "OptionsMixin",
+    "ParticleResourcesMixin",
+    "PlayerInfoMixin",
+    "PlayerMixin",
+    "ScreenMixin",
+    "SoundEngineMixin",
+    "SoundManagerMixin"
+  ]
+}

@@ -24,7 +24,11 @@
     ]
   },
   "mixins": [
-    "${id}.mixins.json"
+    "${id}.mixins.json",
+    {
+      "config": "${id}.mixins.client.json",
+      "environment": "client"
+    }
   ],
   "depends": {},
   "breaks": {}

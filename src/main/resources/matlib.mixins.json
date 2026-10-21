@@ -32,32 +32,5 @@
     "ServerPlayerMixin",
     "SkullBlockEntityAccessor",
     "compat.fabricapi.RegistrySyncManagerMixin"
-  ],
-  "client": [
-    "client.AbstractSelectionListMixin",
-    "client.BuiltInPackSourceMixin",
-    "client.BuiltInRegistriesMixin",
-    "client.ClientCommonPacketListenerImplMixin",
-    "client.ClientHandshakePacketListenerImplMixin",
-    "client.ClientLevelMixin",
-    "client.ClientPacketListenerMixin",
-    "client.ConnectionMixin",
-    "client.EntityRenderDispatcherMixin",
-    "client.EntityRendererMixin",
-    "client.EntityRenderersMixin",
-    "client.EntityRenderStateMixin",
-    "client.HudMixin",
-    "client.LayerDefinitionsMixin",
-    "client.LevelExtractorMixin",
-    "client.LivingEntityMixin",
-    "client.LocalPlayerMixin",
-    "client.MinecraftMixin",
-    "client.OptionsMixin",
-    "client.ParticleResourcesMixin",
-    "client.PlayerInfoMixin",
-    "client.PlayerMixin",
-    "client.ScreenMixin",
-    "client.SoundEngineMixin",
-    "client.SoundManagerMixin"
   ]
 }

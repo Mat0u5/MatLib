@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.client.MatLibClient;
@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //import net.mat0u5.matlib.MatLib;
 
 @Mixin(BuiltInRegistries.class)
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class BuiltInRegistriesMixin {
     /**
      * fabric && <= 1.20.5 has this logic in {@link MatLibClient#onInitializeClient()} ()}

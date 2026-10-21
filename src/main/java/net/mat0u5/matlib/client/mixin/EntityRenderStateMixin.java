@@ -1,11 +1,11 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 //? if <= 1.21 {
 /*import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 
 @Mixin(value = MinecraftServer.class)
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class EntityRenderStateMixin {
     //Empty class to avoid mixin errors
 }
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(value = EntityRenderState.class, priority = 1)
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class EntityRenderStateMixin implements IEntityRenderState {
     @Unique
     Entity ml$entity = null;

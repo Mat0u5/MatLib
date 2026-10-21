@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.client.events.ClientLocalPlayerEvents;
@@ -18,7 +18,7 @@ import net.mat0u5.matlib.network.NetworkHandlerCommon;
 *///?}
 
 @Mixin(value = ClientPacketListener.class, priority = 1)
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class ClientPacketListenerMixin {
 	@Inject(method = "handleLogin", at = @At("RETURN"))
 	private void handleServerPlayReady(ClientboundLoginPacket packet, CallbackInfo ci) {

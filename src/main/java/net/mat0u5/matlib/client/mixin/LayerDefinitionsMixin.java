@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.client.events.ClientRegistryEvents;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Mixin(LayerDefinitions.class)
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class LayerDefinitionsMixin {
     @Inject(method = "createRoots", at = @At("RETURN"), cancellable = true)
     private static void injectLayerDefinitions(CallbackInfoReturnable<Map<ModelLayerLocation, LayerDefinition>> cir) {

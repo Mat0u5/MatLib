@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.MatLib;
@@ -32,7 +32,7 @@ import net.minecraft.network.protocol.common.ServerboundResourcePackPacket;
 *///?} else {
 @Mixin(ClientCommonPacketListenerImpl.class)
 //?}
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class ClientCommonPacketListenerImplMixin {
 
     @Shadow

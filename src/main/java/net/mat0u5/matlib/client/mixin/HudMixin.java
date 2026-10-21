@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.client.events.ClientRenderEvents;
@@ -18,7 +18,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Hud;
 @Mixin(value = Hud.class, priority = 1)
 //?}
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class HudMixin {
 	//? if <= 1.20.5 {
     /*@Inject(method = "render", at = @At(value = "HEAD"))

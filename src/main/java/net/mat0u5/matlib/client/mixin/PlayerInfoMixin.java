@@ -1,4 +1,4 @@
-package net.mat0u5.matlib.mixin.client;
+package net.mat0u5.matlib.client.mixin;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
@@ -14,7 +14,7 @@ import net.minecraft.world.entity.player.PlayerSkin;
 //?}
 
 @Mixin(value = PlayerInfo.class, priority = 1)
-@MixinEnvironment(type = MixinEnvironment.Env.CLIENT)
+@MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class PlayerInfoMixin {
 
     //? if <= 1.20 {
