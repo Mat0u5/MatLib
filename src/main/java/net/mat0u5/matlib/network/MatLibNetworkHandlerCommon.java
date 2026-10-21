@@ -1,10 +1,10 @@
 package net.mat0u5.matlib.network;
 
-import net.mat0u5.matlib.MatLibVersionControl;
 import net.mat0u5.matlib.network.packets.HandshakePayload;
 import net.mat0u5.matlib.services.VersionTrackedMod;
 import net.mat0u5.matlib.utils.interfaces.VersionTrackedModImpl;
 import net.mat0u5.matlib.utils.other.VersionCompatibility;
+import net.mat0u5.matlib.utils.other.VersionTrackedMods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class MatLibNetworkHandlerCommon {
 		if (modIds.size() != modReadableNames.size()) return VersionCompatibility.Result.PASS;
 		int modsLength = modIds.size();
 
-		for (VersionTrackedMod localMod : MatLibVersionControl.CACHED_VERSION_TRACKED_MODS) {
+		for (VersionTrackedMod localMod : VersionTrackedMods.CACHED_VERSION_TRACKED_MODS) {
 			for (int i = 0; i < modsLength; i++) {
 				VersionTrackedModImpl otherMod = new VersionTrackedModImpl(modIds.get(i), modVersions.get(i), modReadableNames.get(i));
 				VersionCompatibility.Result result = VersionCompatibility.passes(localMod, otherMod, isServer);
@@ -34,7 +34,7 @@ public class MatLibNetworkHandlerCommon {
 		List<String> modIds = new ArrayList<>();
 		List<String> modVersions = new ArrayList<>();
 		List<String> modReadableNames = new ArrayList<>();
-		for (VersionTrackedMod localMod : MatLibVersionControl.CACHED_VERSION_TRACKED_MODS) {
+		for (VersionTrackedMod localMod : VersionTrackedMods.CACHED_VERSION_TRACKED_MODS) {
 			modIds.add(localMod.modId());
 			modVersions.add(localMod.modVersion());
 			modReadableNames.add(localMod.modReadableName());

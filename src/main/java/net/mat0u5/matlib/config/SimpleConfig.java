@@ -65,7 +65,7 @@ public abstract class SimpleConfig {
 
 
 	public <T> void onValueChanged(ConfigurableValue<T> configurableValue, T oldValue, T newValue) {
-		MatLib.DEBUG.config.valueChanges.log("Config value {}:{} changed: {} -> {}", getConfigId(), configurableValue.getKey(), String.valueOf(oldValue), String.valueOf(newValue));
+		MatLib.DEBUG.config.valueChanges.log("Config value {}:{} changed: {} -> {}", getConfigId(), configurableValue.getKey(), oldValue, newValue);
 		if (MatLib.isLogicalSide() && configurableValue.getEnv().isSynced()) {
 			configurableValue.sendSyncTo(PlayerUtils.getAllPlayers());
 		}

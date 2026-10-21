@@ -26,7 +26,7 @@ public class ClientConfigManager implements RegistrableClient {
 			return;
 		}
 		registeredConfigs.put(configId, config);
-		MatLib.DEBUG.config.registrations.log("Registered {} config {}", "client ", configId);
+		MatLib.DEBUG.config.registrations.log("Registered client config {}", configId);
 		// Instantiate all properties
 		config.reload();
 	}

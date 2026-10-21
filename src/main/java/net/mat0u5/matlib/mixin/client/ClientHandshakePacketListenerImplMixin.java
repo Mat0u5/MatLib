@@ -2,9 +2,9 @@ package net.mat0u5.matlib.mixin.client;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import io.netty.buffer.Unpooled;
-import net.mat0u5.matlib.MatLibVersionControl;
 import net.mat0u5.matlib.network.MatLibNetworkHandlerServer;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
+import net.mat0u5.matlib.utils.other.VersionTrackedMods;
 import net.minecraft.client.multiplayer.ClientHandshakePacketListenerImpl;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.login.ClientboundCustomQueryPacket;
@@ -34,7 +34,7 @@ public class ClientHandshakePacketListenerImplMixin {
 
             FriendlyByteBuf responseBuf = new FriendlyByteBuf(Unpooled.buffer());
             responseBuf.writeBoolean(true);
-			List<String> modIds = MatLibVersionControl.getTrackedModIds();
+			List<String> modIds = VersionTrackedMods.getTrackedModIds();
             responseBuf.writeInt(modIds.size());
             for (String str : modIds) {
                 responseBuf.writeUtf(str);
@@ -49,7 +49,7 @@ public class ClientHandshakePacketListenerImplMixin {
 
             FriendlyByteBuf responseBuf = new FriendlyByteBuf(Unpooled.buffer());
             responseBuf.writeBoolean(true);
-			List<String> modIds = MatLibVersionControl.getTrackedModIds();
+			List<String> modIds = VersionTrackedMods.getTrackedModIds();
             responseBuf.writeInt(modIds.size());
             for (String str : modIds) {
                 responseBuf.writeUtf(str);

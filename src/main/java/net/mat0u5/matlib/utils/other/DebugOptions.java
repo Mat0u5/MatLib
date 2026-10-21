@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.utils.other;
 
 import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.config.matlib.MatLibConfig;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -15,6 +16,24 @@ import java.util.function.Function;
  * }</pre>
  */
 public final class DebugOptions {
+	public enum Prebuilt {
+		STABLE,
+		DEV,
+		ALL
+	}
+
+	public static DebugOptions getInstanceBasedOnConfig() {
+		return of(MatLibConfig.get().LOGGING_LEVEL.get());
+	}
+
+	public static DebugOptions of(Prebuilt prebuilt) {
+		return switch (prebuilt) {
+			case ALL -> DebugOptions.ALL;
+			case DEV -> DebugOptions.DEV;
+			default -> DebugOptions.STABLE;
+		};
+	}
+
 	public static final DebugOptions STABLE = builder()
 			.enable(o -> o.events.listenerErrors)
 			.enable(o -> o.events.environmentMismatch)

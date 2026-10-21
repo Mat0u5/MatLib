@@ -33,7 +33,7 @@ public class ConfigManager implements RegistrableServer {
 			return;
 		}
 		registeredConfigs.put(configId, config);
-		MatLib.DEBUG.config.registrations.log("Registered {} config {}", "", configId);
+		MatLib.DEBUG.config.registrations.log("Registered config {}", configId);
 		// Instantiate all properties
 		config.reload();
 		config.sendAllSyncedConfigs(PlayerUtils.getAllPlayers());

@@ -2,7 +2,6 @@ package net.mat0u5.matlib.utils.other;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import net.mat0u5.matlib.MatLib;
-import net.mat0u5.matlib.MatLibVersionControl;
 import net.mat0u5.matlib.services.VersionTrackedMod;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -17,7 +16,7 @@ public class RegistrySyncUtils {
 
 		Set<String> trackedNamespaces = new HashSet<>();
 		Set<String> strippedNamespaces = new HashSet<>();
-		for (VersionTrackedMod mod : MatLibVersionControl.CACHED_VERSION_TRACKED_MODS) {
+		for (VersionTrackedMod mod : VersionTrackedMods.CACHED_VERSION_TRACKED_MODS) {
 			String namespace = mod.modId().toLowerCase(Locale.ROOT);
 			trackedNamespaces.add(namespace);
 			try {
@@ -62,7 +61,7 @@ public class RegistrySyncUtils {
 		if (reason == null) return false;
 		String text = reason.getString().toLowerCase(Locale.ROOT);
 		if (!text.contains("registr")) return false;
-		for (String modId : MatLibVersionControl.getTrackedModIds()) {
+		for (String modId : VersionTrackedMods.getTrackedModIds()) {
 			if (modId.equals(MatLib.MOD_ID)) continue;
 			if (text.contains(modId.toLowerCase(Locale.ROOT))) return true;
 		}

@@ -1,6 +1,5 @@
 package net.mat0u5.matlib;
 
-import net.mat0u5.matlib.config.matlib.MatLibConfig;
 import net.mat0u5.matlib.events.server.ServerPackSourceEvents;
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.services.ServiceProvider;
@@ -35,9 +34,13 @@ import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 
 public class MatLib {
 
-	public static final DebugOptions DEBUG = DebugOptions.DEV;
+	/**
+	 * Starts as {@link DebugOptions#STABLE}, replaced by the config's logging level in {@link #onRegister()}.
+	 * Not read from the config here, because this class is first loaded by the mixin plugin, before anything else is ready.
+	 */
+	public static volatile DebugOptions DEBUG = DebugOptions.STABLE;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.6.5";
+	public static final String MOD_VERSION = "0.6.6";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
@@ -49,6 +52,7 @@ public class MatLib {
 	public static synchronized void onRegister() {
 		if (registerStarted) return;
 		registerStarted = true;
+		DEBUG = DebugOptions.getInstanceBasedOnConfig();
 
 		ServiceProvider.callListeners(RegistrableServer.class, RegistrableServer::onRegister);
 		ServiceProvider.callListeners(MultiplatformModInitializer.class, MultiplatformModInitializer::onRegister);
