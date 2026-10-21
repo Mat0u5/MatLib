@@ -11,6 +11,7 @@ import java.util.UUID;
 public interface ClientAccessor {
 	HandshakeStatus handshakeWithServer();
 	boolean isRunningIntegratedServer();
+	boolean isConnectedToRemoteServer();
 	boolean isMainClientPlayer(UUID uuid);
 	void sendPacket(CustomPacketPayload payload);
 

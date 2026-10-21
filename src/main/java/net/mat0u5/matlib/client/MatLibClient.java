@@ -63,6 +63,13 @@ public class MatLibClient implements ClientAccessor {
 	}
 
 	@Override
+	public boolean isConnectedToRemoteServer() {
+		Minecraft client = Minecraft.getInstance();
+		if (client == null) return false;
+		return client.getConnection() != null && !client.isLocalServer();
+	}
+
+	@Override
 	public boolean isMainClientPlayer(UUID uuid) {
 		return isClientPlayer(uuid);
 	}

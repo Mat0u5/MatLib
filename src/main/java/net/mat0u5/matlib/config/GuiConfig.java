@@ -89,6 +89,9 @@ public abstract class GuiConfig extends SimpleConfig {
 		CLIENT,
 		SERVER,
 		BOTH;
+		public boolean isNone() {
+			return this == NONE;
+		}
 		public Component getText() {
 			if (this == NONE) return Component.literal("§cYou do not have permissions to open the Server Config");
 			if (this == CLIENT) return Component.literal("§7Opening Client Config GUI...");

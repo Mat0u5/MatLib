@@ -31,7 +31,7 @@ public class Event<T> {
 			if (environment == Environment.CLIENT && !MatLib.platform().isClient()) {
 				MatLib.LOGGER.error("Event {} marked client triggered on server.", type.getName());
 			}
-			if (environment == Environment.SERVER && (MatLib.platform().isClient() && MatLib.hasClient() && !MatLib.getClientAccessor().isRunningIntegratedServer())) {
+			if (environment == Environment.SERVER && (MatLib.platform().isClient() && MatLib.hasClient() && MatLib.getClientAccessor().isConnectedToRemoteServer())) {
 				MatLib.LOGGER.warn("Event {} marked server triggered on client.", type.getName());
 			}
 		}

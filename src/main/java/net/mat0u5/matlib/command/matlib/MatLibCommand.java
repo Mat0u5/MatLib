@@ -41,6 +41,10 @@ public class MatLibCommand extends Command {
 			return -1;
 		}
 		GuiConfig.GuiOpenResult openResult = MatLibConfig.get().openGuiFor(self);
+		if (openResult.isNone()) {
+			sendCommandFailure(source, openResult.getText());
+			return -1;
+		}
 		sendCommandFeedback(source, openResult.getText());
 		return 1;
 	}

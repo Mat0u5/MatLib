@@ -40,7 +40,7 @@ public class MatLib {
 	 */
 	public static volatile DebugOptions DEBUG = DebugOptions.STABLE;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.6.7";
+	public static final String MOD_VERSION = "0.6.8";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();
