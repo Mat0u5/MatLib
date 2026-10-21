@@ -36,8 +36,8 @@ public class AttributeUtils {
 	}
 
 	//? if <= 1.20.3 {
-	/*public record AttributeEntityInstance(LivingEntity entity, Attribute attributeHolder) {
-	*///?} else {
+	//public record AttributeEntityInstance(LivingEntity entity, Attribute attributeHolder) {
+	//?} else {
 	public record AttributeEntityInstance(LivingEntity entity, Holder<Attribute> attributeHolder) {
 	//?}
 
@@ -60,8 +60,8 @@ public class AttributeUtils {
 				}
 			}catch(Exception ignored) {}
 			//? if <=1.20.3 {
-			/*return attributeHolder.getDefaultValue();
-			 *///?} else {
+			//return attributeHolder.getDefaultValue();
+			 //?} else {
 			return attributeHolder.value().getDefaultValue();
 			//?}
 		}

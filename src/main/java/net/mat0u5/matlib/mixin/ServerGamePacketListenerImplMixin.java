@@ -31,8 +31,8 @@ import net.minecraft.world.entity.PositionMoveRotation;
 *///?}
 
 //? if <= 1.20.5 {
-/*import net.minecraft.network.chat.Component;
- *///?} else {
+//import net.minecraft.network.chat.Component;
+ //?} else {
 import net.minecraft.network.DisconnectionDetails;
 //?}
 
@@ -53,8 +53,8 @@ public class ServerGamePacketListenerImplMixin {
 
 	@Inject(method = "onDisconnect", at = @At("HEAD"))
 	//? if <= 1.20.5 {
-	/*private void onDisconnect(Component details, CallbackInfo ci) {
-	*///?} else {
+	//private void onDisconnect(Component details, CallbackInfo ci) {
+	//?} else {
 	private void onDisconnect(DisconnectionDetails details, CallbackInfo ci) {
 	//?}
 		ServerPlayerEvents.DISCONNECT.invoker().onDisconnect(details, this.player);

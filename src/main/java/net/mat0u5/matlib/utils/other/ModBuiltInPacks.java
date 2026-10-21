@@ -61,8 +61,8 @@ public final class ModBuiltInPacks {
                 def.title(),
                 def.required(),
                 //? if <= 1.20 {
-                /^(name) -> new PathPackResources(name, path, true),
-                ^///?} else {
+                //(name) -> new PathPackResources(name, path, true),
+                //?} else {
                 new PathPackResources.PathResourcesSupplier(path, true),
                 //?}
                 packType,
@@ -107,8 +107,8 @@ public final class ModBuiltInPacks {
             return null;
         }
         //?} else if neoforge {
-        /*
-        //? if <= 1.21.6 {
+        
+        /*//? if <= 1.21.6 {
         /^try {
             return ModList.get().getModFileById(namespace)
                     .getFile()

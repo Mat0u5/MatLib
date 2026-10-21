@@ -138,8 +138,8 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 
 		if (!result.passes()) {
 			//? if <= 1.20.5 {
-			/*player.connection.disconnect(Component.literal(result.getError()));
-			 *///?} else {
+			//player.connection.disconnect(Component.literal(result.getError()));
+			 //?} else {
 			player.connection.disconnect(new DisconnectionDetails(Component.literal(result.getError())));
 			//?}
 			return;

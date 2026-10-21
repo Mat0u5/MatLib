@@ -49,8 +49,8 @@ public class NeoforgePlatform implements Platform {
 	@Override
 	public boolean isClient() {
 		//? if <= 1.21.6 {
-        /^return FMLEnvironment.dist.isClient();
-		^///?} else {
+        //return FMLEnvironment.dist.isClient();
+		//?} else {
         return FMLEnvironment.getDist().isClient();
 		//?}
 	}

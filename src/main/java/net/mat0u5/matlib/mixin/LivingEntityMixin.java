@@ -34,8 +34,8 @@ public class LivingEntityMixin {
 
 	@Inject(method = "dropAllDeathLoot", at = @At("HEAD"), cancellable = true)
 	//? if <= 1.20.5 {
-	/*private void onDrop(DamageSource damageSource, CallbackInfo ci) {
-	*///?} else {
+	//private void onDrop(DamageSource damageSource, CallbackInfo ci) {
+	//?} else {
 	private void onDrop(ServerLevel level, DamageSource damageSource, CallbackInfo ci) {
 	//?}
 		EventResult result = ServerEntityEvents.DROP_LOOT.invoker().onDropLoot((LivingEntity) (Object) this, damageSource);
@@ -68,8 +68,8 @@ public class LivingEntityMixin {
 
 	@Inject(method = "actuallyHurt", at = @At("HEAD"))
 	//? if <= 1.21 {
-	/*private void onApplyDamage(DamageSource source, float amount, CallbackInfo ci) {
-	*///?} else {
+	//private void onApplyDamage(DamageSource source, float amount, CallbackInfo ci) {
+	//?} else {
 	private void onDamage(ServerLevel level, DamageSource source, float amount, CallbackInfo ci) {
 	//?}
 		ServerEntityEvents.DAMAGE.invoker().onDamage((LivingEntity) (Object) this, source, amount);

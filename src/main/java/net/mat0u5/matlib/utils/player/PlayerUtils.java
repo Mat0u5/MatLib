@@ -74,8 +74,8 @@ public class PlayerUtils implements RegistrableServer {
 	 */
 	public static void hurtPlayer(ServerPlayer player, DamageSource source, float amount) {
 		//? if <= 1.21 {
-		/*player.hurt(source, amount);
-		 *///?} else {
+		//player.hurt(source, amount);
+		 //?} else {
 		player.hurtServer(getPlayerServerLevel(player), source, amount);
 		//?}
 	}
@@ -85,8 +85,8 @@ public class PlayerUtils implements RegistrableServer {
 	 */
 	public static void hurtPlayer(ServerPlayer player, ServerLevel level, DamageSource source, float amount) {
 		//? if <= 1.21 {
-		/*player.hurt(source, amount);
-		 *///?} else {
+		//player.hurt(source, amount);
+		 //?} else {
 		player.hurtServer(level, source, amount);
 		//?}
 	}
@@ -96,8 +96,8 @@ public class PlayerUtils implements RegistrableServer {
 	 */
 	public static ServerLevel getPlayerServerLevel(ServerPlayer player) {
 		//? if <= 1.21.5 {
-		/*return player.serverLevel();
-		 *///?} else {
+		//return player.serverLevel();
+		 //?} else {
 		return player.level();
 		//?}
 	}
@@ -107,8 +107,8 @@ public class PlayerUtils implements RegistrableServer {
 	 */
 	public static void playNotifySoundToPlayer(ServerPlayer player, SoundEvent sound, SoundSource soundSource, float volume, float pitch) {
 		//? if <= 1.21.9 {
-		/*player.playNotifySound(sound, soundSource, volume, pitch);
-		 *///?} else {
+		//player.playNotifySound(sound, soundSource, volume, pitch);
+		 //?} else {
 		player.connection
 				.send(
 						new ClientboundSoundPacket(
@@ -253,8 +253,8 @@ public class PlayerUtils implements RegistrableServer {
 				sha1,
 				false,
 				//? if <= 1.20.3 {
-				/*Component.translatable(message)
-				 *///?} else {
+				//Component.translatable(message)
+				 //?} else {
 				Optional.of(Component.translatable(message))
 				//?}
 		);
@@ -369,8 +369,8 @@ public class PlayerUtils implements RegistrableServer {
 	 */
 	public static ItemStack getEquipmentSlot(Player player, int slot) {
 		//? if <= 1.21.4 {
-		/*return player.getInventory().getArmor(slot);
-		 *///?} else {
+		//return player.getInventory().getArmor(slot);
+		 //?} else {
 		return player.getInventory().getItem(slot + 36);
 		//?}
 	}
@@ -500,8 +500,8 @@ public class PlayerUtils implements RegistrableServer {
 		hurtPlayer(player, source, 10);
 		if (player.isAlive()) {
 			//? if <= 1.21 {
-			/*player.kill();
-			 *///?} else {
+			//player.kill();
+			 //?} else {
 			player.kill(getPlayerServerLevel(player));
 			//?}
 		}
@@ -518,8 +518,8 @@ public class PlayerUtils implements RegistrableServer {
 
 	public static Component tryGetPlayerNameWithIcon(ServerPlayer player) {
 		//? if < 1.21.9 {
-		/*return player.getDisplayName();
-		 *///?} else {
+		//return player.getDisplayName();
+		 //?} else {
 		return TextUtils.format("{} {}", getPlayerIcon(player), player);
 		//?}
 	}

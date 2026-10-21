@@ -33,7 +33,7 @@ public abstract class ServerGamePacketListenerImplInnerMixin implements Serverbo
     Entity val$target;
 //?} else {
     /^//? if <= 1.20 {
-    /^¹private static java.lang.reflect.Field ml$handlerField;
+    /^private static java.lang.reflect.Field ml$handlerField;
     private static java.lang.reflect.Field ml$entityField;
 
     private ServerGamePacketListenerImpl ml$getHandler() {
@@ -65,7 +65,7 @@ public abstract class ServerGamePacketListenerImplInnerMixin implements Serverbo
             return (Entity) ml$entityField.get(this);
         } catch (Exception e) { throw new RuntimeException("Failed to find entity field", e); }
     }
-    ¹^///?} else {
+    ^///?} else {
     @Shadow(aliases = {"this$0"})
     @Final
     ServerGamePacketListenerImpl field_28963;

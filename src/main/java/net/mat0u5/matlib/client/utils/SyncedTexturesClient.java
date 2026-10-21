@@ -55,8 +55,8 @@ public class SyncedTexturesClient implements RegistrableClient {
 			}
 
 			//? if <= 1.21.4 {
-			/*DynamicTexture texture = new DynamicTexture(image);
-			*///?} else {
+			//DynamicTexture texture = new DynamicTexture(image);
+			//?} else {
 			DynamicTexture texture = new DynamicTexture(() -> name, image);
 			//?}
 			removeTexture(folderId, name);

@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import java.util.Map;
 
 //? if <= 1.20 {
-/*import net.minecraft.server.level.ServerPlayer;
-*///?} else {
+//import net.minecraft.server.level.ServerPlayer;
+//?} else {
 import net.mat0u5.matlib.utils.other.OtherUtils;
 import net.minecraft.server.network.ServerConfigurationPacketListenerImpl;
 //?}

@@ -12,8 +12,8 @@ import net.neoforged.neoforge.client.gui.overlay.VanillaGuiOverlay;
 ^///?}
 
 //? if <= 1.20.3 {
-/^@net.neoforged.fml.common.Mod.EventBusSubscriber(modid = MatLib.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
-^///?}
+//@net.neoforged.fml.common.Mod.EventBusSubscriber(modid = MatLib.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
+//?}
 public class NeoforgeClientEventSubscriber {
     //? if <= 1.20.3 {
     /^@SubscribeEvent

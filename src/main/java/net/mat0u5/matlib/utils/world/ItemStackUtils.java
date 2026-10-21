@@ -149,8 +149,8 @@ public class ItemStackUtils {
         CompoundTag nbtComp = nbtComponent.copyTag();
         if (!nbtComp.contains(componentKey)) return null;
         //? if <= 1.21.4 {
-        /*return nbtComp.getString(componentKey);
-        *///?} else {
+        //return nbtComp.getString(componentKey);
+        //?} else {
         Optional<String> optional = nbtComp.getString(componentKey);
         if (optional.isEmpty()) return null;
         return optional.get();
@@ -165,8 +165,8 @@ public class ItemStackUtils {
         CompoundTag nbtComp = nbtComponent.copyTag();
         if (!nbtComp.contains(componentKey)) return null;
         //? if <= 1.21.4 {
-        /*return nbtComp.getInt(componentKey);
-        *///?} else {
+        //return nbtComp.getInt(componentKey);
+        //?} else {
         Optional<Integer> optional = nbtComp.getInt(componentKey);
         if (optional.isEmpty()) return null;
         return optional.get();
@@ -180,8 +180,8 @@ public class ItemStackUtils {
         CompoundTag nbtComp = nbtComponent.copyTag();
         if (!nbtComp.contains(componentKey)) return null;
         //? if <= 1.21.4 {
-        /*return nbtComp.getByte(componentKey);
-        *///?} else {
+        //return nbtComp.getByte(componentKey);
+        //?} else {
         Optional<Byte> optional = nbtComp.getByte(componentKey);
         if (optional.isEmpty()) return null;
         return optional.get();
@@ -195,8 +195,8 @@ public class ItemStackUtils {
         CompoundTag nbtComp = nbtComponent.copyTag();
         if (!nbtComp.contains(componentKey)) return null;
         //? if <= 1.21.4 {
-        /*return nbtComp.getBoolean(componentKey);
-        *///?} else {
+        //return nbtComp.getBoolean(componentKey);
+        //?} else {
         Optional<Boolean> optional = nbtComp.getBoolean(componentKey);
         if (optional.isEmpty()) return null;
         return optional.get();
@@ -208,8 +208,8 @@ public class ItemStackUtils {
         CustomData nbt = itemStack.getComponents().get(DataComponents.CUSTOM_DATA);
         if (nbt == null) return false;
         //? if <= 1.21.6 {
-        /*return nbt.contains(componentEntry);
-        *///?} else {
+        //return nbt.contains(componentEntry);
+        //?} else {
         return nbt.copyTag().contains(componentEntry);
          //?}
     }
@@ -221,8 +221,8 @@ public class ItemStackUtils {
         CustomData nbt = itemStack.getComponents().get(DataComponents.CUSTOM_DATA);
         if (nbt == null) return;
         //? if <= 1.21.6 {
-        /*if (!nbt.contains(componentEntry)) return;
-        *///?} else {
+        //if (!nbt.contains(componentEntry)) return;
+        //?} else {
         if (!nbt.copyTag().contains(componentEntry)) return;
          //?}
         CompoundTag nbtComp = nbt.copyTag();

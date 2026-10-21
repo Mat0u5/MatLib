@@ -9,8 +9,8 @@ public class IdentifierHelper {
      */
     public static Identifier of(String namespace, String path) {
         //? if <= 1.20.5 {
-        /*return new Identifier(namespace, path);
-        *///?} else {
+        //return new Identifier(namespace, path);
+        //?} else {
         return Identifier.fromNamespaceAndPath(namespace, path);
         //?}
     }
@@ -20,8 +20,8 @@ public class IdentifierHelper {
      */
     public static Identifier matlib(String path) {
         //? if <= 1.20.5 {
-        /*return new Identifier(MatLib.MOD_ID, path);
-        *///?} else {
+        //return new Identifier(MatLib.MOD_ID, path);
+        //?} else {
         return Identifier.fromNamespaceAndPath(MatLib.MOD_ID, path);
         //?}
     }
@@ -31,8 +31,8 @@ public class IdentifierHelper {
      */
     public static Identifier vanilla(String path) {
         //? if <= 1.20.5 {
-        /*return new Identifier("minecraft", path);
-        *///?} else {
+        //return new Identifier("minecraft", path);
+        //?} else {
         return Identifier.withDefaultNamespace(path);
         //?}
     }
@@ -42,8 +42,8 @@ public class IdentifierHelper {
      */
     public static Identifier parse(String string) {
         //? if <= 1.20.5 {
-        /*return new Identifier(string);
-        *///?} else {
+        //return new Identifier(string);
+        //?} else {
         return Identifier.parse(string);
         //?}
     }

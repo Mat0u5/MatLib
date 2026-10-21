@@ -16,8 +16,8 @@ public class PermissionManager {
         if (MatLib.isClientPlayer(player.getUUID())) return true;
         if (server == null) return false;
         //? if < 1.21.9 {
-        /*return server.getPlayerList().isOp(player.getGameProfile());
-        *///?} else {
+        //return server.getPlayerList().isOp(player.getGameProfile());
+        //?} else {
         return server.getPlayerList().isOp(player.nameAndId());
         //?}
     }
