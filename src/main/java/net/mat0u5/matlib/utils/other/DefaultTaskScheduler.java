@@ -39,8 +39,8 @@ public class DefaultTaskScheduler implements RegistrableServer {
     public void onRegister() {
         ServerTickEvents.END_TICK.register(server -> {
             //? if < 1.20.3 {
-            /*boolean gameFrozen = false;
-             *///?} else {
+            //boolean gameFrozen = false;
+             //?} else {
             boolean gameFrozen = server.tickRateManager().isFrozen();
             //?}
             DefaultTaskScheduler.onTick(gameFrozen);

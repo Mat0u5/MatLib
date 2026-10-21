@@ -23,10 +23,10 @@ import java.util.UUID;
 //? fabric {
 import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 //?} neoforge {
-/*import net.mat0u5.matlib.platform.neoforge.NeoforgePlatform;
- *///?} forge {
-/*import net.mat0u5.matlib.platform.forge.ForgePlatform;
-*///?}
+//import net.mat0u5.matlib.platform.neoforge.NeoforgePlatform;
+ //?} forge {
+//import net.mat0u5.matlib.platform.forge.ForgePlatform;
+//?}
 
 public class MatLib {
 
@@ -91,10 +91,10 @@ public class MatLib {
 		//? fabric {
 		return new FabricPlatform();
 		//?} neoforge {
-		/*return new NeoforgePlatform();
-		 *///?} forge {
-		/*return new ForgePlatform();
-		*///?}
+		//return new NeoforgePlatform();
+		 //?} forge {
+		//return new ForgePlatform();
+		//?}
 	}
 
 	public static void setServer(MinecraftServer server) {

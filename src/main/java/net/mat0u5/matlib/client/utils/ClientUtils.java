@@ -16,8 +16,8 @@ import net.minecraft.network.DisconnectionDetails;
 import net.minecraft.world.scores.TeamColor;
 
 //? if <= 26.2 {
-/*import net.minecraft.util.Util;
-*///?} else {
+//import net.minecraft.util.Util;
+//?} else {
 import com.mojang.blaze3d.Blaze3D;
 import java.net.URI;
 //?}
@@ -67,21 +67,21 @@ public class ClientUtils {
         ClientPacketListener handler = client.getConnection();
         if (handler == null) return;
         //? if < 1.21.6 {
-        /*client.level.disconnect();
-        *///?} else {
+        //client.level.disconnect();
+        //?} else {
         client.level.disconnect(reason);
         //?}
         //? if <= 1.20.5 {
-        /*handler.onDisconnect(reason);
-        *///?} else {
+        //handler.onDisconnect(reason);
+        //?} else {
         handler.onDisconnect(new DisconnectionDetails(reason));
         //?}
     }
 
     public static void openExternalLink(String str) {
         //? if <= 26.2 {
-        /*Util.getPlatform().openUri(str);
-        *///?} else {
+        //Util.getPlatform().openUri(str);
+        //?} else {
         Blaze3D.openUri(URI.create(str));
         //?}
     }

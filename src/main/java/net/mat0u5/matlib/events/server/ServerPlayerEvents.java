@@ -22,8 +22,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import org.jetbrains.annotations.Nullable;
 
 //? if <= 1.20.5 {
-/*import net.minecraft.network.chat.Component;
-*///?} else {
+//import net.minecraft.network.chat.Component;
+//?} else {
 import net.minecraft.network.DisconnectionDetails;
 //?}
 
@@ -117,8 +117,8 @@ public class ServerPlayerEvents extends CommonPlayerEvents {
 	@FunctionalInterface
 	public interface Disconnect {
 		//? if <= 1.20.5 {
-		/*void onDisconnect(Component reason, ServerPlayer player);
-		*///?} else {
+		//void onDisconnect(Component reason, ServerPlayer player);
+		//?} else {
 		void onDisconnect(DisconnectionDetails details, ServerPlayer player);
 		//?}
 	}

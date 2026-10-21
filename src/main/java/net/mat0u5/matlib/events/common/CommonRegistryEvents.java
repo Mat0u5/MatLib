@@ -65,8 +65,8 @@ public class CommonRegistryEvents {
 	@FunctionalInterface
 	public interface PacketPayloads {
 		//? if <= 1.20.3 {
-		/*Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> getPacketPayloads();
-		*///?} else {
+		//Map<Identifier, Function<FriendlyByteBuf, CustomPacketPayload>> getPacketPayloads();
+		//?} else {
 		List<CustomPacketPayload.TypeAndCodec<? super RegistryFriendlyByteBuf, ? extends CustomPacketPayload>> getPacketPayloads();
 		//?}
 	}

@@ -8,8 +8,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //? if <= 1.21.9 {
-/*import net.minecraft.client.Minecraft;
-*///?}
+//import net.minecraft.client.Minecraft;
+//?}
 @Mixin(Screen.class)
 @MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 public class ScreenMixin {

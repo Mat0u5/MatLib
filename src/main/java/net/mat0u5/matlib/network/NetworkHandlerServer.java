@@ -15,14 +15,14 @@ import java.util.UUID;
 import static net.mat0u5.matlib.MatLib.server;
 
 //? neoforge && <= 1.20.3 {
-/*import net.mat0u5.matlib.network.packets.HandshakePayload;
-*///?} else if neoforge {
-/*import net.neoforged.neoforge.network.registration.NetworkRegistry;
-*///?}
+//import net.mat0u5.matlib.network.packets.HandshakePayload;
+//?} else if neoforge {
+//import net.neoforged.neoforge.network.registration.NetworkRegistry;
+//?}
 
 //? if <= 1.20.3 {
-/*import net.minecraft.network.FriendlyByteBuf;
-*///?}
+//import net.minecraft.network.FriendlyByteBuf;
+//?}
  
 //? if <= 1.20 {
 /*import io.netty.buffer.Unpooled;

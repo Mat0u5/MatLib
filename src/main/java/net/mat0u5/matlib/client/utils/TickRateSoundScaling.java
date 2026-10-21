@@ -39,8 +39,8 @@ public class TickRateSoundScaling {
 	public static boolean shouldScaleSound(SoundInstance sound) {
 		if (conditions.isEmpty()) return false;
 		//? if <= 1.21.9 {
-		/*Identifier id = sound.getLocation();
-		*///?} else {
+		//Identifier id = sound.getLocation();
+		//?} else {
 		Identifier id = sound.getIdentifier();
 		//?}
 		if (id != null && (excludedSounds.contains(id.toString()) || excludedSounds.contains(id.getPath()))) return false;

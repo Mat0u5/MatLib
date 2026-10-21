@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 //? if <= 1.20 {
-/*import net.minecraft.network.protocol.login.ServerboundCustomQueryPacket;
-*///?} else {
+//import net.minecraft.network.protocol.login.ServerboundCustomQueryPacket;
+//?} else {
 import net.minecraft.network.protocol.login.ServerboundCustomQueryAnswerPacket;
 import net.mat0u5.matlib.network.packets.CustomQueryPacket;
 //?}

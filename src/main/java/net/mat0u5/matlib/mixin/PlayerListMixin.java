@@ -40,8 +40,8 @@ import net.minecraft.world.level.storage.ValueInput;
 public class PlayerListMixin {
 	@Inject(method = "placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/game/ClientboundPlayerAbilitiesPacket;<init>(Lnet/minecraft/world/entity/player/Abilities;)V"))
 	//? if <= 1.20 {
-	/*private void handlePlayerConnection(Connection connection, ServerPlayer player, CallbackInfo ci) {
-	*///?} else {
+	//private void handlePlayerConnection(Connection connection, ServerPlayer player, CallbackInfo ci) {
+	//?} else {
 	private void handlePlayerConnection(Connection connection, ServerPlayer player, CommonListenerCookie arg, CallbackInfo ci) {
 	//?}
 		ServerPlayerEvents.CONNECT.invoker().onConnect(connection, player);
@@ -50,13 +50,13 @@ public class PlayerListMixin {
 
 	@Inject(method = "respawn", at = @At("RETURN"))
 	//? if <= 1.20.5 {
-	/*private void onRespawn(ServerPlayer player, boolean alive, CallbackInfoReturnable<ServerPlayer> cir) {
-	*///?} else {
+	//private void onRespawn(ServerPlayer player, boolean alive, CallbackInfoReturnable<ServerPlayer> cir) {
+	//?} else {
 	private void onRespawn(ServerPlayer player, boolean alive, Entity.RemovalReason removalReason, CallbackInfoReturnable<ServerPlayer> cir) {
 	//?}
 		//? if <= 1.20.5 {
-		/*if (alive) return;
-		 *///?} else {
+		//if (alive) return;
+		 //?} else {
 		if (alive || removalReason != Entity.RemovalReason.KILLED) return;
 		//?}
 		ServerPlayerEvents.RESPAWN.invoker().onRespawn(cir.getReturnValue());
@@ -79,8 +79,8 @@ public class PlayerListMixin {
 	//? if <= 1.21.6 {
 	/*@Inject(method = "load", at = @At(value = "RETURN", shift = At.Shift.BEFORE))
 	//? if <= 1.21.5 {
-	/^private void fixFakePlayerPosition(ServerPlayer player, CallbackInfoReturnable<Optional<CompoundTag>> cir) {
-	^///?} else {
+	//private void fixFakePlayerPosition(ServerPlayer player, CallbackInfoReturnable<Optional<CompoundTag>> cir) {
+	//?} else {
 	private void fixFakePlayerPosition(ServerPlayer player, ProblemReporter errorReporter, CallbackInfoReturnable<Optional<ValueInput>> cir) {
 	//?}
 		if (player instanceof FakeServerPlayer fakePlayer) {

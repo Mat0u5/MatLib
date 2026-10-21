@@ -50,8 +50,8 @@ public class PlayerMixin {
 
 	@Inject(method = "actuallyHurt", at = @At("HEAD"))
 	//? if <= 1.21 {
-	/*private void onApplyDamage(DamageSource source, float amount, CallbackInfo ci) {
-	*///?} else {
+	//private void onApplyDamage(DamageSource source, float amount, CallbackInfo ci) {
+	//?} else {
 	private void onDamage(ServerLevel level, DamageSource source, float amount, CallbackInfo ci) {
 	//?}
 		if (ml$isPlayerClientSide()) return;

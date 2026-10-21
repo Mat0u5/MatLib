@@ -11,8 +11,8 @@ import net.minecraft.resources.Identifier;
 
 import java.util.Objects;
 //? if <= 1.20.3 {
-/*import net.minecraft.network.FriendlyByteBuf;
- *///?}
+//import net.minecraft.network.FriendlyByteBuf;
+ //?}
 //? if <= 1.20 {
 /*import io.netty.buffer.Unpooled;
 import net.minecraft.network.protocol.game.ServerboundCustomPayloadPacket;

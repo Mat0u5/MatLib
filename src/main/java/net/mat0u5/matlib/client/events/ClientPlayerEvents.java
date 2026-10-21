@@ -10,8 +10,8 @@ import net.minecraft.world.entity.player.Player;
 import org.jetbrains.annotations.NotNull;
 
 //? if <= 1.20 {
-/*import net.minecraft.resources.Identifier;
-*///?} else {
+//import net.minecraft.resources.Identifier;
+//?} else {
 import net.minecraft.world.entity.player.PlayerSkin;
 //?}
 
@@ -27,8 +27,8 @@ public class ClientPlayerEvents extends CommonPlayerEvents {
 	@FunctionalInterface
 	public interface GetSkin {
 		//? if <= 1.20 {
-		/*@NotNull OptionalEventReturn<Identifier> getSkin(PlayerInfo playerInfo, Identifier originalReturn);
-		*///?} else {
+		//@NotNull OptionalEventReturn<Identifier> getSkin(PlayerInfo playerInfo, Identifier originalReturn);
+		//?} else {
 		@NotNull OptionalEventReturn<PlayerSkin> getSkin(PlayerInfo playerInfo, PlayerSkin originalReturn);
 		//?}
 	}

@@ -19,8 +19,8 @@ import net.minecraft.server.level.ClientInformation;
 //? if <= 1.21.6 {
 
 /*//? if <= 1.20 {
-/^import java.util.concurrent.atomic.AtomicReference;
-^///?}
+//import java.util.concurrent.atomic.AtomicReference;
+//?}
 //? if > 1.20.5 {
 import net.minecraft.network.DisconnectionDetails;
 //?}
@@ -28,8 +28,8 @@ import net.minecraft.network.DisconnectionDetails;
 import net.minecraft.server.network.CommonListenerCookie;
 //?}
 //? if > 1.20 && <= 1.20.3 {
-/^import net.mat0u5.matlib.mixin.SkullBlockEntityAccessor;
-^///?}
+//import net.mat0u5.matlib.mixin.SkullBlockEntityAccessor;
+//?}
 
 import net.mat0u5.matlib.utils.world.LevelUtils;
 import net.minecraft.core.UUIDUtil;
@@ -66,8 +66,8 @@ public class FakeServerPlayer extends ServerPlayer implements FakePlayer {
     @FunctionalInterface
     public interface Factory<T extends FakeServerPlayer> {
         //? if <= 1.20 {
-        /*T create(MinecraftServer server, ServerLevel level, GameProfile profile);
-        *///?} else {
+        //T create(MinecraftServer server, ServerLevel level, GameProfile profile);
+        //?} else {
         T create(MinecraftServer server, ServerLevel level, GameProfile profile, ClientInformation clientInformation);
         //?}
     }
@@ -119,19 +119,19 @@ public class FakeServerPlayer extends ServerPlayer implements FakePlayer {
             if (profile.isPresent()) current = profile.get();
 
             //? if <= 1.20 {
-            /^T instance = factory.create(server, levelIn, current);
-            ^///?} else {
+            //T instance = factory.create(server, levelIn, current);
+            //?} else {
             T instance = factory.create(server, levelIn, current, ClientInformation.createDefault());
             //?}
             //? if <= 1.21.4 {
-            /^instance.fixStartingPosition = () -> instance.moveTo(pos.x, pos.y, pos.z, (float) yaw, (float) pitch);
-            ^///?} else {
+            //instance.fixStartingPosition = () -> instance.moveTo(pos.x, pos.y, pos.z, (float) yaw, (float) pitch);
+            //?} else {
             instance.fixStartingPosition = () -> instance.snapTo(pos.x, pos.y, pos.z, (float) yaw, (float) pitch);
             //?}
             FakeClientConnection connection = new FakeClientConnection(PacketFlow.SERVERBOUND);
             //? if <= 1.20 {
-            /^server.getPlayerList().placeNewPlayer(connection, instance);
-            ^///?} else if <= 1.20.3 {
+            //server.getPlayerList().placeNewPlayer(connection, instance);
+            //?} else if <= 1.20.3 {
             /^CommonListenerCookie data = new CommonListenerCookie(current, 0, instance.clientInformation());
             server.getPlayerList().placeNewPlayer(connection, instance, data);
             ^///?} else {
@@ -185,8 +185,8 @@ public class FakeServerPlayer extends ServerPlayer implements FakePlayer {
         }
         return CompletableFuture.completedFuture(Optional.ofNullable(gameprofile));
         ^///?} else if <= 1.20.3 {
-        /^return SkullBlockEntityAccessor.ml$fetchGameProfile(name);
-        ^///?} else {
+        //return SkullBlockEntityAccessor.ml$fetchGameProfile(name);
+        //?} else {
         return SkullBlockEntity.fetchGameProfile(name);
         //?}
     }
@@ -197,8 +197,8 @@ public class FakeServerPlayer extends ServerPlayer implements FakePlayer {
 
     public void disconnectFake() {
         //? if <= 1.20.5 {
-        /^connection.onDisconnect(Component.empty());
-        ^///?} else {
+        //connection.onDisconnect(Component.empty());
+        //?} else {
         connection.onDisconnect(new DisconnectionDetails(Component.empty()));
         //?}
     }

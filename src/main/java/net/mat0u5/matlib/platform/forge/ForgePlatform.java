@@ -45,8 +45,8 @@ public class ForgePlatform implements Platform {
 	@Override
 	public boolean isDevelopmentEnvironment() {
 		//? if <= 1.14.4 {
-		/^return !"srg".equals(FMLLoader.getNaming());
-		^///?} else {
+		//return !"srg".equals(FMLLoader.getNaming());
+		//?} else {
 		return !FMLLoader.isProduction();
 		//?}
 	}

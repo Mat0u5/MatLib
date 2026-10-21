@@ -22,8 +22,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = EntityRenderer.class, priority = 1)
 @MixinEnvironment(value = "client", type = MixinEnvironment.Env.CLIENT)
 //? if <= 1.21 {
-/*public class EntityRendererMixin<T extends Entity> {
-*///?} else {
+//public class EntityRendererMixin<T extends Entity> {
+//?} else {
 public class EntityRendererMixin<T extends Entity, S extends EntityRenderState> {
 //?}
 
