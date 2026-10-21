@@ -28,10 +28,6 @@ import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 /*import net.mat0u5.matlib.platform.forge.ForgePlatform;
 *///?}
 
-//? fabric && <= 1.20.5 {
-/*import net.mat0u5.matlib.events.common.CommonRegistryEvents;
-*///?}
-
 public class MatLib {
 
 	/**
@@ -40,7 +36,7 @@ public class MatLib {
 	 */
 	public static volatile DebugOptions DEBUG = DebugOptions.STABLE;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.6.8";
+	public static final String MOD_VERSION = "0.6.9";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();

@@ -3,7 +3,7 @@ package net.mat0u5.matlib.client.utils.interfaces;
 import net.minecraft.world.entity.Entity;
 
 /**
- * Stores information in {@link net.minecraft.world.entity.Display.RenderState}
+ * Stores the rendered entity and tick progress in {@code EntityRenderState}.
  */
 public interface IEntityRenderState {
     Entity ml$getEntity();

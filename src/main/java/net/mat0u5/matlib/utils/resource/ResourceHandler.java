@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.utils.resource;
 
 import net.mat0u5.matlib.MatLib;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -19,13 +20,7 @@ public class ResourceHandler {
                 Files.createDirectories(targetFile.getParent());
             }
 
-            String absolutePath = resourcePath.startsWith("/") ? resourcePath : "/" + resourcePath;
-            String relativePath = absolutePath.substring(1);
-
-            InputStream in = getClass().getResourceAsStream(absolutePath);
-            if (in == null) {
-                in = Thread.currentThread().getContextClassLoader().getResourceAsStream(relativePath);
-            }
+            InputStream in = openBundledResource(resourcePath);
 
             if (in == null) {
                 MatLib.LOGGER.error("Bundled file not found in resources: {}", resourcePath);
@@ -41,5 +36,26 @@ public class ResourceHandler {
         } catch (Exception e) {
             MatLib.LOGGER.error("Error copying bundled file: " + resourcePath, e);
         }
+    }
+
+    @Nullable
+    public static InputStream openBundledResource(String resourcePath) {
+        String absolutePath = resourcePath.startsWith("/") ? resourcePath : "/" + resourcePath;
+        String relativePath = absolutePath.substring(1);
+
+        InputStream in = ResourceHandler.class.getResourceAsStream(absolutePath);
+        if (in != null) return in;
+
+        ClassLoader classLoader = ResourceHandler.class.getClassLoader();
+        if (classLoader != null) {
+            in = classLoader.getResourceAsStream(relativePath);
+            if (in != null) return in;
+        }
+
+        ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+        if (contextClassLoader != null && contextClassLoader != classLoader) {
+            in = contextClassLoader.getResourceAsStream(relativePath);
+        }
+        return in;
     }
 }

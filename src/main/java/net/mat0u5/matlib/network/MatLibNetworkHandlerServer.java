@@ -86,12 +86,16 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		MatLibSimplePackets.CONFIG_GUI_UPDATE.setServerReceive((serverPlayer, payload) -> {
 			try {
 				onConfigPayload(serverPlayer, payload);
-			}catch(Exception ignored) {}
+			} catch(Exception e) {
+				MatLib.LOGGER.error("Failed to handle config update from {}", serverPlayer, e);
+			}
 		});
 		MatLibSimplePackets.CONFIG_GUI_UPDATE_END.setServerReceive((serverPlayer, payload) -> {
 			try {
 				onConfigPayloadEnd(serverPlayer, payload);
-			}catch(Exception ignored) {}
+			} catch(Exception e) {
+				MatLib.LOGGER.error("Failed to handle config update end from {}", serverPlayer, e);
+			}
 		});
 	}
 

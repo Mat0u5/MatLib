@@ -193,13 +193,24 @@ public class ConfigurableValue<T> implements ConfigEntry {
 	public void setSyncedValue(String raw) {
 		try {
 			T old = get();
-			syncedValue = type.parse(raw);
+			T value = type.parse(raw);
+			syncedValue = value;
 			syncedValueLoaded = true;
-			if (!Objects.equals(old, syncedValue)){
-				listeners.forEach(l -> l.accept(old, syncedValue));
+			if (!Objects.equals(old, value)){
+				notifyListeners(old, value);
 			}
 		} catch (Exception e) {
 			MatLib.LOGGER.error("Bad synced value '{}' for {}", raw, key, e);
+		}
+	}
+
+	private void notifyListeners(T oldValue, T newValue) {
+		for (BiConsumer<T, T> listener : listeners) {
+			try {
+				listener.accept(oldValue, newValue);
+			} catch (Exception e) {
+				MatLib.LOGGER.error("Error in change listener of config value {}:{}", config.getConfigId(), key, e);
+			}
 		}
 	}
 
@@ -234,7 +245,7 @@ public class ConfigurableValue<T> implements ConfigEntry {
 		cachedStringValue = getValueAsString(value);
 		loaded = true;
 		if (wasLoaded && !Objects.equals(old, value)) {
-			listeners.forEach(l -> l.accept(old, value));
+			notifyListeners(old, value);
 			config.onValueChanged(this, old, value);
 		}
 		return value;
@@ -251,7 +262,7 @@ public class ConfigurableValue<T> implements ConfigEntry {
 		cachedStringValue = getValueAsString(value);
 		config.setProperty(this.key, getValueAsString(value));
 		if (!Objects.equals(old, value)) {
-			listeners.forEach(listener -> listener.accept(old, value));
+			notifyListeners(old, value);
 			config.onValueChanged(this, old, value);
 		}
 	}
@@ -270,11 +281,14 @@ public class ConfigurableValue<T> implements ConfigEntry {
 		}
 	}
 
+	/**
+	 * Removes the value from the config file, the next {@link #get()} falls back to the default value.
+	 */
 	public void remove() {
 		config.removeProperty(this.key);
 		cachedValue = null;
 		cachedStringValue = null;
-		loaded = true;
+		loaded = false;
 	}
 
 	public ConfigType<T> getType() {
