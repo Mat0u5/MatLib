@@ -9,7 +9,6 @@ import net.mat0u5.matlib.network.packets.TexturePayload;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.mat0u5.matlib.utils.resource.SyncedTextureFolder;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +16,12 @@ import org.jetbrains.annotations.Nullable;
 import java.io.ByteArrayInputStream;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+
+//? if <= 26.3 {
+//import net.minecraft.client.renderer.texture.DynamicTexture;
+//?} else {
+import net.minecraft.client.renderer.texture.TextureResources;
+//?}
 
 @AutoService(RegistrableClient.class)
 public class SyncedTexturesClient implements RegistrableClient {
@@ -56,8 +61,10 @@ public class SyncedTexturesClient implements RegistrableClient {
 
 			//? if <= 1.21.4 {
 			//DynamicTexture texture = new DynamicTexture(image);
+			//?} else if <= 26.3 {
+			//DynamicTexture texture = new DynamicTexture(() -> name, image);
 			//?} else {
-			DynamicTexture texture = new DynamicTexture(() -> name, image);
+			TextureResources texture = TextureResources.from2dImage(() -> name, image);
 			//?}
 			removeTexture(folderId, name);
 			Minecraft.getInstance().getTextureManager().register(textureId, texture);

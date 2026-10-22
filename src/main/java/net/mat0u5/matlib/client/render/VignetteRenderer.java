@@ -4,6 +4,7 @@ import com.google.auto.service.AutoService;
 import net.mat0u5.matlib.client.events.ClientRenderEvents;
 import net.mat0u5.matlib.client.services.RegistrableClient;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
+import net.mat0u5.matlib.utils.other.OtherUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
@@ -18,7 +19,7 @@ import net.minecraft.util.ARGB;
 //? if >= 1.21.2 && <= 1.21.5
 //import net.minecraft.client.renderer.rendertype.RenderType;
 //? if >= 1.21.6
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.pipeline.RenderPipelines;
 
 @AutoService(RegistrableClient.class)
 public class VignetteRenderer implements RegistrableClient {
@@ -37,7 +38,7 @@ public class VignetteRenderer implements RegistrableClient {
         Minecraft client = Minecraft.getInstance();
         if (client.player == null) return;
 
-        float darkness = Mth.clamp(vignetteDarkness, 0.0F, 1.0F);
+        float darkness = OtherUtils.clamp(vignetteDarkness, 0.0F, 1.0F);
         if (darkness == 0) return;
 
 
@@ -72,7 +73,7 @@ public class VignetteRenderer implements RegistrableClient {
     }
 
     public static void showVignetteFor(float darkness, long durationMillis) {
-        vignetteDarkness = Mth.clamp(darkness, 0.0F, 1.0F);
+        vignetteDarkness = OtherUtils.clamp(darkness, 0.0F, 1.0F);
         if (durationMillis == -1) {
             vignetteEnd = -1;
         }

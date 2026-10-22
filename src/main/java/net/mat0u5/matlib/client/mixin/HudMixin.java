@@ -26,9 +26,13 @@ public class HudMixin {
     *///?} else if <= 1.21.11 {
     /*@Inject(method = "render", at = @At(value = "HEAD"))
     public void render(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-    *///?} else {
-	@Inject(method = "extractRenderState", at = @At(value = "HEAD"))
+    *///?} else if <= 26.3 {
+	/*@Inject(method = "extractRenderState", at = @At(value = "HEAD"))
 	public void render(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+	*///?} else {
+	@Inject(method = "extractRenderState", at = @At(value = "HEAD"))
+	public void render(GuiGraphicsExtractor guiGraphics, CallbackInfo ci) {
+		DeltaTracker deltaTracker = guiGraphics.deltaTracker();
 	//?}
 		//? if !(neoforge && <= 1.20.3) && !(forge && <= 1.20) {
 		ClientRenderEvents.RENDER_GUI.invoker().onRenderGui(guiGraphics, deltaTracker);
@@ -56,9 +60,13 @@ public class HudMixin {
     *///?} else if <= 1.21.11 {
     /*@Inject(method = "render", at = @At(value = "TAIL"))
     public void renderPost(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
-    *///?} else {
-	@Inject(method = "extractRenderState", at = @At(value = "TAIL"))
+    *///?} else if <= 26.3 {
+	/*@Inject(method = "extractRenderState", at = @At(value = "TAIL"))
 	public void renderPost(GuiGraphicsExtractor guiGraphics, DeltaTracker deltaTracker, CallbackInfo ci) {
+	*///?} else {
+	@Inject(method = "extractRenderState", at = @At(value = "TAIL"))
+	public void renderPost(GuiGraphicsExtractor guiGraphics, CallbackInfo ci) {
+		DeltaTracker deltaTracker = guiGraphics.deltaTracker();
 	//?}
 //?}
 		//? if !(neoforge && <= 1.20.3) && !(forge && <= 1.20) {

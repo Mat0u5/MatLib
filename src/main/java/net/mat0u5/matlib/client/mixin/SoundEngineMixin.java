@@ -1,6 +1,7 @@
 package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
+import net.mat0u5.matlib.utils.other.OtherUtils;
 import net.minecraft.client.sounds.SoundEngine;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -26,7 +27,7 @@ public class SoundEngineMixin {
 		if (client.level == null) return;
 		TickRateManager tickManager = client.level.tickRateManager();
 		if (tickManager.tickrate() != 20) {
-			cir.setReturnValue(Mth.clamp(sound.getPitch(), 0.5F, 2.0F) * (tickManager.tickrate() / 20.0f));
+			cir.setReturnValue(OtherUtils.clamp(sound.getPitch(), 0.5F, 2.0F) * (tickManager.tickrate() / 20.0f));
 		}
 	}
 	//?}
