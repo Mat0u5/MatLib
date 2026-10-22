@@ -5,7 +5,6 @@ import com.mojang.authlib.GameProfile;
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.config.ConfigManager;
 import net.mat0u5.matlib.config.GuiConfig;
-import net.mat0u5.matlib.config.SimpleConfig;
 import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.config.entry.ConfigurableValue;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
@@ -19,15 +18,19 @@ import net.mat0u5.matlib.utils.other.DefaultTaskScheduler;
 import net.mat0u5.matlib.utils.other.OtherUtils;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.mat0u5.matlib.utils.other.VersionCompatibility;
-import net.mat0u5.matlib.utils.player.PermissionManager;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.*;
 
 //? if <= 1.20.3 {
 /*import net.minecraft.network.FriendlyByteBuf;
@@ -38,7 +41,6 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 //?}
 //? if > 1.20.5
 import net.minecraft.network.DisconnectionDetails;
-import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 
 @AutoService(RegistrableServer.class)
 public class MatLibNetworkHandlerServer implements RegistrableServer {

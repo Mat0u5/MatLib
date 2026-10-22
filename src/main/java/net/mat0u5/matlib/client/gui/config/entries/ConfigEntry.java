@@ -1,11 +1,10 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
 import net.mat0u5.matlib.client.gui.config.ConfigScreen;
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
-import net.mat0u5.matlib.config.type.ConfigType;
-import net.mat0u5.matlib.config.type.*;
 import net.mat0u5.matlib.client.render.RenderUtils;
 import net.mat0u5.matlib.client.utils.TextColors;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.type.ConfigType;
 import net.mat0u5.matlib.network.MatLibSimplePackets;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.minecraft.ChatFormatting;

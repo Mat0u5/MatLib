@@ -1,12 +1,12 @@
 package net.mat0u5.matlib;
 
-import net.mat0u5.matlib.events.server.ServerPackSourceEvents;
-import net.mat0u5.matlib.services.RegistrableServer;
-import net.mat0u5.matlib.services.ServiceProvider;
-import net.mat0u5.matlib.services.MultiplatformModInitializer;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
+import net.mat0u5.matlib.events.server.ServerPackSourceEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
+import net.mat0u5.matlib.services.MultiplatformModInitializer;
+import net.mat0u5.matlib.services.RegistrableServer;
+import net.mat0u5.matlib.services.ServiceProvider;
 import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
 import net.mat0u5.matlib.utils.other.DebugOptions;
 import net.mat0u5.matlib.utils.other.ModBuiltInPacks;
@@ -18,6 +18,7 @@ import net.minecraft.server.packs.PackType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.UUID;
 
 //? fabric {

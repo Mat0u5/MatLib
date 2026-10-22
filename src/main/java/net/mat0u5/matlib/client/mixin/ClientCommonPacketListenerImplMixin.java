@@ -2,8 +2,8 @@ package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
 import net.mat0u5.matlib.MatLib;
-import net.mat0u5.matlib.events.EventResult;
 import net.mat0u5.matlib.client.events.ClientPackSourceEvents;
+import net.mat0u5.matlib.events.EventResult;
 import net.minecraft.network.Connection;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

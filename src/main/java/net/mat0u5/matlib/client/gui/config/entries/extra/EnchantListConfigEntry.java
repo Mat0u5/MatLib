@@ -1,8 +1,9 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra;
 
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.main.StringConfigEntry;
-import net.mat0u5.matlib.config.type.*;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.type.ConfigType;
+import net.mat0u5.matlib.config.type.ConfigTypes;
 import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.minecraft.client.Minecraft;

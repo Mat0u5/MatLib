@@ -1,12 +1,13 @@
 package net.mat0u5.matlib.client.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
+import net.mat0u5.matlib.client.events.ClientEntityEvents;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
-import net.mat0u5.matlib.client.events.ClientEntityEvents;
 import org.spongepowered.asm.mixin.injection.At;
-import net.minecraft.network.chat.Component;
+
 //? if <= 1.21 {
 /*import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

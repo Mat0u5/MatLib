@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.mat0u5.matlib.network.NetworkHandlerServer;
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 //?}
-
 //? if <= 1.21.6 {
 /*import net.mat0u5.matlib.entity.fakeplayer.FakeServerPlayer;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
@@ -29,13 +28,11 @@ import java.util.Set;
 /*import net.minecraft.world.entity.Relative;
 import net.minecraft.world.entity.PositionMoveRotation;
 *///?}
-
 //? if <= 1.20.5 {
 //import net.minecraft.network.chat.Component;
  //?} else {
 import net.minecraft.network.DisconnectionDetails;
 //?}
-
 //? if >= 26.1 {
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.network.protocol.game.ServerboundInteractPacket;
