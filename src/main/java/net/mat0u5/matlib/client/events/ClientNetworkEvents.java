@@ -2,7 +2,11 @@ package net.mat0u5.matlib.client.events;
 
 import net.mat0u5.matlib.events.Event;
 import net.mat0u5.matlib.events.EventFactory;
+import net.mat0u5.matlib.events.OptionalEventReturn;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.login.ClientboundCustomQueryPacket;
 
 public class ClientNetworkEvents {
 
@@ -41,5 +45,17 @@ public class ClientNetworkEvents {
 	@FunctionalInterface
 	public interface ReceiveHandshake {
 		void onReceiveHandshake();
+	}
+
+	/**
+	 * Fires when the client receives a pre login packet.
+	 */
+	public static final Event<ReceivePreLogin> RECEIVE_PRELOGIN_PACKET = EventFactory.createClient(ReceivePreLogin.class,
+			listeners -> (connection, packet) -> EventFactory.dispatchOptionalReturn(listeners,  listener -> listener.onReceivePreLogin(connection, packet))
+	);
+
+	@FunctionalInterface
+	public interface ReceivePreLogin {
+		OptionalEventReturn<Packet<?>> onReceivePreLogin(Connection connection, ClientboundCustomQueryPacket packet);
 	}
 }

@@ -25,17 +25,15 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
+import net.mat0u5.matlib.utils.other.IdentifierHelper;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.Identifier;
 
 //? if <= 1.20.3 {
-/*import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.Identifier;
-import java.util.function.Function;
+/*import java.util.function.Function;
 *///?} else {
 import net.minecraft.network.RegistryFriendlyByteBuf;
 //?}
@@ -80,6 +78,8 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 	public void onRegister() {
 		CommonRegistryEvents.PACKET_PAYLOADS.register(() -> SIMPLE_PACKET_PAYLOADS);
 		ServerNetworkEvents.RECEIVE_CUSTOM_PACKET.register(MatLibNetworkHandlerServer::onCustomPayload);
+		ServerNetworkEvents.SEND_PRELOGIN_PACKETS.register(handler -> Map.of(PRELOGIN_TRANSACTION_ID, IdentifierHelper.matlib(preLoginPacketID)));
+		ServerNetworkEvents.RECEIVE_PRELOGIN_ANSWER.register(MatLibNetworkHandlerServer::onPreLoginPacket);
 		ServerPlayerEvents.CONNECT.register(MatLibNetworkHandlerServer::onPlayerJoin);
 		ServerPlayerEvents.DISCONNECT.register((details, player) -> MatLibNetworkHandlerServer.onPlayerLeave(player));
 		initializeSimplePacketReceivers();
@@ -153,6 +153,30 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		PlayerUtils.resendCommandTree(player);
 	}
 
+	public static boolean onPreLoginPacket(ServerLoginPacketListenerImpl handler, Identifier id, FriendlyByteBuf data) {
+		if (!id.equals(IdentifierHelper.matlib(preLoginPacketID))) return false;
+
+		boolean understood = false;
+		List<String> modIds = new ArrayList<>();
+
+		if (data != null) {
+			try {
+				if (data.isReadable()) {
+					understood = data.readBoolean();
+					int modCount = data.readInt();
+					for (int i = 0; i < modCount; i++) {
+						modIds.add(data.readUtf());
+					}
+				}
+			} catch (Exception e) {
+				MatLib.LOGGER.error("Failed to read pre-login handshake packet", e);
+			}
+		}
+
+		handlePreLogin(understood, modIds, handler);
+		return true;
+	}
+
 	public static void handlePreLogin(boolean understood, List<String> modIds, ServerLoginPacketListenerImpl handler) {
 		if (!understood && !modIds.isEmpty()) {
 			understood = true;
@@ -168,7 +192,7 @@ public class MatLibNetworkHandlerServer implements RegistrableServer {
 		else {
 			MatLib.LOGGER.info("Did not receive pre-login packet from " + username);
 		}
-		ServerNetworkEvents.PRE_LOGIN_PACKET.invoker().onPreLoginPacket(handler, uuid, username, understood, modIds);
+		ServerNetworkEvents.PRE_LOGIN_MATLIB_PACKET.invoker().onPreLoginMatLibPacket(handler, uuid, username, understood, modIds);
 	}
 
 	public static boolean wasHandshakeSuccessful(ServerPlayer player, String modId) {
