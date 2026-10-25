@@ -33,8 +33,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.Identifier;
 
 //? if <= 1.20.3 {
-/*import java.util.function.Function;
-*///?} else {
+//import java.util.function.Function;
+//?} else {
 import net.minecraft.network.RegistryFriendlyByteBuf;
 //?}
 //? if > 1.20.5

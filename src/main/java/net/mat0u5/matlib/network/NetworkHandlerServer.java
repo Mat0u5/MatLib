@@ -120,8 +120,8 @@ public class NetworkHandlerServer {
 
 		Connection connection = ((ServerLoginPacketListenerImplAccessor) handler).getConnection();
 		//? if <= 1.20 {
-		/*connection.send(new ClientboundCustomQueryPacket(transactionId, id, new FriendlyByteBuf(Unpooled.buffer())));
-		*///?} else {
+		//connection.send(new ClientboundCustomQueryPacket(transactionId, id, new FriendlyByteBuf(Unpooled.buffer())));
+		//?} else {
 		connection.send(new ClientboundCustomQueryPacket(transactionId, new DiscardedQueryPayload(id)));
 		//?}
 	}
