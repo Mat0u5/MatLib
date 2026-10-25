@@ -23,7 +23,6 @@
     "EntityRenderStateMixin",
     "HudMixin",
     "LayerDefinitionsMixin",
-    "LevelExtractorMixin",
     "LivingEntityMixin",
     "LocalPlayerMixin",
     "MinecraftMixin",
