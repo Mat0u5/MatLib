@@ -26,6 +26,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.network.protocol.login.ServerboundCustomQueryAnswerPacket;
 import com.mojang.authlib.GameProfile;
 //?}
+//? if forge && <= 1.20 {
+/*import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.network.Connection;
+import net.minecraft.server.level.ServerPlayer;
+*///?}
 
 @Mixin(value = ServerLoginPacketListenerImpl.class, priority = 1)
 @MixinEnvironment(type = MixinEnvironment.Env.MAIN)
@@ -79,6 +85,7 @@ public abstract class ServerLoginPacketListenerImplMixin {
 
         FriendlyByteBuf data = packet.getData();
         boolean lastAnswer = ml$pendingQueries.isEmpty();
+        //? if !forge
         if (lastAnswer) ml$queriesAnswered = true;
 
         ServerLoginPacketListenerImpl self = (ServerLoginPacketListenerImpl)(Object)this;
@@ -97,12 +104,29 @@ public abstract class ServerLoginPacketListenerImplMixin {
             NetworkHandlerServer.onPreLoginAnswer(self, id, data);
             if (!lastAnswer) return;
 
-            this.state = ServerLoginPacketListenerImpl.State.READY_TO_ACCEPT;
+            ml$queriesAnswered = true;
             ^///?}
         });
 
         ci.cancel();
     }
+
+    //? if forge {
+    /^@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/network/NetworkHooks;tickNegotiation(Lnet/minecraft/server/network/ServerLoginPacketListenerImpl;Lnet/minecraft/network/Connection;Lnet/minecraft/server/level/ServerPlayer;)Z", remap = false))
+    private boolean ml$queryBeforeNegotiation(ServerLoginPacketListenerImpl handler, Connection connection, ServerPlayer player, Operation<Boolean> original) {
+        if (!ml$queriesSent) {
+            ml$queriesSent = true;
+            ml$sendQueries();
+
+            if (ml$pendingQueries.isEmpty()) {
+                ml$queriesAnswered = true;
+            }
+        }
+
+        if (!ml$queriesAnswered) return false;
+        return original.call(handler, connection, player);
+    }
+    ^///?}
     *///?} else {
     @Shadow public abstract void handleCustomQueryPacket(ServerboundCustomQueryAnswerPacket packet);
 

@@ -26,7 +26,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //?}
 
-//Don't do this at home kids
 @Mixin(value = RegistrySyncManager.class, priority = 1, remap = false)
 @MixinEnvironment(type = MixinEnvironment.Env.MAIN)
 public class RegistrySyncManagerMixin {
