@@ -741,6 +741,9 @@ abstract class ModPlatformPlugin @Inject constructor() : Plugin<Project> {
 		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.4"), "!renames_26_4") {
 			replace ("net.minecraft.client.renderer.RenderPipelines", "net.minecraft.client.renderer.pipeline.RenderPipelines")
+			replace ("net.minecraft.client.renderer.pipeline.RenderPipelines", "net.minecraft.client.gui.GuiPipeline")
+			replace ("RenderPipelines.GUI_TEXTURED", "GuiPipeline.TEXTURED")
+			replace ("RenderPipelines.VIGNETTE", "GuiPipeline.VIGNETTE")
 		}
 		stonecutter.replacements.string(stonecutter.eval(stonecutter.current.version, ">=26.4"), "renames_26_4_volatile") {
 			replace ("extractRenderState(GuiGraphicsExtractor context, int mouseX, int mouseY, float tickDelta)", "extractRenderState(GuiGraphicsExtractor context)")

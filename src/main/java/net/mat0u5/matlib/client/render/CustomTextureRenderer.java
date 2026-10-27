@@ -7,7 +7,7 @@ import net.minecraft.resources.Identifier;
 //? if >= 1.21.2 && <= 1.21.5
 //import net.minecraft.client.renderer.rendertype.RenderType;
 //? if >= 1.21.6
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
+import net.minecraft.client.gui.GuiPipeline;
 
 public class CustomTextureRenderer {
     private final Identifier texture;
@@ -80,7 +80,7 @@ public class CustomTextureRenderer {
         //?} else if <= 1.21.5 {
         //context.blit(RenderType::guiTextured, texture, (int) (x / scaleX), (int) (y / scaleY), u, v, outWidth, outHeight, width, height, textureWidth, textureHeight);
         //?} else {
-        context.blit(RenderPipelines.GUI_TEXTURED, texture, (int) (x / scaleX), (int) (y / scaleY), u, v, outWidth, outHeight, width, height, textureWidth, textureHeight);
+        context.blit(GuiPipeline.TEXTURED, texture, (int) (x / scaleX), (int) (y / scaleY), u, v, outWidth, outHeight, width, height, textureWidth, textureHeight);
         //?}
 
         if (isScaled()) {

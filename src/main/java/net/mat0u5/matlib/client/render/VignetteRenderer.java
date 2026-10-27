@@ -19,7 +19,7 @@ import net.minecraft.util.ARGB;
 //? if >= 1.21.2 && <= 1.21.5
 //import net.minecraft.client.renderer.rendertype.RenderType;
 //? if >= 1.21.6
-import net.minecraft.client.renderer.pipeline.RenderPipelines;
+import net.minecraft.client.gui.GuiPipeline;
 
 @AutoService(RegistrableClient.class)
 public class VignetteRenderer implements RegistrableClient {
@@ -67,7 +67,7 @@ public class VignetteRenderer implements RegistrableClient {
                 context.guiWidth(), context.guiHeight(), context.guiWidth(), context.guiHeight(), color);
         *///?} else {
         int color = ARGB.colorFromFloat(1.0F, darkness, darkness, darkness);
-        context.blit(RenderPipelines.VIGNETTE, VIGNETTE_TEXTURE, 0, 0, 0.0F, 0.0F,
+        context.blit(GuiPipeline.VIGNETTE, VIGNETTE_TEXTURE, 0, 0, 0.0F, 0.0F,
                 context.guiWidth(), context.guiHeight(), context.guiWidth(), context.guiHeight(), color);
         //?}
     }
