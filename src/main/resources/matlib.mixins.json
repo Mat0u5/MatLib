@@ -31,6 +31,11 @@
     "ServerPlayerGameModeMixin",
     "ServerPlayerMixin",
     "SkullBlockEntityAccessor",
-    "compat.fabricapi.RegistrySyncManagerMixin"
+    "compat.fabricapi.RegistrySyncManagerMixin",
+    "compat.forge.HandshakeHandlerMixin",
+    "compat.forge.SyncRegistriesTaskMixin",
+    "compat.neoforge.RegistrySnapshotAccessor",
+    "compat.neoforge.ServerConfigurationPacketListenerImplMixin",
+    "compat.neoforge.SyncRegistriesMixin"
   ]
 }

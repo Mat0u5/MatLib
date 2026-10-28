@@ -30,9 +30,8 @@ public class BuiltInRegistriesMixin {
 		/^if (MatLib.platform().isModLoaded("fabric-api")) {
 			return;
 		}
-		^///?} else {
+		^///?}
         MatLibClient.onRegister();
-		//?}
     }
 *///?} else {
 	@Inject(method = "createContents", at = @At("HEAD"))

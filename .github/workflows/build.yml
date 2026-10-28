@@ -6,6 +6,10 @@ on:
   push:
     branches:
       - main
+      - master
+      - stable
+      - dev
+      - snapshot
 
 jobs:
   build:

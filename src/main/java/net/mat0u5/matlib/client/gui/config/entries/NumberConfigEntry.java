@@ -1,8 +1,8 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IEntryGroupHeader;
 import net.mat0u5.matlib.client.utils.TextColors;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 

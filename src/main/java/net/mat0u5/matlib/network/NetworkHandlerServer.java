@@ -2,15 +2,22 @@ package net.mat0u5.matlib.network;
 
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.events.server.ServerNetworkEvents;
+import net.mat0u5.matlib.mixin.ServerLoginPacketListenerImplAccessor;
 import net.mat0u5.matlib.network.packets.simple.SimplePacket;
 import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
+import net.minecraft.network.Connection;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.minecraft.network.protocol.login.ClientboundCustomQueryPacket;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
 
 import java.util.Objects;
+import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static net.mat0u5.matlib.MatLib.server;
 
@@ -19,19 +26,16 @@ import static net.mat0u5.matlib.MatLib.server;
 //?} else if neoforge {
 //import net.neoforged.neoforge.network.registration.NetworkRegistry;
 //?}
-
-//? if <= 1.20.3 {
-//import net.minecraft.network.FriendlyByteBuf;
-//?}
- 
 //? if <= 1.20 {
 /*import io.netty.buffer.Unpooled;
 import net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket;
 *///?} else {
 import net.minecraft.network.protocol.common.ClientboundCustomPayloadPacket;
+import net.minecraft.network.protocol.login.custom.DiscardedQueryPayload;
 //?}
 
 public class NetworkHandlerServer {
+	private static final Set<Integer> preLoginTransactionIds = ConcurrentHashMap.newKeySet();
 
 	public static void onCustomPayload(CustomPacketPayload customPacketPayload, Player player) {
 		if (player instanceof ServerPlayer serverPlayer) {
@@ -105,6 +109,29 @@ public class NetworkHandlerServer {
 		player.connection.send(new ClientboundCustomPayloadPacket(payload));
 		//?}
 		MatLib.DEBUG.network.packetsSent.log("[PACKET_SERVER -> {}] Sending {}", player, id);
+	}
+
+	public static void sendPreLoginPacket(ServerLoginPacketListenerImpl handler, int transactionId, Identifier id) {
+		Objects.requireNonNull(handler, "Login handler cannot be null");
+		Objects.requireNonNull(id, "Packet id cannot be null");
+
+		// Must be known before the answer arrives, the answer payload is decoded off the login handler
+		preLoginTransactionIds.add(transactionId);
+
+		Connection connection = ((ServerLoginPacketListenerImplAccessor) handler).getConnection();
+		//? if <= 1.20 {
+		//connection.send(new ClientboundCustomQueryPacket(transactionId, id, new FriendlyByteBuf(Unpooled.buffer())));
+		//?} else {
+		connection.send(new ClientboundCustomQueryPacket(transactionId, new DiscardedQueryPayload(id)));
+		//?}
+	}
+
+	public static boolean isPreLoginTransaction(int transactionId) {
+		return preLoginTransactionIds.contains(transactionId);
+	}
+
+	public static void onPreLoginAnswer(ServerLoginPacketListenerImpl handler, Identifier id, FriendlyByteBuf data) {
+		ServerNetworkEvents.RECEIVE_PRELOGIN_ANSWER.invoker().onReceivePreLogin(handler, id, data);
 	}
 
 	public static boolean wasHandshakeSuccessful(ServerPlayer player, String modId) {

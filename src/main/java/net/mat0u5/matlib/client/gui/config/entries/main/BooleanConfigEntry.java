@@ -1,9 +1,10 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.ButtonConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IEntryGroupHeader;
-import net.mat0u5.matlib.config.type.*;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.type.ConfigType;
+import net.mat0u5.matlib.config.type.ConfigTypes;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 

@@ -10,10 +10,34 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class RegistrySyncUtils {
+	//? neoforge {
+	/*// Tracks which players registry is currently being modified
+	private static final ThreadLocal<UUID> CONFIGURING_PLAYER = new ThreadLocal<>();
+
+	public static void runConfigurationTask(@Nullable UUID playerUUID, Runnable task) {
+		CONFIGURING_PLAYER.set(playerUUID);
+		try {
+			task.run();
+		} finally {
+			CONFIGURING_PLAYER.remove();
+		}
+	}
+
+	@Nullable
+	public static UUID getConfiguringPlayer() {
+		return CONFIGURING_PLAYER.get();
+	}
+	*///?}
 
 	public static boolean editRegistryMap(@Nullable Map<Identifier, Object2IntMap<Identifier>> registryMap, UUID playerUUID) {
 		if (registryMap == null) return false;
 
+		Map<Identifier, Collection<Identifier>> registries = new LinkedHashMap<>();
+		registryMap.forEach((registry, registryEntries) -> registries.put(registry, registryEntries.keySet()));
+		return editRegistries(registries, playerUUID);
+	}
+
+	public static boolean editRegistries(Map<Identifier, ? extends Collection<Identifier>> registries, UUID playerUUID) {
 		Set<String> trackedNamespaces = new HashSet<>();
 		Set<String> strippedNamespaces = new HashSet<>();
 		for (VersionTrackedMod mod : VersionTrackedMods.CACHED_VERSION_TRACKED_MODS) {
@@ -30,16 +54,16 @@ public class RegistrySyncUtils {
 
 		boolean hasTrackedEntries = false;
 		List<String> removedEntries = new ArrayList<>();
-		for (Map.Entry<Identifier, Object2IntMap<Identifier>> entry : registryMap.entrySet()) {
+		for (Map.Entry<Identifier, ? extends Collection<Identifier>> entry : registries.entrySet()) {
 			Identifier registry = entry.getKey();
-			Object2IntMap<Identifier> registryEntries = entry.getValue();
-			for (Identifier value : registryEntries.keySet()) {
+			Collection<Identifier> registryEntries = entry.getValue();
+			for (Identifier value : registryEntries) {
 				if (trackedNamespaces.contains(value.getNamespace().toLowerCase(Locale.ROOT))) {
 					hasTrackedEntries = true;
 					break;
 				}
 			}
-			registryEntries.keySet().removeIf(value -> {
+			registryEntries.removeIf(value -> {
 				if (strippedNamespaces.contains(value.getNamespace().toLowerCase(Locale.ROOT))) {
 					removedEntries.add(registry.getPath() + ":" + value);
 					return true;

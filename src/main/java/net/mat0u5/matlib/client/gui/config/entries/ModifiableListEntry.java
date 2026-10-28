@@ -1,7 +1,7 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
 import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
-import net.mat0u5.matlib.config.type.*;
+import net.mat0u5.matlib.config.type.ConfigType;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;

@@ -1,12 +1,12 @@
 package net.mat0u5.matlib;
 
-import net.mat0u5.matlib.events.server.ServerPackSourceEvents;
-import net.mat0u5.matlib.services.RegistrableServer;
-import net.mat0u5.matlib.services.ServiceProvider;
-import net.mat0u5.matlib.services.MultiplatformModInitializer;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
+import net.mat0u5.matlib.events.server.ServerPackSourceEvents;
 import net.mat0u5.matlib.platform.Platform;
 import net.mat0u5.matlib.registries.MobRegistry;
+import net.mat0u5.matlib.services.MultiplatformModInitializer;
+import net.mat0u5.matlib.services.RegistrableServer;
+import net.mat0u5.matlib.services.ServiceProvider;
 import net.mat0u5.matlib.utils.interfaces.ClientAccessor;
 import net.mat0u5.matlib.utils.other.DebugOptions;
 import net.mat0u5.matlib.utils.other.ModBuiltInPacks;
@@ -18,6 +18,7 @@ import net.minecraft.server.packs.PackType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.UUID;
 
 //? fabric {
@@ -30,13 +31,9 @@ import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 
 public class MatLib {
 
-	/**
-	 * Starts as {@link DebugOptions#STABLE}, replaced by the config's logging level in {@link #onRegister()}.
-	 * Not read from the config here, because this class is first loaded by the mixin plugin, before anything else is ready.
-	 */
 	public static volatile DebugOptions DEBUG = DebugOptions.STABLE;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.7.0";
+	public static final String MOD_VERSION = "1.0.0";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();

@@ -47,7 +47,7 @@ tasks.register("publishMavenLocal") {
 gradle.projectsEvaluated {
 	val versionOrder = stonecutter.versions.map { it.version }.distinct().reversed()
 
-	listOf("publishModrinth", "publishCurseforge").forEach { taskName ->
+	listOf("publishModrinth", "publishCurseforge", "publishGithub").forEach { taskName ->
 		val allTasks = subprojects.mapNotNull { it.tasks.findByName(taskName) }
 
 		val sorted = allTasks.sortedWith(compareBy(

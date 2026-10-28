@@ -4,17 +4,13 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.mat0u5.matlib.MatLib;
-import net.mat0u5.matlib.client.MatLibClient;
 import net.mat0u5.matlib.client.config.ClientConfigManager;
 import net.mat0u5.matlib.client.gui.config.entries.ConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.GroupConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.TextFieldConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.main.TextConfigEntry;
-
 import net.mat0u5.matlib.client.render.RenderUtils;
 import net.mat0u5.matlib.client.utils.TextColors;
-import net.mat0u5.matlib.config.ConfigManager;
-import net.mat0u5.matlib.config.SimpleConfig;
 import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.config.entry.ConfigurableValue;
 import net.mat0u5.matlib.network.MatLibSimplePackets;
@@ -25,6 +21,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+
 import java.util.*;
 
 //? if >= 1.21.9

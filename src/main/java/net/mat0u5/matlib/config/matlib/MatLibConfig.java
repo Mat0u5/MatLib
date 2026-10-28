@@ -2,8 +2,8 @@ package net.mat0u5.matlib.config.matlib;
 
 import com.google.auto.service.AutoService;
 import net.mat0u5.matlib.MatLib;
-import net.mat0u5.matlib.config.GuiConfig;
 import net.mat0u5.matlib.config.ConfigManager;
+import net.mat0u5.matlib.config.GuiConfig;
 import net.mat0u5.matlib.config.entry.ConfigurableValue;
 import net.mat0u5.matlib.services.RegistrableServer;
 import net.mat0u5.matlib.utils.other.DebugOptions;

@@ -1,10 +1,10 @@
 package net.mat0u5.matlib.events;
 
+import net.mat0u5.matlib.MatLib;
+
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
-
-import net.mat0u5.matlib.MatLib;
 
 public final class EventFactory {
 	private EventFactory() { }

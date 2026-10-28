@@ -1,10 +1,11 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.utils.TextColors;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
+
 import java.util.Objects;
 
 //? if >= 1.21.9
@@ -70,6 +71,9 @@ public abstract class TextFieldConfigEntry extends ConfigEntry {
 
         if (hasError()) {
             textField.setTextColor(TextColors.PASTEL_RED);
+        }
+        else if (hasWarn()) {
+            textField.setTextColor(TextColors.PASTEL_YELLOW);
         }
         else {
             textField.setTextColor(TextColors.WHITE);

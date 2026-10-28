@@ -1,9 +1,9 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IPopup;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.ITextFieldAddonPopup;
 import net.mat0u5.matlib.client.gui.config.entries.main.StringConfigEntry;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphicsExtractor;

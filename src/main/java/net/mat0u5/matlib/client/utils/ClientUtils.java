@@ -11,10 +11,8 @@ import java.util.UUID;
 
 //? if > 1.20.5
 import net.minecraft.network.DisconnectionDetails;
-
 //? if >= 26.2
 import net.minecraft.world.scores.TeamColor;
-
 //? if <= 26.2 {
 //import net.minecraft.util.Util;
 //?} else {

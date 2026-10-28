@@ -1,11 +1,12 @@
 package net.mat0u5.matlib.client.gui.config.entries.extra.time;
 
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.ConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IPopup;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.ITextFieldAddonPopup;
 import net.mat0u5.matlib.client.gui.config.entries.main.IntegerConfigEntry;
-import net.mat0u5.matlib.config.type.*;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.type.ConfigType;
+import net.mat0u5.matlib.config.type.ConfigTypes;
 import net.mat0u5.matlib.utils.other.Time;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.Font;

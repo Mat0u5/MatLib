@@ -6,6 +6,7 @@ import net.mat0u5.matlib.registries.util.AttributeEntity;
 import net.mat0u5.matlib.registries.util.IdentifiedParticle;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
+import java.util.List;
 import java.util.*;
 
 //? if <= 1.20.3 {

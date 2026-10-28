@@ -2,7 +2,6 @@ package net.mat0u5.matlib.client.network;
 
 import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.client.events.ClientNetworkEvents;
-import net.mat0u5.matlib.network.packets.*;
 import net.mat0u5.matlib.network.packets.simple.SimplePacket;
 import net.mat0u5.matlib.utils.interfaces.SimplePacketPayload;
 import net.minecraft.client.Minecraft;
@@ -10,6 +9,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.Identifier;
 
 import java.util.Objects;
+
 //? if <= 1.20.3 {
 //import net.minecraft.network.FriendlyByteBuf;
  //?}

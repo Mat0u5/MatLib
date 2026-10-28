@@ -4,6 +4,9 @@ import net.mat0u5.matlib.MatLib;
 import net.mat0u5.matlib.events.common.CommonRegistryEvents;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.*;
 
 //? if <= 1.20.3 {

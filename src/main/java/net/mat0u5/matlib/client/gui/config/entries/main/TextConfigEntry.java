@@ -1,10 +1,11 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.mat0u5.matlib.client.gui.config.entries.EmptyConfigEntry;
 import net.mat0u5.matlib.client.gui.config.entries.interfaces.IEntryGroupHeader;
-import net.mat0u5.matlib.config.type.*;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.type.ConfigType;
+import net.mat0u5.matlib.config.type.ConfigTypes;
 
 //? if >= 1.21.9
 import net.minecraft.client.input.*;

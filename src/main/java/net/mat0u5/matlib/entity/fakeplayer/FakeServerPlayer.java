@@ -15,7 +15,6 @@ import net.minecraft.server.level.ServerPlayer;
 //? if > 1.20 {
 import net.minecraft.server.level.ClientInformation;
 //?}
-
 //? if <= 1.21.6 {
 
 /*//? if <= 1.20 {

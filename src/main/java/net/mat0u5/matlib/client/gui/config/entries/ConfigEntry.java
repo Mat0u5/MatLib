@@ -1,11 +1,10 @@
 package net.mat0u5.matlib.client.gui.config.entries;
 
 import net.mat0u5.matlib.client.gui.config.ConfigScreen;
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
-import net.mat0u5.matlib.config.type.ConfigType;
-import net.mat0u5.matlib.config.type.*;
 import net.mat0u5.matlib.client.render.RenderUtils;
 import net.mat0u5.matlib.client.utils.TextColors;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.type.ConfigType;
 import net.mat0u5.matlib.network.MatLibSimplePackets;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.minecraft.ChatFormatting;
@@ -50,6 +49,8 @@ public abstract class ConfigEntry {
     protected final ConfigGuiEntry inboundGuiEntry;
     protected boolean hasError = false;
     protected String errorMessage = "";
+    protected boolean hasWarn = false;
+    protected String warnMessage = "";
 
     protected Button resetButton;
     public float highlightAlpha = 0.0f;
@@ -112,7 +113,7 @@ public abstract class ConfigEntry {
             context.fill(x, y, x + width, y + height, highlightColor);
         }
 
-        int textColor = hasError() ? TextColors.PASTEL_RED : TextColors.WHITE;
+        int textColor = hasError() ? TextColors.PASTEL_RED : (hasWarn() ? TextColors.PASTEL_YELLOW : TextColors.WHITE);
         int labelX = x + LABEL_OFFSET_X;
         int labelY = y + LABEL_OFFSET_Y + additionalLabelOffsetY();
         //~ renames_26_1_volatile
@@ -137,6 +138,17 @@ public abstract class ConfigEntry {
                 //context.renderTooltip(textRenderer, textRenderer.split(errorText, MAX_DESCRIPTION_WIDTH), DefaultTooltipPositioner.INSTANCE, mouseX, mouseY);
                  //?} else {
                 context.setTooltipForNextFrame(textRenderer, textRenderer.split(errorText, MAX_DESCRIPTION_WIDTH), DefaultTooltipPositioner.INSTANCE, mouseX, mouseY, false);
+                //?}
+            }
+        }
+        else if (hasWarn()) {
+            RenderUtils.text("⚠", x + width + ERROR_LABEL_OFFSET_X, y + ERROR_LABEL_OFFSET_Y).anchorRight().colored(TextColors.PASTEL_YELLOW).render(context, textRenderer);
+            if (isHovered) {
+                Component warnText = TextUtils.format("§eWARN:\n{}",getWarnMessage());
+                //? if <= 1.21.5 {
+                //context.renderTooltip(textRenderer, textRenderer.split(warnText, MAX_DESCRIPTION_WIDTH), DefaultTooltipPositioner.INSTANCE, mouseX, mouseY);
+                //?} else {
+                context.setTooltipForNextFrame(textRenderer, textRenderer.split(warnText, MAX_DESCRIPTION_WIDTH), DefaultTooltipPositioner.INSTANCE, mouseX, mouseY, false);
                 //?}
             }
         }
@@ -295,6 +307,29 @@ public abstract class ConfigEntry {
     protected void clearError() {
         this.hasError = false;
         this.errorMessage = "";
+    }
+
+    public boolean hasWarn() {
+        if (hasWarn) return true;
+        if (parentGroup != null && parentGroup.getMainEntry() == this && parentGroup.hasWarn()) return true;
+        return false;
+    }
+
+    public String getWarnMessage() {
+        if (!hasWarn && parentGroup != null && parentGroup.getMainEntry() == this && parentGroup.hasWarn()) {
+            return "A child entry has a warning.";
+        }
+        return warnMessage;
+    }
+
+    protected void setWarn(String warnMessage) {
+        this.hasWarn = true;
+        this.warnMessage = warnMessage;
+    }
+
+    protected void clearWarn() {
+        this.hasWarn = false;
+        this.warnMessage = "";
     }
 
     public void markChanged() {

@@ -1,8 +1,9 @@
 package net.mat0u5.matlib.client.gui.config.entries.main;
 
-import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
 import net.mat0u5.matlib.client.gui.config.entries.TextFieldConfigEntry;
-import net.mat0u5.matlib.config.type.*;
+import net.mat0u5.matlib.config.entry.ConfigGuiEntry;
+import net.mat0u5.matlib.config.type.ConfigType;
+import net.mat0u5.matlib.config.type.ConfigTypes;
 import net.mat0u5.matlib.utils.other.OtherUtils;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 
@@ -70,7 +71,7 @@ public class StringConfigEntry extends TextFieldConfigEntry {
 
         int labelEndX = labelEndX();
         int fieldEndX = textField.getX() + textField.getWidth();
-        int maxFieldWidth = fieldEndX - labelEndX - 15;
+        int maxFieldWidth = maxFieldWidth(labelEndX, fieldEndX);
         int newMinFieldWidth = minFieldWidth;
         if (maxFieldWidth <= newMinFieldWidth) newMinFieldWidth = maxFieldWidth;
 
@@ -87,6 +88,10 @@ public class StringConfigEntry extends TextFieldConfigEntry {
         else {
             targetWidth = Math.min(newMinFieldWidth, requiredWidth);
         }
+    }
+
+    protected int maxFieldWidth(int labelEndX, int fieldEndX) {
+        return fieldEndX - labelEndX - 15;
     }
 
     public int labelEndX() {

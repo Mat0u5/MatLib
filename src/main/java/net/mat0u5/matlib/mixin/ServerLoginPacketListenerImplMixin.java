@@ -1,13 +1,11 @@
 package net.mat0u5.matlib.mixin;
 
 import dev.kikugie.fletching_table.annotation.MixinEnvironment;
-import io.netty.buffer.Unpooled;
-import net.mat0u5.matlib.MatLib;
-import net.mat0u5.matlib.network.MatLibNetworkHandlerServer;
+import net.mat0u5.matlib.events.server.ServerNetworkEvents;
+import net.mat0u5.matlib.network.NetworkHandlerServer;
 import net.mat0u5.matlib.network.packets.CustomQueryPacket;
-import net.mat0u5.matlib.utils.other.IdentifierHelper;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.login.ClientboundCustomQueryPacket;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.network.ServerLoginPacketListenerImpl;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -16,8 +14,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 //? if <= 1.20 {
 /*import net.minecraft.network.protocol.login.ServerboundCustomQueryPacket;
@@ -25,16 +24,30 @@ import org.spongepowered.asm.mixin.Final;
 import net.minecraft.server.MinecraftServer;
 *///?} else {
 import net.minecraft.network.protocol.login.ServerboundCustomQueryAnswerPacket;
-import net.minecraft.network.protocol.login.custom.DiscardedQueryPayload;
 import com.mojang.authlib.GameProfile;
 //?}
-
+//? if forge && <= 1.20 {
+/*import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.network.Connection;
+import net.minecraft.server.level.ServerPlayer;
+*///?}
 
 @Mixin(value = ServerLoginPacketListenerImpl.class, priority = 1)
 @MixinEnvironment(type = MixinEnvironment.Env.MAIN)
 public abstract class ServerLoginPacketListenerImplMixin {
-    @Unique private boolean ml$querySent = false;
-    @Unique private boolean ml$queryAnswered = false;
+    @Unique private boolean ml$queriesSent = false;
+    @Unique private boolean ml$queriesAnswered = false;
+    @Unique private final Map<Integer, Identifier> ml$pendingQueries = new ConcurrentHashMap<>();
+
+    @Unique
+    private void ml$sendQueries() {
+        ServerLoginPacketListenerImpl self = (ServerLoginPacketListenerImpl)(Object)this;
+        Map<Integer, Identifier> queries = ServerNetworkEvents.SEND_PRELOGIN_PACKETS.invoker().onSendPreLogin(self);
+
+        ml$pendingQueries.putAll(queries);
+        new TreeMap<>(queries).forEach((transactionId, id) -> NetworkHandlerServer.sendPreLoginPacket(self, transactionId, id));
+    }
 
     //? if <= 1.20 {
     /*@Shadow @Final
@@ -44,21 +57,18 @@ public abstract class ServerLoginPacketListenerImplMixin {
 
     @Inject(method = "handleAcceptedLogin", at = @At("HEAD"), cancellable = true)
     private void onHandleAcceptedLogin(CallbackInfo ci) {
-        if (ml$queryAnswered) {
+        if (ml$queriesAnswered) {
             return;
         }
 
-        if (!ml$querySent) {
-            ml$querySent = true;
+        if (!ml$queriesSent) {
+            ml$queriesSent = true;
+            ml$sendQueries();
 
-            ServerLoginPacketListenerImpl self = (ServerLoginPacketListenerImpl)(Object)this;
-            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-
-            self.connection.send(new ClientboundCustomQueryPacket(
-                    MatLibNetworkHandlerServer.PRELOGIN_TRANSACTION_ID,
-                    IdentifierHelper.matlib(MatLibNetworkHandlerServer.preLoginPacketID),
-                    buf
-            ));
+            if (ml$pendingQueries.isEmpty()) {
+                ml$queriesAnswered = true;
+                return;
+            }
 
             //? if !(forge && <= 1.20) {
             this.state = ServerLoginPacketListenerImpl.State.NEGOTIATING;
@@ -70,34 +80,20 @@ public abstract class ServerLoginPacketListenerImplMixin {
 
     @Inject(method = "handleCustomQueryPacket", at = @At("HEAD"), cancellable = true)
     private void onHandleAnswer(ServerboundCustomQueryPacket packet, CallbackInfo ci) {
-        if (packet.getTransactionId() != MatLibNetworkHandlerServer.PRELOGIN_TRANSACTION_ID) return;
+        Identifier id = ml$pendingQueries.remove(packet.getTransactionId());
+        if (id == null) return;
 
-        boolean understood = false;
-        List<String> modIds = new ArrayList<>();
-
-        if (packet.getData() != null) {
-            FriendlyByteBuf buf = packet.getData();
-            try {
-                if (buf.isReadable()) {
-                    understood = buf.readBoolean();
-                    int modCount = buf.readInt();
-                    for (int i = 0; i < modCount; i++) {
-                        modIds.add(buf.readUtf());
-                    }
-                }
-            } catch (Exception e) {
-                MatLib.LOGGER.error("Failed to read pre-login handshake packet", e);
-            }
-        }
-
-        ml$queryAnswered = true;
+        FriendlyByteBuf data = packet.getData();
+        boolean lastAnswer = ml$pendingQueries.isEmpty();
+        //? if !forge
+        if (lastAnswer) ml$queriesAnswered = true;
 
         ServerLoginPacketListenerImpl self = (ServerLoginPacketListenerImpl)(Object)this;
 
-        boolean finalUnderstood = understood;
         this.server.execute(() -> {
             //? if !forge {
-            MatLibNetworkHandlerServer.handlePreLogin(finalUnderstood, modIds, self);
+            NetworkHandlerServer.onPreLoginAnswer(self, id, data);
+            if (!lastAnswer) return;
 
             this.state = ServerLoginPacketListenerImpl.State.READY_TO_ACCEPT;
             this.handleAcceptedLogin();
@@ -105,14 +101,32 @@ public abstract class ServerLoginPacketListenerImplMixin {
 
             /^if (self.connection.getPacketListener() != self) return;
 
-            MatLibNetworkHandlerServer.handlePreLogin(finalUnderstood, modIds, self);
+            NetworkHandlerServer.onPreLoginAnswer(self, id, data);
+            if (!lastAnswer) return;
 
-            this.state = ServerLoginPacketListenerImpl.State.READY_TO_ACCEPT;
+            ml$queriesAnswered = true;
             ^///?}
         });
 
         ci.cancel();
     }
+
+    //? if forge {
+    /^@WrapOperation(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraftforge/network/NetworkHooks;tickNegotiation(Lnet/minecraft/server/network/ServerLoginPacketListenerImpl;Lnet/minecraft/network/Connection;Lnet/minecraft/server/level/ServerPlayer;)Z", remap = false))
+    private boolean ml$queryBeforeNegotiation(ServerLoginPacketListenerImpl handler, Connection connection, ServerPlayer player, Operation<Boolean> original) {
+        if (!ml$queriesSent) {
+            ml$queriesSent = true;
+            ml$sendQueries();
+
+            if (ml$pendingQueries.isEmpty()) {
+                ml$queriesAnswered = true;
+            }
+        }
+
+        if (!ml$queriesAnswered) return false;
+        return original.call(handler, connection, player);
+    }
+    ^///?}
     *///?} else {
     @Shadow public abstract void handleCustomQueryPacket(ServerboundCustomQueryAnswerPacket packet);
 
@@ -120,50 +134,35 @@ public abstract class ServerLoginPacketListenerImplMixin {
 
     @Inject(method = "finishLoginAndWaitForClient", at = @At("HEAD"), cancellable = true)
     private void interceptFinish(GameProfile profile, CallbackInfo ci) {
-        if (ml$queryAnswered) return;
+        if (ml$queriesAnswered) return;
 
-        if (!ml$querySent) {
-            ml$querySent = true;
+        if (!ml$queriesSent) {
+            ml$queriesSent = true;
             ml$pendingProfile = profile;
+            ml$sendQueries();
 
-            ServerLoginPacketListenerImpl self = (ServerLoginPacketListenerImpl)(Object)this;
-            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-            DiscardedQueryPayload payload = new DiscardedQueryPayload(IdentifierHelper.matlib(MatLibNetworkHandlerServer.preLoginPacketID));
-            payload.write(buf);
-            self.connection.send(new ClientboundCustomQueryPacket(
-                    MatLibNetworkHandlerServer.PRELOGIN_TRANSACTION_ID, payload
-            ));
+            if (ml$pendingQueries.isEmpty()) {
+                ml$queriesAnswered = true;
+                return;
+            }
         }
         ci.cancel();
     }
 
     @Inject(method = "handleCustomQueryPacket", at = @At("HEAD"), cancellable = true)
     private void onHandleAnswer(ServerboundCustomQueryAnswerPacket packet, CallbackInfo ci) {
-        if (packet.transactionId() != MatLibNetworkHandlerServer.PRELOGIN_TRANSACTION_ID) return;
+        Identifier id = ml$pendingQueries.remove(packet.transactionId());
+        if (id == null) return;
 
-        boolean understood = false;
-        List<String> modIds = new ArrayList<>();
-
-        if (packet.payload() instanceof CustomQueryPacket customPayload) {
-            FriendlyByteBuf buf = customPayload.data();
-            try {
-                if (buf.isReadable()) {
-                    understood = buf.readBoolean();
-                    int modCount = buf.readInt();
-                    for (int i = 0; i < modCount; i++) {
-                        modIds.add(buf.readUtf());
-                    }
-                }
-            } catch (Exception e) {
-                MatLib.LOGGER.error("Failed to read pre-login handshake packet", e);
-            }
-        }
-        ml$queryAnswered = true;
+        FriendlyByteBuf data = packet.payload() instanceof CustomQueryPacket customPayload ? customPayload.data() : null;
 
         ServerLoginPacketListenerImpl self = (ServerLoginPacketListenerImpl)(Object)this;
-        MatLibNetworkHandlerServer.handlePreLogin(understood, modIds, self);
-        finishLogin(ml$pendingProfile);
+        NetworkHandlerServer.onPreLoginAnswer(self, id, data);
         ci.cancel();
+
+        if (!ml$pendingQueries.isEmpty()) return;
+        ml$queriesAnswered = true;
+        finishLogin(ml$pendingProfile);
     }
 
     @Shadow
