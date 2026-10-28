@@ -31,13 +31,9 @@ import net.mat0u5.matlib.platform.fabric.FabricPlatform;
 
 public class MatLib {
 
-	/**
-	 * Starts as {@link DebugOptions#STABLE}, replaced by the config's logging level in {@link #onRegister()}.
-	 * Not read from the config here, because this class is first loaded by the mixin plugin, before anything else is ready.
-	 */
 	public static volatile DebugOptions DEBUG = DebugOptions.STABLE;
 	public static final String MOD_ID = "matlib";
-	public static final String MOD_VERSION = "0.7.4";
+	public static final String MOD_VERSION = "1.0.0";
 	public static final String MOD_FRIENDLY_NAME = "MatLib";
 	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
 	private static final Platform PLATFORM = createPlatformInstance();

@@ -20,8 +20,7 @@ public class BuiltInRegistriesMixin {
 		/*if (MatLib.platform().isModLoaded("fabric-api")) {
 			return;
 		}
-		*///?} else {
+		*///?}
         MatLib.onRegister();
-		//?}
     }
 }

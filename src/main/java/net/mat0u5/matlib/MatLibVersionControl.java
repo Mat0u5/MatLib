@@ -21,13 +21,20 @@ public class MatLibVersionControl implements VersionTrackedMod {
 		return MatLib.MOD_VERSION;
 	}
 
+
+	/*
+	 *     COMPATIBILITY TABLE
+	 *   1.0.0       -   *
+	 */
 	@Override
 	public VersionCompatibility clientCompatibility() {
-		return VersionCompatibility.any();
+		// This is the version that the SERVER needs to have for the current client.
+		return VersionCompatibility.min("1.0.0");
 	}
 
 	@Override
 	public VersionCompatibility serverCompatibility() {
-		return VersionCompatibility.any();
+		// This is the version that the CLIENT needs to have for the current server.
+		return VersionCompatibility.min("1.0.0");
 	}
 }
