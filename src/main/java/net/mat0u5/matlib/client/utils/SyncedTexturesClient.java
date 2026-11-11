@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 //import net.minecraft.client.renderer.texture.DynamicTexture;
 //?} else {
 import net.minecraft.client.renderer.texture.TextureResources;
+import net.minecraft.client.renderer.texture.ExternalTextureProvider;
 //?}
 
 @AutoService(RegistrableClient.class)
@@ -67,7 +68,11 @@ public class SyncedTexturesClient implements RegistrableClient {
 			TextureResources texture = TextureResources.from2dImage(() -> name, image);
 			//?}
 			removeTexture(folderId, name);
-			Minecraft.getInstance().getTextureManager().register(textureId, texture);
+			//? if <= 26.3 {
+			//Minecraft.getInstance().getTextureManager().register(textureId, texture);
+			//?} else {
+			Minecraft.getInstance().getTextureManager().registerProvider(textureId, new ExternalTextureProvider(texture));
+			//?}
 			textures.computeIfAbsent(folderId, key -> new ConcurrentHashMap<>()).put(name, textureId);
 			MatLib.LOGGER.info("Added texture '{}'", textureId);
 		} catch (Exception e) {

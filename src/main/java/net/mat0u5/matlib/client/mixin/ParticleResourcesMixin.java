@@ -9,9 +9,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 //? if <= 26.3 {
 //import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //?} else {
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import net.minecraft.core.WritableRegistry;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.particle.ParticleProvider;
-import net.minecraft.core.Registry;
 //?}
 
 //? if <= 1.21.6 {
@@ -37,7 +37,7 @@ public class ParticleResourcesMixin {
     }
 *///?} else {
 	@Inject(method = "bootstrap", at = @At("TAIL"))
-	private static void registerParticles(Registry<ParticleProvider<?>> registry, CallbackInfoReturnable<ParticleProvider<?>> cir) {
+	private static void registerParticles(WritableRegistry<ParticleProvider<?>> registry, CallbackInfo ci) {
 		ClientRegistryEvents.PARTICLE_PROVIDER.invoker().getProvidedParticles().forEach(particle -> {
 			ParticleResources.register(registry, particle.particleType(), particle.particleProvider());
 		});

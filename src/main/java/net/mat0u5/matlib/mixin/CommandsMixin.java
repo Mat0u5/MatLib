@@ -7,31 +7,41 @@ import net.mat0u5.matlib.events.server.ServerRegistryEvents;
 import net.minecraft.commands.CommandBuildContext;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+//? if <= 26.3 {
+/*import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Shadow;
+*///?}
 
 @Mixin(Commands.class)
 @MixinEnvironment(type = MixinEnvironment.Env.MAIN)
 public abstract class CommandsMixin {
-    @Shadow
+//? if <= 26.3 {
+    /*@Shadow
     @Final
     private CommandDispatcher<CommandSourceStack> dispatcher;
 
-//? if !forge {
+    //? if !forge {
     @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/CommandDispatcher;setConsumer(Lcom/mojang/brigadier/ResultConsumer;)V"), method = "<init>")
-//?} else {
-    /*//? if <= 1.20.5 {
+    //?} else {
+    /^//? if <= 1.20.5 {
     //@Inject(method = "<init>", at = @At("RETURN"))
     //?} else {
     @Inject(at = @At(value = "INVOKE", target = "Lcom/mojang/brigadier/CommandDispatcher;setConsumer(Lcom/mojang/brigadier/ResultConsumer;)V", unsafe = true), method = "<init>")
     //?}
-*///?}
+    ^///?}
     private void addCommands(Commands.CommandSelection selection, CommandBuildContext buildContext, CallbackInfo ci) {
         ServerRegistryEvents.COMMAND_VANILLA.invoker().onRegister(this.dispatcher, buildContext, selection);
         CommandManager.registerCustomCommands(this.dispatcher, buildContext, selection);
     }
+*///?} else {
+    @Inject(method = "registerVanillaCommands", at = @At("TAIL"))
+    private static void addCommands(CommandDispatcher<CommandSourceStack> dispatcher, Commands.CommandSelection selection, CommandBuildContext buildContext, CallbackInfo ci) {
+        ServerRegistryEvents.COMMAND_VANILLA.invoker().onRegister(dispatcher, buildContext, selection);
+        CommandManager.registerCustomCommands(dispatcher, buildContext, selection);
+    }
+//?}
 }
