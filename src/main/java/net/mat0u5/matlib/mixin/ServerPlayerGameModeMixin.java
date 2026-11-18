@@ -71,7 +71,7 @@ public class ServerPlayerGameModeMixin {
 			info.cancel();
 		}
 	}
-	//? if >= 1.21.2 {
+
 	@Inject(at = @At("HEAD"), method = "useItem", cancellable = true)
 	public void interactItem(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, CallbackInfoReturnable<InteractionResult> info) {
 		InteractionResult result = ServerPlayerEvents.ITEM_USE.invoker().onItemUse(player, level, stack, hand);
@@ -81,7 +81,6 @@ public class ServerPlayerGameModeMixin {
 			info.cancel();
 		}
 	}
-	//?}
 
 	@Inject(at = @At("RETURN"), method = "useItemOn")
 	private void onInteractBlock(ServerPlayer player, Level level, ItemStack stack, InteractionHand hand, BlockHitResult hitResult, CallbackInfoReturnable<InteractionResult> cir) {
