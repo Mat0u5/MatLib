@@ -21,12 +21,12 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 //? if <= 26.3 {
-import com.mojang.brigadier.arguments.DoubleArgumentType;
+/*import com.mojang.brigadier.arguments.DoubleArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import net.minecraft.commands.SharedSuggestionProvider;
-//?} else {
-/*import com.mojang.serialization.MapCodec;
+*///?} else {
+import com.mojang.serialization.MapCodec;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.DoubleArgument;
 import net.minecraft.commands.arguments.IntegerArgument;
@@ -36,7 +36,7 @@ import net.minecraft.commands.suggestions.SuggestionProviders;
 import net.minecraft.server.permissions.PermissionCheck;
 import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.server.permissions.Permissions;
-*///?}
+//?}
 
 public abstract class Command {
     public abstract boolean isAllowed();
@@ -86,15 +86,15 @@ public abstract class Command {
         }
     }
     //? if <= 26.3 {
-	public static Predicate<CommandSourceStack> requireAdmin() {
+	/*public static Predicate<CommandSourceStack> requireAdmin() {
 		return PermissionManager::isAdmin;
 	}
 
 	public static Predicate<CommandSourceStack> requireIf(BooleanSupplier condition) {
 		return source -> condition.getAsBoolean();
 	}
-	//?} else {
-    /*private static final PermissionCheck ADMIN_CHECK = new PermissionCheck.Require(Permissions.COMMANDS_ADMIN);
+	*///?} else {
+    private static final PermissionCheck ADMIN_CHECK = new PermissionCheck.Require(Permissions.COMMANDS_ADMIN);
 
     public static Predicate<CommandSourceStack> requireAdmin() {
         return Commands.hasPermission(ADMIN_CHECK);
@@ -115,10 +115,10 @@ public abstract class Command {
             return MapCodec.unit(this);
         }
     }
-    *///?}
+    //?}
 
     //? if <= 26.3 {
-	public static ArgumentType<String> stringArg() {
+	/*public static ArgumentType<String> stringArg() {
 		return StringArgumentType.string();
 	}
 	public static ArgumentType<String> greedyStringArg() {
@@ -136,8 +136,8 @@ public abstract class Command {
 	public static ArgumentType<Double> doubleArg(double min) {
 		return DoubleArgumentType.doubleArg(min);
 	}
-	//?} else {
-    /*public static ArgumentType<String> stringArg() {
+	*///?} else {
+    public static ArgumentType<String> stringArg() {
         return StringArgument.string();
     }
     public static ArgumentType<String> greedyStringArg() {
@@ -155,7 +155,7 @@ public abstract class Command {
     public static ArgumentType<Double> doubleArg(double min) {
         return DoubleArgument.doubleArg(min);
     }
-    *///?}
+    //?}
 
     // Fixed list
     public static SuggestionProvider<CommandSourceStack> suggestList(List<String> suggestions) {
@@ -165,18 +165,18 @@ public abstract class Command {
     // Re-evaluated on every request
     public static SuggestionProvider<CommandSourceStack> suggestList(Supplier<? extends Iterable<String>> suggestions) {
         //? if <= 26.3 {
-        return suggestCustom(builder -> SharedSuggestionProvider.suggest(suggestions.get(), builder));
+        //return suggestCustom(builder -> SharedSuggestionProvider.suggest(suggestions.get(), builder));
          //?} else {
-        //return suggestCustom(builder -> SuggestionContext.suggest(suggestions.get(), builder));
+        return suggestCustom(builder -> SuggestionContext.suggest(suggestions.get(), builder));
         //?}
     }
 
     // Re-evaluated on every request
     public static SuggestionProvider<CommandSourceStack> suggestCustom(Function<SuggestionsBuilder, CompletableFuture<Suggestions>> provider) {
         //? if <= 26.3 {
-        return (context, builder) -> provider.apply(builder);
+        //return (context, builder) -> provider.apply(builder);
          //?} else {
-        //return SuggestionProviders.serverOnly((server, context, builder) -> provider.apply(builder));
+        return SuggestionProviders.serverOnly((server, context, builder) -> provider.apply(builder));
         //?}
     }
 }
