@@ -1,1 +1,2 @@
-Stable release.
+Bug fixes.
+Command refactoring.
