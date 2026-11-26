@@ -205,10 +205,14 @@ public class ConfigListWidget extends ObjectSelectionList<ConfigListWidget.Confi
     protected boolean scrollbarVisible() {
         return false;
     }
-    *///?} else {
-    @Override
+    *///?} else if <= 26.3 {
+    /*@Override
     protected boolean scrollable() {
         return false;
+    }
+    *///?} else {
+    @Override
+    protected void extractScrollbar(GuiGraphicsExtractor context) {
     }
     //?}
 
