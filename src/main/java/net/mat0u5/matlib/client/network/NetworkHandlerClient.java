@@ -35,7 +35,10 @@ public class NetworkHandlerClient {
 			String packetName = simplePacketPayload.name();
 			SimplePacket<?, ?> packet = SimplePacket.registeredPackets.get(packetName);
 			received = true;
-			if (packet != null) {
+			if (packet != null && client.isSameThread()) {
+				packet.receiveClient(customPacketPayload);
+			}
+			else if (packet != null) {
 				client.execute(() -> packet.receiveClient(customPacketPayload));
 			}
 			else {
