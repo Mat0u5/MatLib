@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public final class ConfigTypes {
 	private static final Map<String, ConfigType<?>> registeredConfigTypes = new HashMap<>();
@@ -62,6 +63,20 @@ public final class ConfigTypes {
 			return "string_list";
 		}
 	};
+	public static final ConfigType<List<Integer>> INTEGER_LIST = new ConfigType<>() {
+		public List<Integer> parse(String raw) throws Exception {
+			return STRING_LIST.parse(raw).stream()
+					.filter(s -> !s.isEmpty())
+					.map(Integer::parseInt)
+					.toList();
+		}
+		public String serialize(List<Integer> value) {
+			return "[" + value.stream().map(String::valueOf).collect(Collectors.joining(",")) + "]";
+		}
+		public String id() {
+			return "integer_list";
+		}
+	};
 	public static final ConfigType<List<String>> ITEM_LIST = withId("item_list", STRING_LIST);
 	public static final ConfigType<List<String>> BLOCK_LIST = withId("block_list", STRING_LIST);
 	public static final ConfigType<List<String>> EFFECT_LIST = withId("effect_list", STRING_LIST);
@@ -110,6 +125,23 @@ public final class ConfigTypes {
 			}
 			public List<String> options() {
 				return options.get();
+			}
+		};
+	}
+
+	public static ConfigType<List<Integer>> integerListOf(Supplier<List<Integer>> options) {
+		return new ConfigType<>(false) {
+			public List<Integer> parse(String raw) throws Exception {
+				return INTEGER_LIST.parse(raw);
+			}
+			public String serialize(List<Integer> value) {
+				return INTEGER_LIST.serialize(value);
+			}
+			public String id() {
+				return INTEGER_LIST.id();
+			}
+			public List<String> options() {
+				return options.get().stream().map(String::valueOf).toList();
 			}
 		};
 	}

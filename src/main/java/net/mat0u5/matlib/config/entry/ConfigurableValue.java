@@ -151,7 +151,8 @@ public class ConfigurableValue<T> implements ConfigEntry {
 	}
 
 	public ConfigurableValue<T> bounded(Integer min, Integer max) {
-		if (!(this.defaultValue instanceof Integer)) {
+		boolean isIntegerList = this.type != null && ConfigTypes.INTEGER_LIST.id().equals(this.type.id());
+		if (!(this.defaultValue instanceof Integer) && !isIntegerList) {
 			throw new IllegalArgumentException("Non-integer config entries cannot be bounded by integers.");
 		}
 		this.isCustomBounded = true;

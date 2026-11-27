@@ -56,6 +56,7 @@ public class ConfigGuiClient implements RegistrableClient {
 
 		registerEntryFactory(ConfigTypes.STRING, e -> new StringConfigEntry(e, e.value(), e.defaultValue));
 		registerEntryFactory(ConfigTypes.STRING_LIST, e -> new StringListConfigEntry(e, e.value(), e.defaultValue, e.options().isEmpty() ? null : e.options()));
+		registerEntryFactory(ConfigTypes.INTEGER_LIST, e -> new IntegerListConfigEntry(e, e.value(), e.defaultValue, e.options().isEmpty() ? null : e.options()));
 		registerEntryFactory(ConfigTypes.ITEM_LIST, e -> new ItemListConfigEntry(e, e.value(), e.defaultValue));
 		registerEntryFactory(ConfigTypes.BLOCK_LIST, e -> new BlockListConfigEntry(e, e.value(), e.defaultValue));
 		registerEntryFactory(ConfigTypes.EFFECT_LIST, e -> new EffectListConfigEntry(e, e.value(), e.defaultValue));
@@ -228,5 +229,6 @@ public class ConfigGuiClient implements RegistrableClient {
 		category.addEntry(new TextConfigEntry(testEntry("", "Test", "", ConfigTypes.HEADER, "")));
 		category.addEntry(new PercentageConfigEntry(testEntry("id2", "Percentage", "description2", ConfigTypes.PERCENTAGE, "0.5"), 0.5, 0.5));
 		category.addEntry(new HeartsConfigEntry(testEntry("id3", "Hearts", "description3", ConfigTypes.PLAYER_HEARTS, "10"), 10, 10, false));
+		category.addEntry(new IntegerListConfigEntry(testEntry("id4", "Integer List", "description4", ConfigTypes.INTEGER_LIST, "[1,2,3]"), "[1,2,3]", "[1,2,3]", null));
 	}
 }

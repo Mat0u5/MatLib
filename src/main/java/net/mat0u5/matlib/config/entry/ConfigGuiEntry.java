@@ -61,7 +61,9 @@ public class ConfigGuiEntry {
 	}
 
 	public List<String> options() {
-		return args.isEmpty() ? List.of() : args.subList(1, args.size());
+		// args = [value, (min, max if custom bounded), additional args..., type options...]
+		int start = isCustomBounded ? 3 : 1;
+		return args.size() <= start ? List.of() : args.subList(start, args.size());
 	}
 
 	public static ConfigGuiEntry fromValue(String configId, ConfigurableValue<?> value) {

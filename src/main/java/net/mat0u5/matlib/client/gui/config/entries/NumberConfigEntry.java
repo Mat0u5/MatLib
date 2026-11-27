@@ -71,7 +71,7 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
         }
         markChanged();
     }
-
+/* Too clumsy, takes up too much space. Disabled for now.
     @Override
     protected void renderAdditionalContent(GuiGraphicsExtractor context, int x, int y, int width, int height, int mouseX, int mouseY, boolean hovered, float tickDelta) {
         if (minValue == null && maxValue == null) return;
@@ -83,7 +83,7 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
             rangeText = TextUtils.formatString("(>={})", minValue);
         }
         else {
-            rangeText = TextUtils.formatString("({}-{})", minValue, maxValue);
+            rangeText = TextUtils.formatString("({} to {})", minValue, maxValue);
         }
 
         int rangeWidth = textRenderer.width(rangeText);
@@ -95,6 +95,7 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
                 getTextFieldPosY(y, height)  + RANGE_LABEL_OFFSET_Y, TextColors.LIGHT_GRAY);
         //~ !renames_26_1_volatile
     }
+*/
 
     @Override
     public void setValue(Object value) {
