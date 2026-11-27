@@ -220,7 +220,7 @@ public class ConfigGuiClient implements RegistrableClient {
 	}
 
 	private static ConfigGuiEntry testEntry(String key, String name, String description, ConfigType<?> type, String value) {
-		return new ConfigGuiEntry("matlib:testing", key, type, name, description, "", false, false, true, false, false, value, new ArrayList<>(List.of(value)));
+		return new ConfigGuiEntry("matlib:testing", key, type, name, description, "", false, false, true, false, false, false, value, new ArrayList<>(List.of(value)));
 	}
 
 	public static void addTestingCategory(ConfigScreen.Builder builder) {

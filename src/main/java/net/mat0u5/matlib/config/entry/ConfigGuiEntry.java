@@ -19,6 +19,7 @@ public class ConfigGuiEntry {
 	public boolean groupShowSidebar;
 	public boolean groupOpenByDefault;
 	public boolean requiresReload;
+	public boolean isCustomBounded;
 	public String defaultValue;
 	public List<String> args;
 
@@ -34,6 +35,7 @@ public class ConfigGuiEntry {
 			boolean groupShowSidebar,
 			boolean groupOpenByDefault,
 			boolean requiresReload,
+			boolean isCustomBounded,
 			String defaultValue,
 			List<String> args
 	) {
@@ -48,6 +50,7 @@ public class ConfigGuiEntry {
 		this.groupShowSidebar = groupShowSidebar;
 		this.groupOpenByDefault = groupOpenByDefault;
 		this.requiresReload = requiresReload;
+		this.isCustomBounded = isCustomBounded;
 		this.defaultValue = defaultValue;
 		this.args = args;
 	}
@@ -64,6 +67,7 @@ public class ConfigGuiEntry {
 	public static ConfigGuiEntry fromValue(String configId, ConfigurableValue<?> value) {
 		List<String> args = new ArrayList<>();
 		args.add(value.getAsString());
+		args.addAll(value.getAdditionalArgs());
 		args.addAll(value.getType().options());
 		return new ConfigGuiEntry(
 				configId,
@@ -77,6 +81,7 @@ public class ConfigGuiEntry {
 				value.groupShowSidebar(),
 				value.groupOpenByDefault(),
 				value.requiresReload(),
+				value.isCustomBounded(),
 				value.getDefaultAsString(),
 				args
 		);
@@ -95,6 +100,7 @@ public class ConfigGuiEntry {
 				header.groupShowSidebar(),
 				header.groupOpenByDefault(),
 				false,
+				false,
 				"",
 				List.of()
 		);
@@ -111,6 +117,7 @@ public class ConfigGuiEntry {
 				false,
 				false,
 				true,
+				false,
 				false,
 				false,
 				"",
@@ -135,6 +142,7 @@ public class ConfigGuiEntry {
 		out.add(String.valueOf(groupShowSidebar));
 		out.add(String.valueOf(groupOpenByDefault));
 		out.add(String.valueOf(requiresReload));
+		out.add(String.valueOf(isCustomBounded));
 		out.add(defaultValue);
 		out.addAll(args);
 		return out;
@@ -153,6 +161,7 @@ public class ConfigGuiEntry {
 		boolean groupShowSidebar = Boolean.parseBoolean(in.next());
 		boolean groupOpenByDefault = Boolean.parseBoolean(in.next());
 		boolean requiresReload = Boolean.parseBoolean(in.next());
+		boolean isCustomBounded = Boolean.parseBoolean(in.next());
 		String defaultValue = in.next();
 		List<String> args = new ArrayList<>();
 		in.forEachRemaining(args::add);
@@ -168,6 +177,7 @@ public class ConfigGuiEntry {
 				groupShowSidebar,
 				groupOpenByDefault,
 				requiresReload,
+				isCustomBounded,
 				defaultValue,
 				args
 		);

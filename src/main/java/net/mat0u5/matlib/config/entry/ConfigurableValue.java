@@ -9,6 +9,7 @@ import net.mat0u5.matlib.network.MatLibSimplePackets;
 import net.mat0u5.matlib.utils.other.TextUtils;
 import net.minecraft.server.level.ServerPlayer;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -46,7 +47,11 @@ public class ConfigurableValue<T> implements ConfigEntry {
 	private boolean groupOpenByDefault = false;
 	private boolean isNew = false;
 	private boolean requiresReload = false;
+	private boolean isCustomBounded = false;
+	private String minBound = "";
+	private String maxBound = "";
 	private BooleanSupplier visibleIf = () -> true;
+	private List<String> additionalArgs = new ArrayList<>();
 
 	private ConfigurableValue(SimpleConfig config, String key, T defaultValue, ConfigType<T> type) {
 		this.config = config;
@@ -129,12 +134,39 @@ public class ConfigurableValue<T> implements ConfigEntry {
 		this.visibleIf = supplier;
 		return this;
 	}
+
 	public ConfigurableValue<T> defaultValue(T v) {
 		if (!loaded) this.defaultValue = v;
 		return this;
 	}
+
 	public ConfigurableValue<T> type(ConfigType<T> t) {
 		if (!loaded) this.type = t;
+		return this;
+	}
+
+	public ConfigurableValue<T> addArgs(List<String> args) {
+		this.additionalArgs.addAll(args);
+		return this;
+	}
+
+	public ConfigurableValue<T> bounded(Integer min, Integer max) {
+		if (!(this.defaultValue instanceof Integer)) {
+			throw new IllegalArgumentException("Non-integer config entries cannot be bounded by integers.");
+		}
+		this.isCustomBounded = true;
+		minBound = String.valueOf(min);
+		maxBound = String.valueOf(max);
+		return this;
+	}
+
+	public ConfigurableValue<T> bounded(Double min, Double max) {
+		if (!(this.defaultValue instanceof Double)) {
+			throw new IllegalArgumentException("Non-double config entries cannot be bounded by doubles.");
+		}
+		this.isCustomBounded = true;
+		minBound = String.valueOf(min);
+		maxBound = String.valueOf(max);
 		return this;
 	}
 
@@ -166,6 +198,10 @@ public class ConfigurableValue<T> implements ConfigEntry {
 		return this.requiresReload;
 	}
 
+	public boolean isCustomBounded() {
+		return this.isCustomBounded;
+	}
+
 	public boolean isGroupHeader() {
 		return this.isGroupHeader;
 	}
@@ -188,6 +224,16 @@ public class ConfigurableValue<T> implements ConfigEntry {
 
 	public String getKey() {
 		return key;
+	}
+
+	public List<String> getAdditionalArgs() {
+		List<String> args = new ArrayList<>();
+		if (isCustomBounded()) {
+			args.add(minBound);
+			args.add(maxBound);
+		}
+		args.addAll(additionalArgs);
+		return args;
 	}
 
 	public void setSyncedValue(String raw) {

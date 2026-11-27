@@ -12,8 +12,8 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
     private static final int TEXT_FIELD_WIDTH = 60;
 
     protected final T defaultValue;
-    protected final T minValue;
-    protected final T maxValue;
+    protected T minValue;
+    protected T maxValue;
     protected T value;
     protected T startingValue;
 
@@ -28,6 +28,10 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
         this.maxValue = maxValue;
         this.value = value;
         this.startingValue = value;
+        if (guiEntry.isCustomBounded) {
+            if (guiEntry.args.size() >= 2) this.minValue = parseValueOrNull(guiEntry.args.get(1));
+            if (guiEntry.args.size() >= 3) this.maxValue = parseValueOrNull(guiEntry.args.get(2));
+        }
         initializeTextField();
     }
 
@@ -52,7 +56,15 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
                 value = newValue;
                 clearError();
             } else {
-                setError(TextUtils.formatString("Value must be between {} and {}", minValue, maxValue));
+                if (minValue == null) {
+                    setError(TextUtils.formatString("Value must be <= {}", maxValue));
+                }
+                else if (maxValue == null) {
+                    setError(TextUtils.formatString("Value must be >= {}", minValue));
+                }
+                else {
+                    setError(TextUtils.formatString("Value must be between {} and {}", minValue, maxValue));
+                }
             }
         } catch (NumberFormatException e) {
             setError("Invalid number format");
@@ -62,17 +74,26 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
 
     @Override
     protected void renderAdditionalContent(GuiGraphicsExtractor context, int x, int y, int width, int height, int mouseX, int mouseY, boolean hovered, float tickDelta) {
-        if (minValue != null && maxValue != null) {
-            String rangeText = TextUtils.formatString("({}-{})", minValue, maxValue);
-            int rangeWidth = textRenderer.width(rangeText);
-            int entryWidth = getEntryContentWidth(width);
-
-            //~ renames_26_1_volatile
-            context.text(textRenderer, rangeText,
-                    x + entryWidth - rangeWidth - textField.getWidth() + RANGE_LABEL_OFFSET_X,
-                    getTextFieldPosY(y, height)  + RANGE_LABEL_OFFSET_Y, TextColors.LIGHT_GRAY);
-            //~ !renames_26_1_volatile
+        if (minValue == null && maxValue == null) return;
+        String rangeText;
+        if (minValue == null) {
+            rangeText = TextUtils.formatString("(<={})", maxValue);
         }
+        else if (maxValue == null) {
+            rangeText = TextUtils.formatString("(>={})", minValue);
+        }
+        else {
+            rangeText = TextUtils.formatString("({}-{})", minValue, maxValue);
+        }
+
+        int rangeWidth = textRenderer.width(rangeText);
+        int entryWidth = getEntryContentWidth(width);
+
+        //~ renames_26_1_volatile
+        context.text(textRenderer, rangeText,
+                x + entryWidth - rangeWidth - textField.getWidth() + RANGE_LABEL_OFFSET_X,
+                getTextFieldPosY(y, height)  + RANGE_LABEL_OFFSET_Y, TextColors.LIGHT_GRAY);
+        //~ !renames_26_1_volatile
     }
 
     @Override
@@ -90,6 +111,13 @@ public abstract class NumberConfigEntry<T extends Number> extends TextFieldConfi
     protected abstract boolean isValidType(Object value);
 
     protected abstract T castValue(Object value);
+
+    protected T parseValueOrNull(String text) {
+        try {
+            return parseValue(text);
+        } catch(Exception ignored) {}
+        return null;
+    }
 
     @Override
     public T getValue() {

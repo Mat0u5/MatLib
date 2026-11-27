@@ -22,8 +22,9 @@ public class IntegerConfigEntry extends NumberConfigEntry<Integer> {
 
     @Override
     protected boolean isValueInRange(Integer value) {
-        if (minValue == null || maxValue == null) return true;
-        return value >= minValue && value <= maxValue;
+        if (minValue != null && value < minValue) return false;
+        if (maxValue != null && value > maxValue) return false;
+        return true;
     }
 
     @Override
