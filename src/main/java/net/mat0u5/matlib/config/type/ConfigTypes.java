@@ -20,7 +20,13 @@ public final class ConfigTypes {
 	public static final ConfigType<String> ENUM = withId("enum", STRING);
 	public static final ConfigType<Double> PERCENTAGE = withId("percentage", DOUBLE);
 	public static final ConfigType<Double> MINUTES = withId("minutes", DOUBLE);
+
+	@Deprecated
 	public static final ConfigType<Integer> HEARTS = withId("hearts", INTEGER);
+
+	public static final ConfigType<Integer> PLAYER_HEALTH = withId("player_health", INTEGER);
+	public static final ConfigType<Integer> PLAYER_HEARTS = withId("player_hearts", INTEGER);
+
 	public static final ConfigType<Integer> SECONDS = withId("seconds", INTEGER);
 	public static final ConfigType<Integer> NULLABLE_INTEGER = fromParser("nullable_integer", str -> {
 		try {

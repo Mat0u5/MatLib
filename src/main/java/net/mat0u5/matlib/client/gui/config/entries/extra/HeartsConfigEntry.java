@@ -23,13 +23,16 @@ public class HeartsConfigEntry extends IntegerConfigEntry implements ITextFieldA
     private static final String HEART_SYMBOL = "♥";
     private static final String HEART_ROW = "♥♥♥♥♥♥♥♥♥♥";
     private static final String HALF_HEART_SYMBOL = "♡";
+    private final boolean isHealthNotHearts;
 
-    public HeartsConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue) {
+    public HeartsConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue, boolean isHealthNotHearts) {
         super(guiEntry, value, defaultValue);
+        this.isHealthNotHearts = isHealthNotHearts;
     }
 
-    public HeartsConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue, Integer minValue, Integer maxValue) {
+    public HeartsConfigEntry(ConfigGuiEntry guiEntry, int value, int defaultValue, Integer minValue, Integer maxValue, boolean isHealthNotHearts) {
         super(guiEntry, value, defaultValue, minValue, maxValue);
+        this.isHealthNotHearts = isHealthNotHearts;
     }
 
     @Override
@@ -48,15 +51,28 @@ public class HeartsConfigEntry extends IntegerConfigEntry implements ITextFieldA
 
         int absValue = Math.abs(value);
 
-        int hearts = absValue / 2;
-        boolean hasHalfHeart = (absValue % 2) == 1;
+        int hearts;
+        boolean hasHalfHeart;
+
+        if (isHealthNotHearts) {
+            hearts = absValue / 2;
+            hasHalfHeart = (absValue % 2) == 1;
+        }
+        else {
+            hearts = absValue;
+            hasHalfHeart = false;
+        }
 
 
         if (hearts == 0 && !hasHalfHeart) {
             return List.of(Component.literal("§7No hearts"));
         }
-        if (absValue > 100) {
+
+        if (isHealthNotHearts && absValue > 100) {
             return List.of(TextUtils.formatLoosely( "§7{} HP", value));
+        }
+        else if (!isHealthNotHearts && absValue > 50) {
+            return List.of(TextUtils.formatLoosely( "§7{} Hearts", value));
         }
 
         List<MutableComponent> heartsList = new ArrayList<>();
@@ -78,7 +94,12 @@ public class HeartsConfigEntry extends IntegerConfigEntry implements ITextFieldA
             heartsList.add(Component.literal(HEART_ROW).withStyle(ChatFormatting.RED));
         }
 
-        heartsList.set(heartsList.size()-1, heartsList.get(heartsList.size()-1).append(TextUtils.formatLoosely("§7 ({} HP)", value)));
+        if (isHealthNotHearts) {
+            heartsList.set(heartsList.size()-1, heartsList.get(heartsList.size()-1).append(TextUtils.formatLoosely("§7 ({} HP)", value)));
+        }
+        else {
+            heartsList.set(heartsList.size()-1, heartsList.get(heartsList.size()-1).append(TextUtils.formatLoosely("§7 ({} {})", value, TextUtils.pluralize("Heart", value))));
+        }
 
         return heartsList;
     }
@@ -142,6 +163,6 @@ public class HeartsConfigEntry extends IntegerConfigEntry implements ITextFieldA
 
     @Override
     public ConfigType<?> getValueType() {
-        return ConfigTypes.HEARTS;
+        return isHealthNotHearts ? ConfigTypes.PLAYER_HEALTH : ConfigTypes.PLAYER_HEARTS;
     }
 }

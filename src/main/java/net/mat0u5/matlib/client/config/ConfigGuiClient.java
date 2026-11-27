@@ -44,7 +44,9 @@ public class ConfigGuiClient implements RegistrableClient {
 		registerEntryFactory(ConfigTypes.BOOLEAN, e -> new BooleanConfigEntry(e, ConfigTypes.BOOLEAN.parse(e.value()), ConfigTypes.BOOLEAN.parse(e.defaultValue)));
 
 		registerEntryFactory(ConfigTypes.INTEGER, e -> new IntegerConfigEntry(e, ConfigTypes.INTEGER.parse(e.value()), ConfigTypes.INTEGER.parse(e.defaultValue)));
-		registerEntryFactory(ConfigTypes.HEARTS, e -> new HeartsConfigEntry(e, ConfigTypes.INTEGER.parse(e.value()), ConfigTypes.INTEGER.parse(e.defaultValue)));
+		registerEntryFactory(ConfigTypes.HEARTS, e -> new HeartsConfigEntry(e, ConfigTypes.INTEGER.parse(e.value()), ConfigTypes.INTEGER.parse(e.defaultValue), true));
+		registerEntryFactory(ConfigTypes.PLAYER_HEALTH, e -> new HeartsConfigEntry(e, ConfigTypes.INTEGER.parse(e.value()), ConfigTypes.INTEGER.parse(e.defaultValue), true));
+		registerEntryFactory(ConfigTypes.PLAYER_HEARTS, e -> new HeartsConfigEntry(e, ConfigTypes.INTEGER.parse(e.value()), ConfigTypes.INTEGER.parse(e.defaultValue), false));
 		registerEntryFactory(ConfigTypes.SECONDS, e -> new SecondsConfigEntry(e, ConfigTypes.INTEGER.parse(e.value()), ConfigTypes.INTEGER.parse(e.defaultValue)));
 		registerEntryFactory(ConfigTypes.NULLABLE_INTEGER, e -> new NullableIntegerConfigEntry(e, ConfigTypes.NULLABLE_INTEGER.parse(e.value()), ConfigTypes.NULLABLE_INTEGER.parse(e.defaultValue)));
 
@@ -225,6 +227,6 @@ public class ConfigGuiClient implements RegistrableClient {
 		ConfigScreen.Builder.CategoryBuilder category = builder.addCategory("Testing");
 		category.addEntry(new TextConfigEntry(testEntry("", "Test", "", ConfigTypes.HEADER, "")));
 		category.addEntry(new PercentageConfigEntry(testEntry("id2", "Percentage", "description2", ConfigTypes.PERCENTAGE, "0.5"), 0.5, 0.5));
-		category.addEntry(new HeartsConfigEntry(testEntry("id3", "Hearts", "description3", ConfigTypes.HEARTS, "20"), 20, 20));
+		category.addEntry(new HeartsConfigEntry(testEntry("id3", "Hearts", "description3", ConfigTypes.PLAYER_HEARTS, "10"), 10, 10, false));
 	}
 }
