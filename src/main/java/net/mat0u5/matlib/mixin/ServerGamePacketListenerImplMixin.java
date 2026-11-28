@@ -16,6 +16,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.mat0u5.matlib.network.NetworkHandlerServer;
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 //?}
+//? if >= 26.4 {
+import net.mat0u5.matlib.MatLib;
+import net.mat0u5.matlib.network.NetworkHandlerCommon;
+//?}
 //? if <= 1.21.6 {
 /*import net.mat0u5.matlib.entity.fakeplayer.FakeServerPlayer;
 import net.mat0u5.matlib.utils.player.PlayerUtils;
@@ -102,7 +106,17 @@ public class ServerGamePacketListenerImplMixin {
 	//? if >= 1.20.5 {
 	@Inject(method = "handleCustomPayload", at = @At("HEAD"), cancellable = true)
 	private void onHandlePayload(ServerboundCustomPayloadPacket packet, CallbackInfo ci) {
-		NetworkHandlerServer.onCustomPayload(packet.payload(), this.player);
+		//? if <= 26.3 {
+		//NetworkHandlerServer.onCustomPayload(packet.payload(), this.player);
+		//?} else {
+		if (NetworkHandlerCommon.getPayload(packet.payload().type().id()) != null) {
+			NetworkHandlerServer.onCustomPayload(packet.payload(), this.player);
+			ci.cancel();
+		}
+		else if (MatLib.server != null && MatLib.server.isSameThread()) {
+			NetworkHandlerServer.onCustomPayload(packet.payload(), this.player);
+		}
+		//?}
 	}
 	//?}
 }
